@@ -5,13 +5,8 @@ module DMD {
     export class LaunchController extends Controller {
         perform() {
             // TODO: resolve params from given message
-            var params = {
-                url: "http://www.dmm.com/netgame/social/-/gadgets/=/app_id=137465/",
-                width: 100,
-                height: 100,
-                left: 100,
-                top: 100
-            };
+            var game = GameFactory.createWithDefaultWidget("http://www.dmm.com/netgame/social/-/gadgets/=/app_id=137465/", "俺タワー");
+            var params = game.toLaunchParams();
             Infra.Launcher.openPopup(params);
         }
     }
