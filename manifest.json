@@ -18,7 +18,8 @@
     },
     "background": {
         "scripts":[
-            "build/app.js"
+            "build/app.js",
+            "asset/js/init.js"
         ]
     }
 }

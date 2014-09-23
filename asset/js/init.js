@@ -1,6 +1,6 @@
 (function() {
     // XXX: onInstalledを使うべきか
-    setTimeout(() => {
+    setTimeout(function() {
         var r = new DMD.Router();
         r.listen();
     });
