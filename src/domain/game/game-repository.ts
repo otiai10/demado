@@ -13,7 +13,20 @@ module DMD {
             }).fail((err) => {
                 d.reject();
             });
-            return d;
+            return d.promise();
+        }
+        public findAll(): JQueryPromise<Game[]> {
+            var d = $.Deferred();
+            this.storage.get("games").done((games: Object) => {
+                var res: Game[] = [];
+                $.each(games, (key, storedObject) => {
+                    res.push(GameFactory.createFromStored(storedObject));
+                });
+                d.resolve(res);
+            }).fail((err) => {
+                d.resolve([]);
+            });
+            return d.promise();
         }
         public save(game: Game) {
             // TODO: DRY
