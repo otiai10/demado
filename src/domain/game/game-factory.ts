@@ -9,6 +9,23 @@ module DMD {
             var id: number = GameFactory.getIdFromUrl(url);
             return new Game(id, name, url, WidgetFactory.createDefault());
         }
+        public static createFromStored(stored: Object): Game {
+            return new Game(
+                stored["id"],
+                stored["name"],
+                stored["url"],
+                new Widget(
+                    new Size(
+                        stored["widget"]["size"]["width"],
+                        stored["widget"]["size"]["height"]
+                    ),
+                    new Offset(
+                        stored["widget"]["offset"]["top"],
+                        stored["widget"]["offset"]["left"]
+                    )
+                )
+            );
+        }
         private static getIdFromUrl(url: string): number {
             var matches = url.match(GameFactory.expressions["dmm"]);
             if (matches == null || matches.length < 2) throw Error("app_idを特定できません");

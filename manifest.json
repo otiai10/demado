@@ -5,6 +5,7 @@
     "description": "出窓",
     "permissions" : [
         "http://www.dmm.com/netgame/social/-/gadgets/=/*",
+        "storage",
         "activeTab"
     ],
     "icons" : {

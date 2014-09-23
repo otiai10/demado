@@ -5,9 +5,12 @@ module DMD {
     export class LaunchController extends Controller {
         perform() {
             // TODO: resolve params from given message
-            var game = GameFactory.createWithDefaultWidget("http://www.dmm.com/netgame/social/-/gadgets/=/app_id=137465/", "俺タワー");
-            var params = game.toLaunchParams();
-            Infra.Launcher.openPopup(params);
+            GameRepository.ofLocal().findById(137465).done((game: Game) => {
+                var params = game.toLaunchParams();
+                Infra.Launcher.openPopup(params);
+            }).fail((err) => {
+                window.alert("Game not found for id " + String(137465));
+            });
         }
     }
 }

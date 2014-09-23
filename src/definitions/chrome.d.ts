@@ -1655,7 +1655,7 @@ declare module chrome.scriptBadge {
 // Storage
 ////////////////////
 declare module chrome.storage {
-    interface StorageArea {
+    export interface StorageArea {
         getBytesInUse(callback: (bytesInUse: number) => void): void;
         getBytesInUse(keys: string, callback: (bytesInUse: number) => void): void;
         getBytesInUse(keys: string[], callback: (bytesInUse: number) => void): void;
