@@ -1,0 +1,23 @@
+{
+    "manifest_version": 2,
+    "name": "dmado",
+    "version": "0.1",
+    "description": "出窓",
+    "permissions" : [
+        "http://www.dmm.com/netgame/social/-/gadgets/=/*",
+        "activeTab"
+    ],
+    "icons" : {
+        "48"  : "asset/img/icon/icon.48.png",
+        "128" : "asset/img/icon/icon.128.png"
+    },
+    "browser_action": {
+        "default_icon": "asset/img/icon/icon.128.png",
+        "default_popup":"asset/html/popup.html"
+    },
+    "background": {
+        "scripts":[
+            "build/app.js"
+        ]
+    }
+}

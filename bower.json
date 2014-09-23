@@ -1,0 +1,9 @@
+{
+  "name": "prisc",
+  "version": "0.0.1",
+  "dependencies": {
+    "showv": "https://github.com/otiai10/showv.git#0.3",
+    "jquery": "1.10.1",
+    "handlebars": "1.0.0"
+  }
+}
