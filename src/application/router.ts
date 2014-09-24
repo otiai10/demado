@@ -9,17 +9,21 @@ module DMD {
     export class Router {
         private routes = {
             'launch': LaunchController,
-            'open': OpenPageController
+            'open': OpenPageController,
+            'capture': CaptureController
         };
         constructor() {}
         listen() {
             chrome.runtime.onMessage.addListener((message: DMDMessageInterface, sender: any, respond: (any) => any) => {
-                this.resolve(message).execute(message.params);
+                this.resolve(message.action).execute(message.params);
+            });
+            chrome.commands.onCommand.addListener((command: string) => {
+                this.resolve(command).execute();
             });
         }
-        resolve(message: DMDMessageInterface): Controller {
+        resolve(action: string): Controller {
             // TODO: とりあえず
-            if (this.routes[message.action]) return new this.routes[message.action]();
+            if (this.routes[action]) return new this.routes[action]();
             return new LaunchController();
         }
     }

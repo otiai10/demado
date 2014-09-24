@@ -32,5 +32,13 @@
                 "asset/js/client/dmm.js"
             ]
         }
-    ]
+    ],
+    "commands": {
+        "capture": {
+            "suggested_key": {
+                "default": "Ctrl+Shift+0"
+            },
+            "description":"出窓のスクショ撮ります. Priscのインストールが必要です."
+        }
+    }
 }
