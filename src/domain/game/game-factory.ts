@@ -2,7 +2,7 @@
 
 module DMD {
     export class GameFactory {
-        private static expressions: Object = {
+        public static expressions: Object = {
             dmm: /^http:\/\/www\.dmm\.com\/netgame\/social\/-\/gadgets\/=\/app_id=([0-9]+)/
         };
         public static createWithDefaultWidget(url: string, name: string): Game {
@@ -25,6 +25,23 @@ module DMD {
                     )
                 )
             );
+        }
+        public static createFromInputs(url: string, name: string, width: number, height: number, left: number, top: number): JQueryPromise<Game> {
+            var d = $.Deferred();
+            if (! width || ! height || ! left || ! top) {
+                return d.resolve(GameFactory.createWithDefaultWidget(url, name));
+            }
+            // TODO: validation
+            d.resolve(new Game(
+                GameFactory.getIdFromUrl(url),
+                name,
+                url,
+                new Widget(
+                    new Size(width, height),
+                    new Offset(top, left)
+                )
+            ));
+            return d.promise();
         }
         private static getIdFromUrl(url: string): number {
             var matches = url.match(GameFactory.expressions["dmm"]);

@@ -28,16 +28,22 @@ module DMD {
             });
             return d.promise();
         }
-        public save(game: Game) {
+        public save(game: Game): JQueryPromise {
+            var d = $.Deferred();
             // TODO: DRY
             this.storage.get("games").done((games: Object) => {
                 games[game.id] = game;
-                this.storage.set("games", games);
+                this.storage.set("games", games).done(() => {
+                    d.resolve();
+                }).fail(() => { d.reject(); });
             }).fail((err) => {
                 var games = {};
                 games[game.id] = game;
-                this.storage.set("games", games);
+                this.storage.set("games", games).done(() => {
+                    d.resolve();
+                }).fail(() => { d.reject(); });
             });
+            return d.promise();
         }
     }
 }

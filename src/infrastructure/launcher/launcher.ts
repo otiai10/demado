@@ -4,10 +4,10 @@
 module Infra {
     export interface OpenParams {
         url: string;
-        width: number;
-        height: number;
-        left: number;
-        top: number;
+        width?: number;
+        height?: number;
+        left?: number;
+        top?: number;
         type?: string;
     }
     export class Launcher {
@@ -21,6 +21,12 @@ module Infra {
         public static openPopup(params: OpenParams) {
             Launcher.open($.extend({}, params, {type: "popup"})).done((win: any) => {
                 console.log("opened", win);
+            });
+        }
+        public static openByPageName(page: string) {
+            var url = chrome.extension.getURL("asset/html/" + page + ".html");
+            chrome.tabs.create({
+                url: url
             });
         }
     }

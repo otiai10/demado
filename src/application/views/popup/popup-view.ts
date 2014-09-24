@@ -5,7 +5,8 @@ module DMD {
         private titleTpl = new HBSTemplate("popup/title");
         events(): Object {
             return {
-                "click .game-item-list.to-launch": "launchGameWidget"
+                "click .game-item-list.to-launch": "launchGameWidget",
+                "click .to-settings": "openSettingsPage"
             };
         }
         render(): PopupView {
@@ -29,6 +30,9 @@ module DMD {
             };
             // TODO: なんかモジュールつくる？
             chrome.runtime.sendMessage(null,{action:'launch',params:params});
+        }
+        openSettingsPage() {
+            chrome.runtime.sendMessage(null,{action:'open',params:{page:"settings"}});
         }
     }
 }
