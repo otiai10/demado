@@ -40,5 +40,6 @@
             },
             "description":"出窓のスクショ撮ります. Priscのインストールが必要です."
         }
-    }
+    },
+    "options_page" : "asset/html/settings.html"
 }
