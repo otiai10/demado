@@ -21,5 +21,16 @@
             "build/app.js",
             "asset/js/init.js"
         ]
-    }
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "http://www.dmm.com/netgame/social/-/gadgets/=/app_id=*"
+            ],
+            "js": [
+                "build/app.js",
+                "asset/js/client/dmm.js"
+            ]
+        }
+    ]
 }

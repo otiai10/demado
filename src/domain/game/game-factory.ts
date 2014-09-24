@@ -57,5 +57,11 @@ module DMD {
                 left: game.widget.offset.left
             };
         }
+        public static resolveIdFromURL(url: string, resolver: string): JQueryPromise {
+            var d = $.Deferred();
+            var matches = url.match(GameFactory.expressions[resolver]);
+            if (matches == null || matches.length < 2) return d.reject();
+            return d.resolve(parseInt(matches[1]));
+        }
     }
 }
