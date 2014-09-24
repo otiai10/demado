@@ -5,7 +5,8 @@ module DMD {
         private addGameView = new AddGameView();
         events(): Object {
             return {
-                "click .delete-game": "deleteGame"
+                "click .delete-game": "deleteGame",
+                "click .edit-game": "editGame"
             };
         }
         render(): SettingsGamesView {
@@ -40,6 +41,13 @@ module DMD {
                 return d.resolve();
             }
             return d.reject();
+        }
+        editGame(ev: Event) {
+            var target = $(ev.currentTarget);
+            var id = target.attr("data-gameid");
+            GameRepository.ofLocal().findById(parseInt(id)).done((game: Game) => {
+                $("li#game-" + id).replaceWith(new AddGameView().renderWithGame(game).$el);
+            });
         }
     }
 }

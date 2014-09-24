@@ -2,6 +2,7 @@
 module DMD {
     export class AddGameView extends showv.View {
         private tpl = new HBSTemplate("settings/add-game");
+        private editTpl = new HBSTemplate("settings/edit-game");
         private commitEnabled = false;
         events(): Object {
             return {
@@ -11,6 +12,11 @@ module DMD {
         }
         render(): AddGameView {
             this.$el.append(this.tpl.render());
+            return this;
+        }
+        renderWithGame(game: Game): AddGameView {
+            this.$el.append(this.editTpl.render(game));
+            this.commitEnabled = true;
             return this;
         }
         addGameCommit() {

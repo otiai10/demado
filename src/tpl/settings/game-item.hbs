@@ -1,4 +1,4 @@
-<li>
+<li id="game-{{id}}">
     <div>
         <span class="emphasized italic">id {{id}}</span>
     </div>
@@ -16,6 +16,9 @@
             </dl>
         </div>
         <div>
+            <div>
+                <img src="../img/symbols/wrench.png" class="nano pale appear clickable edit-game" data-gameid="{{id}}" data-gamename="{{name}}" />
+            </div>
             <div>
                 <img src="../img/symbols/bin.png" class="nano pale appear clickable delete-game" data-gameid="{{id}}" data-gamename="{{name}}" />
             </div>
