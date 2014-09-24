@@ -45,5 +45,20 @@ module DMD {
             });
             return d.promise();
         }
+        public delete(game: Game): JQueryPromise {
+            return this.deleteById(game.id);
+        }
+        public deleteById(id: number): JQueryPromise {
+            var d = $.Deferred();
+            this.storage.get("games").done((games: Object) => {
+                delete games[id];
+                this.storage.set("games", games).done(() => {
+                   d.resolve();
+                }).fail(() => { d.reject(); });
+            }).fail(() => {
+                d.reject();
+            });
+            return d.promise();
+        }
     }
 }

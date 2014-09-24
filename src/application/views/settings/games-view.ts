@@ -5,7 +5,7 @@ module DMD {
         private addGameView = new AddGameView();
         events(): Object {
             return {
-                "click #add-game": "addGame"
+                "click .delete-game": "deleteGame"
             };
         }
         render(): SettingsGamesView {
@@ -19,6 +19,27 @@ module DMD {
                 this.$el.find('ul#settings-games').append(this.addGameView.render().$el);
             });
             return this;
+        }
+        deleteGame(ev: Event) {
+            var target = $(ev.target);
+            var id = parseInt(target.attr("data-gameid"));
+            var name = target.attr("data-gamename");
+            this.confirmDelete(id, name).done(() => {
+                GameRepository.ofLocal().deleteById(id).done(() => {
+                    window.alert("削除しました");
+                    // TODO: refresh
+                    location.reload();
+                }).fail(() => {
+                    window.alert("削除しっぱい");
+                });
+            });
+        }
+        confirmDelete(id: number, name: string): JQueryPromise {
+            var d = $.Deferred();
+            if (window.confirm("以下の登録を削除します。よろしいですか？\n" + "id:" + id + "\nname:" + name)) {
+                return d.resolve();
+            }
+            return d.reject();
         }
     }
 }
