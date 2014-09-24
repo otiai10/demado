@@ -1,4 +1,6 @@
 build/*
+release/*
+*.zip
 node_modules/*
 bower_components/*
 .idea/*

@@ -24,7 +24,6 @@ module.exports = (grunt) ->
                     'bower_components/jquery/jquery.js'
                     'bower_components/handlebars/handlebars.js'
                     'bower_components/showv/build/showv.js'
-                    'asset/js/app-const.js'
                     'build/tpl/all.js'
                     'build/app.js'
                 ]
@@ -34,6 +33,9 @@ module.exports = (grunt) ->
             build:
                 files:
                     'build/app.min.js': ['build/app.js']
+        exec:
+            release:
+                cmd: 'sh scripts/release.sh'
         clean:
             all:
                 src: ['compiled/**/*.js', 'compiled/*', 'build/**/*.js']
@@ -43,8 +45,10 @@ module.exports = (grunt) ->
     grunt.loadNpmTasks 'grunt-contrib-concat'
     grunt.loadNpmTasks 'grunt-contrib-uglify'
     grunt.loadNpmTasks 'grunt-contrib-handlebars'
+    grunt.loadNpmTasks 'grunt-exec'
 
     grunt.registerTask 'build', 'build/app.jsをビルドします',['typescript:build', 'handlebars', 'concat:dist']
     grunt.registerTask 'test', 'テスト用ビルドします',['build','typescript:test']
+    grunt.registerTask 'release', 'リリースビルドつくる', ['build','uglify:build','exec:release']
 
     grunt.registerTask 'default', ['build']
