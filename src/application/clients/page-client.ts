@@ -17,5 +17,16 @@ module DMD {
                 top: '-' + String(offset.top) + 'px'
             };
         }
+        public adjust() {
+            if (! Infra.OS.isWindows()) return;
+            setTimeout(() => {
+                this.resize();
+            }, 300);
+        }
+        private resize() {
+            var diffWidth = window.outerWidth - window.innerWidth;
+            var diffHeight = window.outerHeight - window.innerHeight;
+            window.resizeTo(window.outerWidth + diffWidth, window.outerHeight + diffHeight);
+        }
     }
 }
