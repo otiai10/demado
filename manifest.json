@@ -1,8 +1,8 @@
 {
     "manifest_version": 2,
     "name": "demado",
-    "version": "0.1.2",
-    "description": "DMMのゲームをサイズぴったりの別窓で開くランチャーです。設定からDMMゲームと窓の大きさなどを登録してください。「Prisc!」というChrome拡張も入ってると、ワンクリックでスクショも撮れます。",
+    "version": "0.1.3",
+    "description": "DMMのゲームをサイズぴったりの別窓で開くランチャーです。設定からDMMゲームと窓の大きさなどを登録してください。",
     "permissions" : [
         "http://www.dmm.com/netgame/social/-/gadgets/=/*",
         "storage",
