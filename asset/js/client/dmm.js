@@ -1,5 +1,4 @@
 setTimeout(function(){
     var client = new DMD.DMMPageClient();
-    client.shift();
-    client.adjust();
+    client.shift().done(function(){ client.adjust(); });
 });

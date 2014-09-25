@@ -1,7 +1,16 @@
 
 module DMD {
     export class PageClient {
-        // TODO: たぶんこのへん基底クラスにもってく
+        constructor(public resolver: string) {}
+        public resolveGameByURL(): JQueryPromise<Game> {
+            var d = $.Deferred();
+            GameFactory.resolveIdFromURL(location.href, this.resolver).done((id: number) => {
+                GameRepository.ofLocal().findById(id).done((game: Game) => {
+                    d.resolve(game);
+                }).fail(() => { d.reject(); });
+            }).fail(() => { d.reject(); });
+            return d.promise();
+        }
         public shiftByOffset(offset:Offset) {
             setTimeout(() => {
                 $('body').css({

@@ -3,15 +3,15 @@
 module DMD {
     export class DMMPageClient extends PageClient {
         constructor() {
-            super();
+            super("dmm");
         }
-        shift() {
-            // TODO: このへんControllerにしたほうがよくね？
-            GameFactory.resolveIdFromURL(location.href, "dmm").done((id: number) => {
-                GameRepository.ofLocal().findById(id).done((game: Game) => {
-                    this.shiftByOffset(game.widget.offset);
-                });
-            });
+        shift(): JQueryPromise {
+            var d = $.Deferred();
+            this.resolveGameByURL().done((game: Game) => {
+                this.shiftByOffset(game.widget.offset);
+                d.resolve();
+            }).fail(() => { d.reject(); });
+            return d.promise();
         }
     }
 }
