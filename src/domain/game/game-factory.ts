@@ -28,17 +28,13 @@ module DMD {
         }
         public static createFromInputs(url: string, name: string, width: number, height: number, left: number, top: number): JQueryPromise<Game> {
             var d = $.Deferred();
-            if (! width || ! height || ! left || ! top) {
-                return d.resolve(GameFactory.createWithDefaultWidget(url, name));
-            }
-            // TODO: validation
             d.resolve(new Game(
                 GameFactory.getIdFromUrl(url),
                 name,
                 url,
                 new Widget(
-                    new Size(width, height),
-                    new Offset(top, left)
+                    new Size(width || 100, height || 100),
+                    new Offset(top || 10, left || 10)
                 )
             ));
             return d.promise();
