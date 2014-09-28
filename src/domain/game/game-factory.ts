@@ -3,7 +3,7 @@
 module DMD {
     export class GameFactory {
         public static expressions: Object = {
-            dmm: /^http:\/\/www\.dmm\.com\/netgame\/social\/-\/gadgets\/=\/app_id=([0-9]+)/
+            dmm: /^http:\/\/www\.dmm\.(com|co\.jp)\/netgame\/social\/-\/gadgets\/=\/app_id=([0-9]+)/
         };
         public static createWithDefaultWidget(url: string, name: string): Game {
             var id: number = GameFactory.getIdFromUrl(url);
@@ -41,8 +41,8 @@ module DMD {
         }
         private static getIdFromUrl(url: string): number {
             var matches = url.match(GameFactory.expressions["dmm"]);
-            if (matches == null || matches.length < 2) throw Error("app_idを特定できません");
-            return parseInt(matches[1]);
+            if (matches == null || matches.length < 3) throw Error("app_idを特定できません");
+            return parseInt(matches[2]);
         }
         public static decodeToLaunchParams(game: Game): LaunchParams {
             return {
@@ -56,8 +56,8 @@ module DMD {
         public static resolveIdFromURL(url: string, resolver: string): JQueryPromise {
             var d = $.Deferred();
             var matches = url.match(GameFactory.expressions[resolver]);
-            if (matches == null || matches.length < 2) return d.reject();
-            return d.resolve(parseInt(matches[1]));
+            if (matches == null || matches.length < 3) return d.reject();
+            return d.resolve(parseInt(matches[2]));
         }
     }
 }
