@@ -26,7 +26,8 @@
     "content_scripts": [
         {
             "matches": [
-                "http://www.dmm.com/netgame/social/-/gadgets/=/app_id=*"
+                "http://www.dmm.com/netgame/social/-/gadgets/=/app_id=*",
+                "http://www.dmm.co.jp/netgame/social/-/gadgets/=/app_id=*"
             ],
             "js": [
                 "build/app.js",
