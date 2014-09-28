@@ -3,7 +3,7 @@
 module DMD {
     export class GameFactory {
         public static expressions: Object = {
-            dmm: /^http:\/\/www\.dmm\.(com|co\.jp)\/netgame\/social\/-\/gadgets\/=\/app_id=([0-9]+)/;
+            dmm: /^http:\/\/www\.dmm\.(com|co\.jp)\/netgame\/social\/-\/gadgets\/=\/app_id=([0-9]+)/
         };
         public static createWithDefaultWidget(url: string, name: string): Game {
             var id: number = GameFactory.getIdFromUrl(url);
