@@ -34,7 +34,7 @@ module DMD {
                 url,
                 new Widget(
                     new Size(width || 100, height || 100),
-                    new Offset(top || 10, left || 10)
+                    new Offset(top, left)
                 )
             ));
             return d.promise();
