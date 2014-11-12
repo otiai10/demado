@@ -1,6 +1,12 @@
 <div>
     <hr />
-    <p id="dev-comment" class="weak">{{comment}}</p>
+    <div id="dev-comment" class="weak">
+        <ul>
+            {{#each comments}}
+            <li>{{{this}}}</li>
+            {{/each}}
+        </ul>
+    </div>
     <p class="weak">
         <span><a href="http://www.amazon.co.jp/registry/wishlist/2TM2C8W3AIRMH/?tag=otiai10-22">ほしいものリスト</a></span>
         <span class="pull-right">
