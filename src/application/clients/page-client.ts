@@ -37,5 +37,14 @@ module DMD {
             var diffHeight = window.outerHeight - window.innerHeight;
             window.resizeTo(window.outerWidth + diffWidth, window.outerHeight + diffHeight);
         }
+        public listenOnBeforeUnload() {
+            ConfigRepository.ofLocal().get('enable-confirm-on-close').done((config: DMD.Config) => {
+                if (config && config.value == true) {
+                    window.onbeforeunload = () => {
+                      return document.title;
+                    };
+                }
+            });
+        }
     }
 }
