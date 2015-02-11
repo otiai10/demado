@@ -10,7 +10,8 @@ module DMD {
         private routes = {
             'launch': LaunchController,
             'open': OpenPageController,
-            'capture': CaptureController
+            'capture': CaptureController,
+            'positionTracking': PositionTrackingController
         };
         constructor() {}
         listen() {

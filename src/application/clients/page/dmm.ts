@@ -13,5 +13,17 @@ module DMD {
             }).fail(() => { d.reject(); });
             return d.promise();
         }
+        sendPositionTracking() {
+            chrome.runtime.sendMessage(null, {
+                action: 'positionTracking',
+                params:{
+                    url: location.href,
+                    position: {
+                        left: window.screenLeft,
+                        top: window.screenTop
+                    }
+                }
+            });
+        }
     }
 }

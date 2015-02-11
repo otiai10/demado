@@ -22,6 +22,10 @@ module DMD {
                     new Offset(
                         stored["widget"]["offset"]["top"],
                         stored["widget"]["offset"]["left"]
+                    ),
+                    new Position(
+                        stored["widget"]["position"] ? stored["widget"]["position"]["top"] : 75,
+                        stored["widget"]["position"] ? stored["widget"]["position"]["left"] : 70
                     )
                 )
             );
@@ -34,12 +38,19 @@ module DMD {
                 url,
                 new Widget(
                     new Size(width || 100, height || 100),
-                    new Offset(top, left)
+                    new Offset(top, left),
+                    new Position(top, left)// でフォルトではOffset値と一緒にする
                 )
             ));
             return d.promise();
         }
-        private static getIdFromUrl(url: string): number {
+
+        /**
+         * うーん、これpublic staticでいいのかな。dmmって書いてあるし
+         * @param url
+         * @returns {number}
+         */
+        public static getIdFromUrl(url: string): number {
             var matches = url.match(GameFactory.expressions["dmm"]);
             if (matches == null || matches.length < 3) throw Error("app_idを特定できません");
             return parseInt(matches[2]);
@@ -49,8 +60,8 @@ module DMD {
                 url: game.url,
                 width: game.widget.size.width,
                 height: game.widget.size.height,
-                top: game.widget.offset.top,
-                left: game.widget.offset.left
+                top: game.widget.position.top,
+                left: game.widget.position.left
             };
         }
         public static resolveIdFromURL(url: string, resolver: string): JQueryPromise {
