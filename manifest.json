@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "demado",
-    "version": "0.1.11",
+    "version": "0.1.12",
     "description": "DMMのゲームをサイズぴったりの別窓で開くランチャーです。設定からDMMゲームと窓の大きさなどを登録してください。",
     "permissions" : [
         "http://www.dmm.com/netgame/social/-/gadgets/=/*",
