@@ -11,7 +11,8 @@ module DMD {
             'launch': LaunchController,
             'open': OpenPageController,
             'capture': CaptureController,
-            'positionTracking': PositionTrackingController
+            'positionTracking': PositionTrackingController,
+            'toggleDisable': ToggleDisableController
         };
         constructor() {}
         listen() {

@@ -7,10 +7,15 @@ module DMD {
         }
         shift(): JQueryPromise {
             var d = $.Deferred();
-            this.resolveGameByURL().done((game: Game) => {
-                this.shiftByOffset(game.widget.offset);
+            ConfigRepository.ofLocal().get("temporary-disabled").done(disabled => {
+                if (disabled.value) return d.resolve();
+                this.resolveGameByURL().done((game: Game) => {
+                    this.shiftByOffset(game.widget.offset);
                 d.resolve();
             }).fail(() => { d.reject(); });
+
+            });
+
             return d.promise();
         }
         sendPositionTracking() {

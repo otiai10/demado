@@ -13,7 +13,6 @@ module DMD {
         }
         toggleSetting(ev: Event) {
             this.config.value = ev.target['checked'];
-            console.log(this.config);
             this.repo.save(this.config).fail((err) => {
                 console.log(err);
             });

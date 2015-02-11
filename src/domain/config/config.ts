@@ -32,7 +32,7 @@ module DMD {
             var d = $.Deferred();
             this.storage.get("configs").done((configs: Object) => {
                 var res: Config[] = [];
-                $.each(configs, (key, storedObject) => {
+                $.each($.extend({}, defaultConfigs, configs), (key, storedObject) => {
                     res.push(ConfigFactory.createFromStored(storedObject));
                 });
                 d.resolve(res);
@@ -68,7 +68,7 @@ module DMD {
         public get(key: string): JQueryPromise<Config> {
             var d = $.Deferred();
             this.storage.get("configs").done((configs: Object) => {
-                d.resolve(configs[key]);
+                d.resolve((configs[key] == undefined) ? defaultConfigs[key] : configs[key]);
             }).fail((err) => {
                 // d.resolve([]);
                 d.resolve(defaultConfigs[key]);
@@ -81,6 +81,12 @@ module DMD {
             type: ConfigType.Checkbox,
             key: 'enable-confirm-on-close',
             name: '閉じるボタンを押したとき確認を出す',
+            value: false
+        },
+        'temporary-disabled': {
+            type: ConfigType.Checkbox,
+            key: 'temporary-disabled',
+            name: '一時的に無効化する',
             value: false
         }
     }
