@@ -4,7 +4,7 @@ module DMD {
         constructor(public resolver: string) {}
         public resolveGameByURL(): JQueryPromise<Game> {
             var d = $.Deferred();
-            GameFactory.resolveIdFromURL(location.href, this.resolver).done((id: number) => {
+            GameFactory.resolveIdFromURL(location.href, this.resolver).done((id: string) => {
                 GameRepository.ofLocal().findById(id).done((game: Game) => {
                     d.resolve(game);
                 }).fail(() => { d.reject(); });

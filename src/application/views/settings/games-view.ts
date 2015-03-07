@@ -23,7 +23,7 @@ module DMD {
         }
         deleteGame(ev: Event) {
             var target = $(ev.target);
-            var id = parseInt(target.attr("data-gameid"));
+            var id: string = target.attr("data-gameid");
             var name = target.attr("data-gamename");
             this.confirmDelete(id, name).done(() => {
                 GameRepository.ofLocal().deleteById(id).done(() => {
@@ -35,7 +35,7 @@ module DMD {
                 });
             });
         }
-        confirmDelete(id: number, name: string): JQueryPromise {
+        confirmDelete(id: string, name: string): JQueryPromise {
             var d = $.Deferred();
             if (window.confirm("以下の登録を削除します。よろしいですか？\n" + "id:" + id + "\nname:" + name)) {
                 return d.resolve();
@@ -45,7 +45,7 @@ module DMD {
         editGame(ev: Event) {
             var target = $(ev.currentTarget);
             var id = target.attr("data-gameid");
-            GameRepository.ofLocal().findById(parseInt(id)).done((game: Game) => {
+            GameRepository.ofLocal().findById(id).done((game: Game) => {
                 $("li#game-" + id).replaceWith(new AddGameView().renderWithGame(game).$el);
             });
         }

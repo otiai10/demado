@@ -41,6 +41,7 @@ module DMD {
         }
         validate(ev: Event) {
             var target = $(ev.currentTarget);
+            if (! this[target.attr('name') + "Validation"]) return;
             this[target.attr('name') + "Validation"](target.val());
         }
         nameValidation(name: string) {
@@ -51,8 +52,13 @@ module DMD {
             this.enable();
         }
         urlValidation(url: string) {
-            if (! GameFactory.expressions["dmm"].test(url)) {
-                this.showInvalidity(GameFactory.expressions["dmm"] + "\nの形式のURLを入力してください");
+            if (! GameFactory.expressions["dmm"].test(url)
+                && ! GameFactory.expressions["yahoomobage"].test(url)) {
+                this.showInvalidity(
+                    GameFactory.expressions["dmm"]
+                    + "\nまたは、\n" + GameFactory.expressions["yahoomobage"]
+                    + "\nの形式のURLを入力してください"
+                );
                 return this.disable();
             }
             this.enable();

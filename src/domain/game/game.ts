@@ -8,7 +8,7 @@ module DMD {
         top: number;
     }
     export class Game {
-        constructor(public id: number,
+        constructor(public id: string,
                     public name: string,
                     public url: string,
                     public widget: Widget) {}

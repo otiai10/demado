@@ -6,6 +6,7 @@
     "permissions" : [
         "http://www.dmm.com/netgame/social/-/gadgets/=/*",
         "http://www.dmm.co.jp/netgame/social/-/gadgets/=/*",
+        "http://yahoo-mbga.jp/game/*",
         "storage",
         "activeTab"
     ],
@@ -32,6 +33,15 @@
             "js": [
                 "build/app.js",
                 "asset/js/client/dmm.js"
+            ]
+        },
+        {
+            "matches": [
+                "http://yahoo-mbga.jp/game/*/play"
+            ],
+            "js": [
+                "build/app.js",
+                "asset/js/client/yahoomobage.js"
             ]
         }
     ],

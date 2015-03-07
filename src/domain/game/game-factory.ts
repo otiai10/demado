@@ -3,10 +3,11 @@
 module DMD {
     export class GameFactory {
         public static expressions: Object = {
-            dmm: /^http:\/\/www\.dmm\.(com|co\.jp)\/netgame\/social\/-\/gadgets\/=\/app_id=([0-9]+)/
+            dmm: /^http:\/\/www\.dmm\.(com|co\.jp)\/netgame\/social\/-\/gadgets\/=\/app_id=([0-9]+)/,
+            yahoomobage: /^http:\/\/yahoo-mbga\.(jp)\/game\/([0-9]+)\/(play)?/
         };
         public static createWithDefaultWidget(url: string, name: string): Game {
-            var id: number = GameFactory.getIdFromUrl(url);
+            var id: string = GameFactory.getIdFromUrl(url);
             return new Game(id, name, url, WidgetFactory.createDefault());
         }
         public static createFromStored(stored: Object): Game {
@@ -50,10 +51,15 @@ module DMD {
          * @param url
          * @returns {number}
          */
-        public static getIdFromUrl(url: string): number {
+        public static getIdFromUrl(url: string): string {
+            debugger;
+            var resolver = "";
             var matches = url.match(GameFactory.expressions["dmm"]);
-            if (matches == null || matches.length < 3) throw Error("app_idを特定できません");
-            return parseInt(matches[2]);
+            if (matches && matches.length > 2) return resolver + parseInt(matches[2]);
+            resolver = "yahoomobage";
+            var matches = url.match(GameFactory.expressions[resolver]);
+            if (matches && matches.length > 2) return resolver + parseInt(matches[2]);
+            throw Error("app_idを特定できません");
         }
         public static decodeToLaunchParams(game: Game): LaunchParams {
             return {
@@ -68,7 +74,8 @@ module DMD {
             var d = $.Deferred();
             var matches = url.match(GameFactory.expressions[resolver]);
             if (matches == null || matches.length < 3) return d.reject();
-            return d.resolve(parseInt(matches[2]));
+            if (resolver == 'dmm') resolver = '';// 後方互換
+            return d.resolve(resolver + (matches[2]));
         }
     }
 }

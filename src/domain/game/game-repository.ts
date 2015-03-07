@@ -5,7 +5,7 @@ module DMD {
         public static ofLocal(): GameRepository {
             return new this(Infra.ChromeStorage.ofLocal());
         }
-        public findById(id: number): JQueryPromise<Game> {
+        public findById(id: string): JQueryPromise<Game> {
             var d = $.Deferred();
             this.storage.get("games").done((games: Object) => {
                 if (games[id]) d.resolve(GameFactory.createFromStored(games[id]));
@@ -48,7 +48,7 @@ module DMD {
         public delete(game: Game): JQueryPromise {
             return this.deleteById(game.id);
         }
-        public deleteById(id: number): JQueryPromise {
+        public deleteById(id: string): JQueryPromise {
             var d = $.Deferred();
             this.storage.get("games").done((games: Object) => {
                 delete games[id];
