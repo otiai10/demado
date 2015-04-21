@@ -88,6 +88,12 @@ module DMD {
             key: 'temporary-disabled',
             name: '一時的に無効化する',
             value: false
+        },
+        'prisc-direct-download': {
+            type: ConfigType.Checkbox,
+            key: 'prisc-direct-download',
+            name: 'Prisc!連携でスクショの編集画面を経由せずにダウンロードする(Prisc! v0.2.4~)',
+            value: false
         }
     }
 }

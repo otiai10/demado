@@ -52,7 +52,6 @@ module DMD {
          * @returns {number}
          */
         public static getIdFromUrl(url: string): string {
-            debugger;
             var resolver = "";
             var matches = url.match(GameFactory.expressions["dmm"]);
             if (matches && matches.length > 2) return resolver + parseInt(matches[2]);
