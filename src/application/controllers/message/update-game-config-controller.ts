@@ -11,7 +11,11 @@ module DMD {
                 game.widget.size = params.size;
                 DMD.GameRepository.ofLocal().save(game).done(() => {
                     d.resolve();
+                }).fail((err) => {
+                    d.reject(err);
                 });
+            }).fail((err) => {
+                d.reject(err);
             });
             return d.promise();
         }

@@ -37,7 +37,20 @@ module DMD {
             };
         }
         onCommit(ev: Event) {
-            alert("うぇいうぇい");
+            // send message
+            chrome.runtime.sendMessage(null, {
+                action: 'setOption',
+                params: {
+                    id: DMD.GameFactory.getIdFromUrl(this.url),
+                    options: {
+                        visibleSettingEnabled: false
+                    },
+                    offset: this.offset,
+                    size: this.size
+                }
+            }, (res) => {
+                console.log("res??", res);
+            });
         }
         detect(ev?: Event): VisibleSettingPanel {
             var src: any;

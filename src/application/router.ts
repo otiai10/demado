@@ -17,8 +17,10 @@ module DMD {
         };
         constructor() {}
         listen() {
-            chrome.runtime.onMessage.addListener((message: DMDMessageInterface, sender: any, respond: (any) => any) => {
-                this.resolve(message.action).execute(message.params);
+            chrome.runtime.onMessage.addListener((message: DMDMessageInterface, sender: any, respond: () => any) => {
+                this.resolve(message.action).execute(message.params).done((res: any) => {
+                    respond();
+                });
             });
             chrome.commands.onCommand.addListener((command: string) => {
                 this.resolve(command).execute();

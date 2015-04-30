@@ -23,12 +23,14 @@ module DMD {
             return d.promise();
         }
 
-        public shiftByOffset(offset:Offset) {
+        public shiftByOffset(offset:Offset, fix: boolean = true) {
             setTimeout(() => {
-                $('body').css({
-                    //'transform':'scale(0.8)'
-                    // 'position': 'fixed'
-                });
+                if (fix) {
+                    $('body').css({
+                        //'transform':'scale(0.8)'
+                        'position': 'fixed'
+                    });
+                }
                 $('body').animate(this.convertOffsetToParams(offset), 500);
             }, 500);
         }
@@ -61,12 +63,6 @@ module DMD {
          * イベントバインディングもやる
          */
         private enableVisibleSetting() {
-            /*
-            var $panel = $(this.visibleSettingPanelTpl.render());
-            $panel.find('#commin-current-setting').on('click', () => {
-                window.alert("うゔぁー");
-            });
-            */
             var $panel = new DMD.VisibleSettingPanel();
             $('body').append($panel.render().$el);
         }

@@ -3,14 +3,10 @@ module DMD {
     export class SettingsGamesView extends showv.View {
         private tpl = new HBSTemplate("settings/games");
         private addGameView = new AddGameView();
-        private annotationPopup = new HBSTemplate("settings/annotation-popup");
         events(): Object {
             return {
                 "click .delete-game": "deleteGame",
-                "click .edit-game": "editGame",
-                "click .enable-visible-setting-game": "enableVisibleSettingGame",
-                "mouseover .annotate": "showDescription",
-                "mouseout .annotate": "hideAllDescription"
+                "click .edit-game": "editGame"
             };
         }
         render(): SettingsGamesView {
@@ -51,34 +47,6 @@ module DMD {
             var id = target.attr("data-gameid");
             GameRepository.ofLocal().findById(id).done((game: Game) => {
                 $("li#game-" + id).replaceWith(new AddGameView().renderWithGame(game).$el);
-            });
-        }
-        showDescription(ev: Event) {
-            var $this = $(ev.currentTarget);
-            var $annotation = $(this.annotationPopup.render({
-                description: $this.attr('data-description'),
-                position: {
-                    top: $this.position().top - 10,
-                    left: $this.position().left
-                }
-            }));
-            $annotation.insertAfter($this);
-        }
-        hideAllDescription() {
-            $('.annotation-popup').hide().remove();
-        }
-        enableVisibleSettingGame(ev: Event) {
-            var $this = $(ev.currentTarget);
-            chrome.runtime.sendMessage(null, {
-                action: 'updateGameConfig',
-                params: {
-                    id: $this.attr('data-gameid'),
-                    offset: {},
-                    position: {},
-                    option: {
-                        visibleSettingEnabled: true
-                    }
-                }
             });
         }
     }

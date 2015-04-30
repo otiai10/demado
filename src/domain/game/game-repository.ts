@@ -35,7 +35,7 @@ module DMD {
                 games[game.id] = game;
                 this.storage.set("games", games).done(() => {
                     d.resolve();
-                }).fail(() => { d.reject(); });
+                }).fail((err) => { d.reject(); });
             }).fail((err) => {
                 var games = {};
                 games[game.id] = game;
