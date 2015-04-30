@@ -11,7 +11,8 @@ module DMD {
         constructor(public id: string,
                     public name: string,
                     public url: string,
-                    public widget: Widget) {}
+                    public widget: Widget,
+                    public options: any = {}) {}
         toLaunchParams(): LaunchParams {
             return GameFactory.decodeToLaunchParams(this);
         }

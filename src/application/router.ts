@@ -12,6 +12,7 @@ module DMD {
             'open': OpenPageController,
             'capture': CaptureController,
             'positionTracking': PositionTrackingController,
+            'setOption': UpdateGameConfigController,
             'toggleDisable': ToggleDisableController
         };
         constructor() {}

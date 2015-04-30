@@ -30,6 +30,9 @@
                 "http://www.dmm.com/netgame/social/-/gadgets/=/app_id=*",
                 "http://www.dmm.co.jp/netgame/social/-/gadgets/=/app_id=*"
             ],
+            "css": [
+                "asset/css/client/global.css"
+            ],
             "js": [
                 "build/app.js",
                 "asset/js/client/dmm.js"

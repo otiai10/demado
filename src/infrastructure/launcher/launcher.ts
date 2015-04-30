@@ -12,6 +12,7 @@ module Infra {
     }
     export class Launcher {
         private static open(params: OpenParams): JQueryPromise {
+            delete(params["options"]);// optionsはchromeモジュールレベルでいらない
             var d = $.Deferred();
             chrome.windows.create(params, (win: any) => {
                 d.resolve(win);
