@@ -10,7 +10,7 @@ module DMD {
             ConfigRepository.ofLocal().get("temporary-disabled").done(disabled => {
                 if (disabled.value) return d.resolve();
                 this.resolveGameByURL().done((game: Game) => {
-                    this.shiftByOffset(game.widget.offset);
+                    this.shiftByOffset(game.widget.offset, !game.options['visibleSettingEnabled']);
                 d.resolve();
             }).fail(() => { d.reject(); });
 

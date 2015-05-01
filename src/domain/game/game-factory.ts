@@ -1,6 +1,8 @@
 /// <reference path="./game.ts" />
 
 module DMD {
+    // とりあえず
+    export var tmpStorage:any = {};// id:optionのオンメモリストレージ
     export class GameFactory {
         public static expressions: Object = {
             dmm: /^http:\/\/www\.dmm\.(com|co\.jp)\/netgame\/social\/-\/gadgets\/=\/app_id=([0-9]+)/,
@@ -11,6 +13,7 @@ module DMD {
             return new Game(id, name, url, WidgetFactory.createDefault());
         }
         public static createFromStored(stored: Object): Game {
+            // optionだけはとりあえずオンメモリからとるようにします
             return new Game(
                 stored["id"],
                 stored["name"],
@@ -28,7 +31,8 @@ module DMD {
                         stored["widget"]["position"] ? stored["widget"]["position"]["top"] : 75,
                         stored["widget"]["position"] ? stored["widget"]["position"]["left"] : 70
                     )
-                )
+                ),
+                stored["options"] || {}
             );
         }
         public static createFromInputs(url: string, name: string, width: number, height: number, left: number, top: number): JQueryPromise<Game> {

@@ -1,0 +1,8 @@
+.annotation-popup {
+    padding: 10px;
+    opacity: 0.8;
+    background-color: #000;
+    border-radius: 10px;
+    color: white;
+    min-width: 200px;
+}
