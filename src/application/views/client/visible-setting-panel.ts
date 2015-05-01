@@ -49,7 +49,12 @@ module DMD {
                     size: this.size
                 }
             }, (res) => {
-                console.log("res??", res);
+                if (window.confirm(
+                    "設定を保存しました。ページをリロードします。\n\n" +
+                    "この設定を#demado_memoでツイートしますか？\n" +
+                    "知見の共有にご協力ください >_<"
+                    )) window.open("https://twitter.com/intent/tweet?hashtags=demado_memo&text=" + this.toTweetText());
+                location.reload();
             });
         }
         detect(ev?: Event): VisibleSettingPanel {
@@ -90,6 +95,18 @@ module DMD {
             var diffW = window.outerWidth - window.innerWidth;
             window.resizeTo(parseInt(this.size.width) + diffW, parseInt(this.size.height) + diffH);
             window.scrollTo(this.offset.left, this.offset.top);
+        }
+
+        /**
+         * これここにあるべきじゃないっしょーw
+         * @returns {string}
+         */
+        toTweetText(): string {
+            var message: string = document.title + "\n" +
+                    "URL:" + this.url + "\n" +
+                    "SIZE:" + "width " + this.size.width  +  " height " + this.size.height + "\n" +
+                    "OFFSET:" + "left " + this.offset.left  + " top " + this.offset.top;
+            return encodeURIComponent(message);
         }
     }
 }

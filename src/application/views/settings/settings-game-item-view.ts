@@ -43,8 +43,15 @@ module DMD {
                         visibleSettingEnabled: true
                     }
                 }
-            }, {}, function() {
-                window.alert("hoge");
+            }, {}, () => {
+                chrome.runtime.sendMessage(null, {
+                    action: 'launch',
+                    params: {
+                        id: this.game.id
+                    }
+                }, () => {
+                    window.close();
+                });
             });
         }
     }

@@ -21,6 +21,8 @@ module DMD {
                 this.resolve(message.action).execute(message.params).done((res: any) => {
                     respond();
                 });
+                // http://stackoverflow.com/questions/20077487/chrome-extension-message-passing-response-not-sent
+                return true;
             });
             chrome.commands.onCommand.addListener((command: string) => {
                 this.resolve(command).execute();
