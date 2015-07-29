@@ -7,7 +7,7 @@ module DMD {
         events(): Object {
             return {
                 "click img#add-game-commit": "addGameCommit",
-                "keyup input": "validate"
+                "change input": "validate"
             };
         }
         render(): AddGameView {
