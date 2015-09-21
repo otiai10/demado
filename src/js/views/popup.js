@@ -1,4 +1,10 @@
-angular.module("dmd", []).controller("PopupController", function($scope) {
+angular.module("dmd", []).filter("parseURL", function() {
+  return function(input) {
+    var m = input.match(/(https?:\/\/)([^?#]+)/);
+    if (!m || m.length < 3) return input;
+    return m[2];
+  };
+}).controller("PopupController", function($scope) {
   chrome.runtime.sendMessage(null, {
     path: "/registry:list"
   }, function(res) {
@@ -6,6 +12,14 @@ angular.module("dmd", []).controller("PopupController", function($scope) {
   });
   // {{{ fixture
   $scope.registries = {
+    "http://ponpon-pa.in/": {
+      name: "ぽんぺ",
+      url: "http://ponpon-pa.in/",
+      left: 0,
+      top:  0,
+      width: 460,
+      height: 297
+    },
     "http://google.com": { // IDはquery無視したやつ
       name: "おっぱい",
       url: "http://google.com",

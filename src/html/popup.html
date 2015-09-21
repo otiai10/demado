@@ -10,9 +10,12 @@
     <div class="container" ng-controller="PopupController">
       <div class="row">
         <div class="col-xs-12">
-          <table class="table table-hover">
+          <table class="table table-hover reg-table">
             <tr ng-repeat="reg in registries" class="row" ng-click="open(reg)">
-              <td class="col-xs-3">{{reg.name}}</td><td><small><a>{{reg.url}}</a></small></td>
+              <td class="col-xs-2">{{reg.name}}</td>
+              <td class="col-xs-8"><small><a>{{reg.url | parseURL}}</a></small></td>
+              <td class="col-xs-1">foo</td>
+              <td class="col-xs-1">bar</td>
             </tr>
           </table>
         </div>

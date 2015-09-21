@@ -1,7 +1,10 @@
 html {
-  width: 480px;
+  width: 600px;
 }
 table {
   margin-top: 20px;
   cursor:  pointer;
+}
+.reg-table {
+  font-size: small;
 }
