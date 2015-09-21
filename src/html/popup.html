@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <link href="../css/popup.css" rel="stylesheet">
+    <script src="../js/angular.min.js"></script>
+  </head>
+  <body ng-app="dmd">
+    <div class="container" ng-controller="PopupController">
+      <div class="row">
+        <div class="col-xs-12">
+          <table class="table table-hover reg-table">
+            <tr ng-repeat="reg in registries" class="row" ng-click="open(reg)">
+              <td class="col-xs-2">{{reg.name}}</td>
+              <td class="col-xs-8"><small><a>{{reg.url | parseURL}}</a></small></td>
+              <td class="col-xs-1">foo</td>
+              <td class="col-xs-1">bar</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <script src="../js/jquery-2.1.4.min.js"></script>
+    <script src="../js/bootstrap.js"></script>
+    <script src="../js/repository.js"></script>
+    <script src="../js/views/popup.js"></script>
+  </body>
+</html>
