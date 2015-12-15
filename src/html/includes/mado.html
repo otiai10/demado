@@ -1,0 +1,52 @@
+  <fieldset>
+    <legend>{{mado.name}}</legend>
+
+    <div class="row">
+      <div class="small-12 medium-12 columns">
+        <dl>
+          <dt>URL</dt>
+          <dd><a ng-href="{{mado.url}}"><small>{{mado.url}}</small></a></dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="row">
+
+      <div class="small-3 columns">
+        <dl>
+          <dt>offsetX</dt>
+          <dd>{{mado.bounds.offset.x}}</dd>
+        </dl>
+      </div>
+
+      <div class="small-3 columns">
+        <dl>
+          <dt>offsetY</dt>
+          <dd>{{mado.bounds.offset.y}}</dd>
+        </dl>
+      </div>
+
+      <div class="small-3 columns">
+        <dl>
+          <dt>width</dt>
+          <dd>{{mado.bounds.size.w}}</dd>
+        </dl>
+      </div>
+
+      <div class="small-3 columns">
+        <dl>
+          <dt>height</dt>
+          <dd>{{mado.bounds.size.h}}</dd>
+        </dl>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="large-12 columns text-right">
+        <button class="button tiny alert" ng-click="remove(mado)"><i class="fa fa-trash"></i></button>
+        <button class="button tiny primary" ng-click="edit(mado)"><i class="fa fa-pencil"></i></button>
+      </div>
+    </div>
+
+  </fieldset>

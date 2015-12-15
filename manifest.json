@@ -4,6 +4,7 @@
   "version": "0.1.60",
   "description": "ブラゲーのランチャー",
   "permissions" : [
+    "tabs",
     "downloads",
     "storage",
     "activeTab"
@@ -18,7 +19,12 @@
   },
   "background": {
     "scripts":[
-      "src/js/background.js"
+      "src/js/infrastructure/server.js",
+      "src/js/server/controllers/mado-controller.js",
+      "src/js/server/main.js",
+      "src/js/models/kvs.js",
+      "src/js/models/bounds.js",
+      "src/js/models/mado.js"
     ]
   },
   "content_scripts": [
@@ -28,7 +34,12 @@
         "https://*/*"
       ],
       "js": [
-        "src/js/app.js"
+        "src/js/infrastructure/message.js",
+        "src/js/infrastructure/launcher.js",
+        "src/js/models/kvs.js",
+        "src/js/models/bounds.js",
+        "src/js/models/mado.js",
+        "src/js/apps/page.js"
       ]
     }
   ],
@@ -40,5 +51,5 @@
       "description":"出窓のスクショ撮ります. Priscのインストールが必要です."
     }
   },
-  "options_page" : "src/html/options.html"
+  "options_page" : "src/html/configs.html"
 }
