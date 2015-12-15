@@ -1,60 +1,44 @@
 {
-    "manifest_version": 2,
-    "name": "demado",
-    "version": "0.1.60",
-    "description": "DMMのゲームをサイズぴったりの別窓で開くランチャーです。設定からDMMゲームと窓の大きさなどを登録してください。",
-    "permissions" : [
-        "http://www.dmm.com/netgame/social/-/gadgets/=/*",
-        "http://www.dmm.co.jp/netgame/social/-/gadgets/=/*",
-        "http://yahoo-mbga.jp/game/*",
-        "storage",
-        "activeTab"
-    ],
-    "icons" : {
-        "48"  : "asset/img/icon/icon.48.png",
-        "128" : "asset/img/icon/icon.128.png"
-    },
-    "browser_action": {
-        "default_icon": "asset/img/icon/icon.19.png",
-        "default_popup":"asset/html/popup.html"
-    },
-    "background": {
-        "scripts":[
-            "build/app.js",
-            "asset/js/init.js"
-        ]
-    },
-    "content_scripts": [
-        {
-            "matches": [
-                "http://www.dmm.com/netgame/social/-/gadgets/=/app_id=*",
-                "http://www.dmm.co.jp/netgame/social/-/gadgets/=/app_id=*"
-            ],
-            "css": [
-                "asset/css/client/global.css"
-            ],
-            "js": [
-                "build/app.js",
-                "asset/js/client/dmm.js"
-            ]
-        },
-        {
-            "matches": [
-                "http://yahoo-mbga.jp/game/*/play"
-            ],
-            "js": [
-                "build/app.js",
-                "asset/js/client/yahoomobage.js"
-            ]
-        }
-    ],
-    "commands": {
-        "capture": {
-            "suggested_key": {
-                "default": "Ctrl+Shift+0"
-            },
-            "description":"出窓のスクショ撮ります. Priscのインストールが必要です."
-        }
-    },
-    "options_page" : "asset/html/settings.html"
+  "manifest_version": 2,
+  "name": "demado",
+  "version": "0.1.60",
+  "description": "ブラゲーのランチャー",
+  "permissions" : [
+    "downloads",
+    "storage",
+    "activeTab"
+  ],
+  "icons" : {
+    "48"  : "src/img/icon/icon.48.png",
+    "128" : "src/img/icon/icon.128.png"
+  },
+  "browser_action": {
+    "default_icon": "src/img/icon/icon.48.png",
+    "default_popup":"src/html/popup.html"
+  },
+  "background": {
+    "scripts":[
+      "src/js/background.js"
+    ]
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "js": [
+        "src/js/app.js"
+      ]
+    }
+  ],
+  "commands": {
+    "capture": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+0"
+      },
+      "description":"出窓のスクショ撮ります. Priscのインストールが必要です."
+    }
+  },
+  "options_page" : "src/html/options.html"
 }
