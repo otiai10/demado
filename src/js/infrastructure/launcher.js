@@ -43,7 +43,6 @@ class Launcher {
     });
   }
   zoom(factor) {
-    console.log(factor);
     return new Promise((res) => {
       this.mod.tabs.getAllInWindow(this.winID, (tabs) => {
         this.mod.tabs.setZoom(tabs[0].id, factor, () => {
