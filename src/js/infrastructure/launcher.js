@@ -15,7 +15,19 @@ class Launcher {
         left: mado.position.left,
         top: mado.position.top,
         type: "popup"
-      }, function(win) {
+      }, (win) => {
+
+        // allow async
+        this.mod.tabs.setZoomSettings(win.tabs[0].id, {
+          mode: 'automatic', scope: 'per-tab', defaultZoomFactor: 1
+        }, () => {
+          setTimeout(() => {
+            this.mod.tabs.setZoom(win.tabs[0].id, mado.zoom, (tab) => {
+              resolve(win);
+            });
+          }, 1000);
+        });
+
         resolve(win);
       });
     });
@@ -27,6 +39,16 @@ class Launcher {
         height: params.height
       }, (win) => {
         resolve(win);
+      });
+    });
+  }
+  zoom(factor) {
+    console.log(factor);
+    return new Promise((res) => {
+      this.mod.tabs.getAllInWindow(this.winID, (tabs) => {
+        this.mod.tabs.setZoom(tabs[0].id, factor, () => {
+          res(tabs[0]);
+        });
       });
     });
   }

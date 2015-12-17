@@ -6,6 +6,7 @@ class Mado {
     this.name = name;
     this.bounds = new Bounds(10, 10, 400, 120);
     this.position = new Position(100, 100);
+    this.zoom = 1;
   }
   id() {
     return this.url;
@@ -24,6 +25,7 @@ class Mado {
       obj.position.left || 100,
       obj.position.top || 100
     );
+    mado.zoom = obj.zoom || 1;
     return mado;
   }
 }

@@ -68,4 +68,9 @@ angular.module("demado", []).controller("ConfigsController", ($scope) => {
       height: $scope.newmado.bounds.size.h
     });
   };
+
+  $scope.changeZoom = () => {
+    if (!$scope.visibleTab || !$scope.visibleWin) return;
+    Launcher.chrome($scope.visibleWin).zoom($scope.newmado.zoom);
+  };
 });

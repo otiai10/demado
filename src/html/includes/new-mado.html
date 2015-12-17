@@ -97,6 +97,27 @@
     </div>
 
     <div class="row">
+      <div class="small-3 columns">
+        <div class="row collapse">
+          <label>zoom</label>
+          <div class="small-9 columns">
+            <input
+              type="number"
+              name="z"
+              min="0.2"
+              max="4"
+              step="0.1"
+              placeholder="1"
+              ng-model="newmado.zoom"
+              ng-change="changeZoom()"
+              >
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row">
       <div class="large-6 columns">
         <span ng-show="newmadoForm.name.$error.required" class="error">Nameは必須です</span>
         <span ng-show="newmadoForm.url.$error.required" class="error">URLは必須です</span>
