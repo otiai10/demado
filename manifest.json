@@ -21,10 +21,12 @@
     "scripts":[
       "src/js/infrastructure/server.js",
       "src/js/server/controllers/mado-controller.js",
-      "src/js/server/main.js",
+      "src/js/server/controllers/page-controller.js",
       "src/js/models/kvs.js",
       "src/js/models/bounds.js",
-      "src/js/models/mado.js"
+      "src/js/models/mado.js",
+      "src/js/models/cache.js",
+      "src/js/server/main.js"
     ]
   },
   "content_scripts": [

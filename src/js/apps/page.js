@@ -18,4 +18,11 @@
     return res({msg:"ok"});
   });
 
+  window.onresize = (ev) => {
+    Message.me().send("/page/onresize", {
+      w: window.innerWidth,
+      h: window.innerHeight
+    });
+  };
+
 })();
