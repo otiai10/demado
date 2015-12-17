@@ -13,4 +13,18 @@ class PageController {
       size: size
     });
   }
+  static PositionTracking(req, sender, sendResponse) {
+    MadoStore.local().get(req.id).then((mado) => {
+      mado.position.left = req.left;
+      mado.position.top = req.top;
+      return MadoStore.local().set(mado);
+    }).then((set) => {
+      sendResponse({status:"ok"});
+    }).catch((err) => {
+      sendResponse({
+        status:"internal",
+        error: err
+      });
+    });
+  }
 }

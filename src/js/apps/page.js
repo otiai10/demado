@@ -1,9 +1,10 @@
 "use strict";
 (() => {
+  var mado = null;
   Message.me().send("/mado/list").then((res) => {
     for (var key in res.list) {
       if (key == location.href) {
-        var mado = res.list[key];
+        mado = res.list[key];
         return Launcher.of(window).modify(mado.bounds);
       }
     }
@@ -22,5 +23,14 @@
       Launcher.of(window).modify(req.bounds);
       return res({msg:"ok"});
     });
+    return Promise.resolve();
+  }).then(() => {
+    window.setInterval(() => {
+      Message.me().send("/page/positiontracking", {
+        id: mado.url,
+        left: window.screenX,
+        top: window.screenY
+      });
+    }, 10 * 1000);
   });
 })();
