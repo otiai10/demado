@@ -6,6 +6,9 @@ angular.module("demado", []).controller("ConfigsController", ($scope) => {
     $scope.$apply(() => { $scope.list = list });
   });
 
+  $scope.visibleTab = null;
+  $scope.visibleWin = null;
+
   $scope.commit = (mado) => {
     MadoStore.local().set(mado).then((set) => {
       location.reload(); // FIXME
@@ -14,7 +17,12 @@ angular.module("demado", []).controller("ConfigsController", ($scope) => {
 
   $scope.visible = (mado) => {
     MadoStore.local().set(mado).then((set) => {
-      Launcher.launch(mado);
+      Launcher.blank().launch(mado).then((win) => {
+        if (win.tabs && win.tabs.length != 0) {
+          $scope.visibleTab = win.tabs[0];
+          $scope.visibleWin = win.id;
+        }
+      });
     });
   };
 
@@ -30,5 +38,18 @@ angular.module("demado", []).controller("ConfigsController", ($scope) => {
 
   $scope.showForm = () => {
     $scope.newmado = new Mado("", "");
+  };
+
+  $scope.adjust = () => {
+    if (!$scope.visibleTab || !$scope.visibleWin) return;
+
+    TabMessage.to($scope.visibleTab.id).send({
+      bounds: $scope.newmado.bounds
+    });
+
+    Launcher.chrome($scope.visibleWin).update({
+      width: $scope.newmado.bounds.size.w,
+      height: $scope.newmado.bounds.size.h
+    });
   };
 });

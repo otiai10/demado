@@ -22,7 +22,14 @@
         <div class="row collapse">
           <label>offset X</label>
           <div class="small-9 columns">
-            <input type="number" name="x" ng-model="newmado.bounds.offset.x" min="0" placeholder="10">
+            <input
+              type="number"
+              name="x"
+              min="0"
+              placeholder="10"
+              ng-model="newmado.bounds.offset.x"
+              ng-change="adjust()"
+              >
           </div>
           <div class="small-3 columns">
             <span class="postfix">px</span>
@@ -34,7 +41,14 @@
         <div class="row collapse">
           <label>offset Y</label>
           <div class="small-9 columns">
-            <input type="number" name="y" ng-model="newmado.bounds.offset.y" min="0" placeholder="10">
+            <input
+              type="number"
+              name="y"
+              min="0"
+              placeholder="10"
+              ng-model="newmado.bounds.offset.y"
+              ng-change="adjust()"
+              >
           </div>
           <div class="small-3 columns">
             <span class="postfix">px</span>
@@ -46,7 +60,14 @@
         <div class="row collapse">
           <label>width</label>
           <div class="small-9 columns">
-            <input type="number" name="w" ng-model="newmado.bounds.size.w" min="0" placeholder="400">
+            <input
+              type="number"
+              name="w"
+              min="0"
+              placeholder="400"
+              ng-model="newmado.bounds.size.w"
+              ng-change="adjust()"
+              >
           </div>
           <div class="small-3 columns">
             <span class="postfix">px</span>
@@ -58,7 +79,14 @@
         <div class="row collapse">
           <label>height</label>
           <div class="small-9 columns">
-            <input type="number" name="h" ng-model="newmado.bounds.size.h" min="0" placeholder="120">
+            <input
+              type="number"
+              name="h"
+              min="0"
+              placeholder="120"
+              ng-model="newmado.bounds.size.h"
+              ng-change="adjust()"
+              >
           </div>
           <div class="small-3 columns">
             <span class="postfix">px</span>
