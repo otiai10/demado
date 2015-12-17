@@ -12,3 +12,10 @@ class Bounds {
     };
   }
 }
+
+class Position {
+  constructor(left, top) {
+    this.left = left;
+    this.top = top;
+  }
+}

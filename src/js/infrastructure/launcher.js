@@ -7,6 +7,10 @@ class Launcher {
   static launch(mado) {
     chrome.windows.create({
       url: mado.url,
+      width: mado.bounds.size.w,
+      height: mado.bounds.size.h,
+      left: mado.position.left,
+      top: mado.position.top,
       type: "popup"
     });
   }
