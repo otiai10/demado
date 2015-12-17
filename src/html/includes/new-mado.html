@@ -107,6 +107,7 @@
         <span ng-show="newmadoForm.h.$error.min" class="error">heightはマイナスを指定できません</span>
       </div>
       <div class="large-6 columns text-right">
+        <button ng-click="cancel()" class="button tiny secondary"><i class="fa fa-close"></i></button>
         <button ng-click="visible(newmado)" ng-disabled="!newmadoForm.$valid" class="button tiny success"><i class="fa fa-eye"></i></button>
         <button ng-click="commit(newmado)" ng-disabled="!newmadoForm.$valid" class="button tiny success"><i class="fa fa-check"></i></button>
       </div>

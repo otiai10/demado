@@ -9,6 +9,10 @@ angular.module("demado", []).controller("ConfigsController", ($scope) => {
   $scope.visibleTab = null;
   $scope.visibleWin = null;
 
+  $scope.cancel = () => {
+    $scope.newmado = new Mado(null, null);
+  };
+
   $scope.commit = (mado) => {
     MadoStore.local().set(mado).then((set) => {
       location.reload(); // FIXME
@@ -42,6 +46,7 @@ angular.module("demado", []).controller("ConfigsController", ($scope) => {
   };
 
   $scope.remove = (mado) => {
+    if (!window.confirm("この設定を削除しますか？\n\n" + mado.name)) return;
     MadoStore.local().remove(mado).then((removed) => {
       $scope.$apply(() => { delete $scope.list[removed.id()]; });
     });
