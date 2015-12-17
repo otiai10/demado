@@ -45,5 +45,6 @@ class Launcher {
     styles += "left:-"+bounds.offset.x+"px;";
     styles += "top:-"+bounds.offset.y+"px;";
     this.context.document.getElementsByTagName("body")[0].setAttribute("style", styles);
+    return Promise.resolve();
   }
 }
