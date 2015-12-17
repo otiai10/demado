@@ -26,6 +26,10 @@ angular.module("demado", []).controller("ConfigsController", ($scope) => {
     });
   };
 
+  $scope.launch = (mado) => {
+    Launcher.blank().launch(mado);
+  };
+
   $scope.edit = (mado) => {
     $scope.newmado = mado;
   };
