@@ -21,19 +21,19 @@ angular.module("demado", []).controller("ConfigsController", ($scope) => {
 
   $scope.visible = (mado) => {
     MadoStore.local().set(mado).then((set) => {
-      Launcher.blank().launch(mado).then((win) => {
-        if (!win.tabs || win.tabs.length == 0) return;
-        $scope.visibleTab = win.tabs[0];
-        $scope.visibleWin = win.id;
-        setInterval(() => {
-          Message.me().send("/page/onresize/draw", {tabID: $scope.visibleTab.id})
-          .then((res) => {
-            $scope.$apply(() => {
-              $scope.newmado.bounds.size = res.size;
-            });
-          }).catch((err) => {});
-        }, 2000);
-      });
+      return Launcher.blank().launch(mado);
+    }).then((win) => {
+      if (!win.tabs || win.tabs.length == 0) return;
+      $scope.visibleTab = win.tabs[0];
+      $scope.visibleWin = win.id;
+      setInterval(() => {
+        Message.me().send("/page/onresize/draw", {tabID: $scope.visibleTab.id})
+        .then((res) => {
+          $scope.$apply(() => {
+            $scope.newmado.bounds.size = res.size;
+          });
+        }).catch((err) => {});
+      }, 2000);
     });
   };
 
