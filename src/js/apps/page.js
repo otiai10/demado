@@ -13,8 +13,8 @@ TabMessage.listen((req, sender, res) => {
     console.log(screen);
     debugger;
     Message.me().send("/page/onresize", {
-      w: window.innerWidth * req.mado.zoom,
-      h: window.innerHeight * req.mado.zoom
+      w: Math.floor(window.innerWidth * req.mado.zoom),
+      h: Math.floor(window.innerHeight * req.mado.zoom)
     });
   };
 
@@ -26,5 +26,9 @@ TabMessage.listen((req, sender, res) => {
       top: window.screenY
     });
   }, 5 * 1000);
+
+  window.onbeforeunload = () => {
+    return "demadoからの確認です (๑˃̵ᴗ˂̵)و";
+  };
 
 });

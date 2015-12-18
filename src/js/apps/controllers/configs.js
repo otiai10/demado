@@ -73,13 +73,13 @@ angular.module("demado", []).controller("ConfigsController", ($scope) => {
     if (!$scope.visibleTab || !$scope.visibleWin) return;
 
     TabMessage.to($scope.visibleTab.id).send({
-      bounds: $scope.newmado.bounds
+      mado: $scope.newmado
     });
 
-    Launcher.chrome($scope.visibleWin).update({
-      width: $scope.newmado.bounds.size.w,
-      height: $scope.newmado.bounds.size.h
-    });
+    // Launcher.chrome($scope.visibleWin).update({
+    //   width: $scope.newmado.bounds.size.w,
+    //   height: $scope.newmado.bounds.size.h
+    // });
   };
 
   $scope.changeZoom = () => {
