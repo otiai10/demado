@@ -51,6 +51,14 @@ class Launcher {
       });
     });
   }
+  close() {
+    return new Promise((res) => {
+      if (!this.winID) return res();
+      this.mod.windows.remove(this.winID, () => {
+        res();
+      });
+    });
+  }
   static of(context) {
     return new this(context);
   }

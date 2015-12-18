@@ -14,7 +14,11 @@ angular.module("demado", []).controller("ConfigsController", ($scope) => {
   };
 
   $scope.commit = (mado) => {
-    MadoStore.local().set(mado).then((set) => {
+    Promise.resolve().then(() => {
+      return MadoStore.local().set(mado);
+    }).then((set) => {
+      return Launcher.chrome($scope.visibleWin).close();
+    }).then(() => {
       location.reload(); // FIXME
     });
   };
@@ -22,6 +26,11 @@ angular.module("demado", []).controller("ConfigsController", ($scope) => {
   $scope.visible = (mado) => {
     MadoStore.local().set(mado).then((set) => {
       return Launcher.blank().launch(mado);
+    }).then((win) => {
+      setTimeout(() => {
+        TabMessage.to(win.tabs[0].id).send({mado: mado});
+      }, 5000);
+      return Promise.resolve(win);
     }).then((win) => {
       if (!win.tabs || win.tabs.length == 0) return;
       $scope.visibleTab = win.tabs[0];
@@ -38,7 +47,11 @@ angular.module("demado", []).controller("ConfigsController", ($scope) => {
   };
 
   $scope.launch = (mado) => {
-    Launcher.blank().launch(mado);
+    Launcher.blank().launch(mado).then((win) => {
+      setTimeout(() => {
+        TabMessage.to(win.tabs[0].id).send({mado: mado});
+      }, 5000);
+    });
   };
 
   $scope.edit = (mado) => {
