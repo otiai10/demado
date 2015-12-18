@@ -7,7 +7,7 @@ class Server {
   static me() {
     return new this();
   }
-  listen(router) {
+  listenMessage(router) {
     this.mod.runtime.onMessage.addListener((req, sender, sendResponse) => {
       var controller = router.routes[req.path];
       if (!controller) controller = router.notfound;
