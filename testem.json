@@ -1,0 +1,12 @@
+{
+    "framework":"mocha+chai",
+    "before_tests":"",
+    "src_files":[],
+    "serve_files":[],
+    "launch_in_dev":[
+        "PhantomJS"
+    ],
+    "launch_in_ci":[
+        "PhantomJS"
+    ]
+}
