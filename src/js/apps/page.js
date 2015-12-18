@@ -11,8 +11,8 @@
   }).then(() => {
     window.onresize = (ev) => {
       Message.me().send("/page/onresize", {
-        w: window.innerWidth,
-        h: window.innerHeight
+        w: window.outerWidth,
+        h: window.outerHeight
       });
     };
     return Promise.resolve();
