@@ -4,9 +4,9 @@
   "version": "0.1.60",
   "description": "ブラゲーのランチャー",
   "permissions" : [
-    "tabs",
     "downloads",
-    "storage",
+    "tabs",
+    "<all_urls>",
     "activeTab"
   ],
   "icons" : {
@@ -19,13 +19,19 @@
   },
   "background": {
     "scripts":[
+      "src/js/config/constants.js",
       "src/js/infrastructure/server.js",
+      "src/js/infrastructure/capture.js",
+      "src/js/infrastructure/download.js",
+      "src/js/infrastructure/message.js",
       "src/js/server/controllers/mado-controller.js",
       "src/js/server/controllers/page-controller.js",
+      "src/js/server/controllers/capture-controller.js",
       "src/js/models/kvs.js",
       "src/js/models/bounds.js",
       "src/js/models/mado.js",
       "src/js/models/cache.js",
+      "src/js/models/config.js",
       "src/js/server/main.js"
     ]
   },
@@ -48,9 +54,11 @@
   "commands": {
     "capture": {
       "suggested_key": {
-        "default": "Ctrl+Shift+0"
+        "default": "Ctrl+Shift+S",
+        "mac": "Command+Shift+S",
+        "windows": "Ctrl+Shift+S"
       },
-      "description":"出窓のスクショ撮ります. Priscのインストールが必要です."
+      "description":"Priscでスクショします"
     }
   },
   "options_page" : "src/html/configs.html"

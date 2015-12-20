@@ -20,6 +20,9 @@ class Message {
   static me() {
     return new this(null);
   }
+  static to(extID) {
+    return new this(extID);
+  }
 }
 
 class TabMessage {

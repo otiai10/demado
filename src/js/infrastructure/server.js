@@ -15,6 +15,14 @@ class Server {
       return true;
     });
   }
+  listenCommand(router) {
+    this.mod.commands.onCommand.addListener((command) => {
+      var controller = router.routes[command];
+      if (!controller) controller = router.notfound;
+      controller({cmd:command}, {}, () => {});
+      // return true;
+    });
+  }
 }
 
 class Router {

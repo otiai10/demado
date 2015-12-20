@@ -6,3 +6,5 @@ node_modules/*
 bower_components/*
 .idea/*
 *.iml
+
+src/js/config/constants.js
