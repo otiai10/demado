@@ -21,13 +21,31 @@
   <div ng-controller="ConfigsController">
     <div class="row">
       <div class="large-12 columns">
-        <h1><i class="fa fa-cog"></i> config</h1>
+        <h1><i class="fa fa-cog"></i> mado config</h1>
       </div>
     </div>
     <div class="row">
       <div class="large-6 medium-6 small-12 columns" ng-repeat="mado in list" ng-include="'./includes/mado.html'"></div>
       <div class="large-6 medium-6 small-12 columns" ng-if="newmado.name == null && newmado.url == null" ng-include="'./includes/new-mado-button.html'"></div>
       <div class="large-6 medium-6 small-12 columns" ng-if="newmado.name != null && newmado.url != null" ng-include="'./includes/new-mado.html'"></div>
+    </div>
+
+    <div class="row">
+      <div class="large-12 columns">
+        <h1><i class="fa fa-cog"></i> general</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="large-12 columns" ng-include="'./includes/general-configs.html'"></div>
+    </div>
+
+    <div class="row">
+      <div class="large-12 columns">
+        <h1><i class="fa fa-question-circle"></i> help</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="large-12 columns" ng-include="'./includes/help.html'"></div>
     </div>
   </div>
 </body>
