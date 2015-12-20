@@ -27,8 +27,11 @@ TabMessage.listen((req, sender, res) => {
     });
   }, 5 * 1000);
 
-  window.onbeforeunload = () => {
-    return "demadoからの確認です (๑˃̵ᴗ˂̵)و";
-  };
+  ConfigStore.local().get("close-alert").then((use) => {
+    if (!use) return;
+    window.onbeforeunload = () => {
+      return "demadoからの確認です (๑˃̵ᴗ˂̵)و";
+    };
+  });
 
 });
