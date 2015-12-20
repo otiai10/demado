@@ -6,6 +6,13 @@ angular.module("demado", []).controller("ConfigsController", ($scope) => {
     $scope.$apply(() => { $scope.list = list });
   });
 
+  $scope.config = {};
+  ConfigStore.local().all().then((list) => {
+    for (var key in list) {
+      $scope.config[key.split("-").join("")] = list[key].value;
+    }
+  });
+
   $scope.visibleTab = null;
   $scope.visibleWin = null;
 
@@ -85,5 +92,10 @@ angular.module("demado", []).controller("ConfigsController", ($scope) => {
   $scope.changeZoom = () => {
     if (!$scope.visibleTab || !$scope.visibleWin) return;
     Launcher.chrome($scope.visibleWin).zoom($scope.newmado.zoom);
+  };
+
+  $scope.changeConfig = (key) => {
+    var value = $scope.config[key.split("-").join("")];
+    ConfigStore.local().set(key, value);
   };
 });

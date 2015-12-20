@@ -29,6 +29,7 @@
       "src/js/server/controllers/page-controller.js",
       "src/js/server/controllers/capture-controller.js",
       "src/js/server/controllers/mute-controller.js",
+      "src/js/server/controllers/config-controller.js",
       "src/js/models/kvs.js",
       "src/js/models/bounds.js",
       "src/js/models/mado.js",

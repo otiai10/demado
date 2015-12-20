@@ -20,4 +20,7 @@ class ConfigStore extends KVS {
   static local() {
     return new this(window.localStorage);
   }
+  set(key, value) {
+    return super.set(new Config(key, value));
+  }
 }

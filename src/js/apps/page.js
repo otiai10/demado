@@ -27,11 +27,12 @@ TabMessage.listen((req, sender, res) => {
     });
   }, 5 * 1000);
 
-  ConfigStore.local().get("close-alert").then((use) => {
-    if (!use) return;
-    window.onbeforeunload = () => {
-      return "demadoからの確認です (๑˃̵ᴗ˂̵)و";
-    };
+  Message.me().send("/config", {key: "close-alert"}).then((res) => {
+    if (res.config && res.config.value == true) {
+      window.onbeforeunload = () => {
+        return "demadoからの確認です (๑˃̵ᴗ˂̵)و";
+      };
+    }
   });
 
 });

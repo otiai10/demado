@@ -3,7 +3,11 @@
 
     <tr class="row">
       <th class="small-4 columns">
-        <input type="checkbox" id="use-prisc">
+        <input
+          id="use-prisc"
+          type="checkbox"
+          ng-model="config.useprisc"
+          ng-change="changeConfig('use-prisc')">
         <label for="use-prisc"><strong>Priscを使う</strong></label>
       </th>
       <td class="small-8 columns">
@@ -14,7 +18,11 @@
 
     <tr class="row">
       <th class="small-4 columns">
-        <input type="checkbox" id="close-alert">
+        <input
+          id="close-alert"
+          type="checkbox"
+          ng-model="config.closealert"
+          ng-change="changeConfig('close-alert')">
         <label for="close-alert"><strong>閉じるときに確認アラート</strong></label>
       </th>
       <td class="small-8 columns">
