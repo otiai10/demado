@@ -68,6 +68,22 @@ class Launcher {
   static chrome(winID) {
     return new this(null, winID);
   }
+  getCurrentWindow() {
+    return new Promise((res) => {
+      this.mod.windows.getCurrent({populate:true}, (win) => {
+        res(win);
+      });
+    });
+  }
+  static toggleMute(tabID, mod) {
+    mod = mod || chrome;
+    return new Promise((resolve, reject) => {
+      mod.tabs.get(tabID, (tab) => {
+        if (!tab) return reject();
+        mod.tabs.update(tab.id, {muted: !tab.mutedInfo.muted});
+      });
+    });
+  }
   modify(bounds) {
     var styles = this.context.document.getElementsByTagName("body")[0].getAttribute("style") || "";
     styles += "position:fixed;";

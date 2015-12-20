@@ -24,9 +24,11 @@
       "src/js/infrastructure/capture.js",
       "src/js/infrastructure/download.js",
       "src/js/infrastructure/message.js",
+      "src/js/infrastructure/launcher.js",
       "src/js/server/controllers/mado-controller.js",
       "src/js/server/controllers/page-controller.js",
       "src/js/server/controllers/capture-controller.js",
+      "src/js/server/controllers/mute-controller.js",
       "src/js/models/kvs.js",
       "src/js/models/bounds.js",
       "src/js/models/mado.js",
@@ -59,6 +61,14 @@
         "windows": "Ctrl+Shift+S"
       },
       "description":"Priscでスクショします"
+    },
+    "mute": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+M",
+        "mac": "Command+Shift+M",
+        "windows": "Ctrl+Shift+M"
+      },
+      "description":"ミュートします"
     }
   },
   "options_page" : "src/html/configs.html"

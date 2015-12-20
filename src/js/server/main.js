@@ -10,5 +10,6 @@
 
   var c = new Router();
   c.handle("capture", CaptureController.GetCapture);
+  c.handle("mute", MuteController.ToggleMuted);
   Server.me().listenCommand(c);
 })();
