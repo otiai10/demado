@@ -69,7 +69,7 @@ angular.module("demado", []).controller("ConfigsController", ($scope) => {
     }).then((win) => {
       setTimeout(() => {
         TabMessage.to(win.tabs[0].id).send({mado: mado});
-      }, 5000);
+      }, 2000);
       return Promise.resolve(win);
     }).then((win) => {
       if (!win.tabs || win.tabs.length == 0) return;
