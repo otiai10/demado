@@ -4,7 +4,40 @@ angular.module("demado", []).controller("ConfigsController", ($scope) => {
   $scope.newmado = new Mado(null, null);
   MadoStore.local().all().then((list) => {
     $scope.$apply(() => { $scope.list = list });
+    return Promise.resolve();
+  }).then(() => {
+    return Storage.local().get("games");
+  }).then((store) => {
+    if (!store.games) return Promise.reject("古いのもうない");
+    return Promise.resolve(store.games);
+  }).then((games) => {
+    for (var key in games) {
+      var mado = Mado.createFromLegacy(games[key]);
+      if (mado) $scope.list[mado.id()] = mado;
+    }
+    return Promise.resolve($scope.list);
+  }).then((mados) => {
+    return MadoStore.local().overwriteAll(mados);
+  }).then((mados) => {
+    if (window.confirm(confirmMessage(mados))) return Promise.resolve();
+    return Promise.reject("そうじしない");
+  }).then(() => {
+    return Storage.local().clear();
+  }).then(() => {
+    console.log("きれいきれい");
+  }).catch((err) => {
+    console.log("demado.storage", err);
   });
+
+  var confirmMessage = (mados) => {
+    var msg = "リニューアル前の以下の設定をロードしました.\n\n";
+    for (var key in mados) {
+      msg += "・" + mados[key].name + "\n";
+    }
+    msg += "\n古い設定を削除しますか？\n";
+    msg += "（削除しない場合、毎回この確認ダイアログが出ます）";
+    return msg;
+  };
 
   $scope.config = {};
   ConfigStore.local().all().then((list) => {

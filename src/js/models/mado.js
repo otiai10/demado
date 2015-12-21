@@ -28,6 +28,17 @@ class Mado {
     mado.zoom = obj.zoom || 1;
     return mado;
   }
+  static createFromLegacy(obj) {
+    try {
+      var mado = new Mado(obj.url, obj.name);
+      mado.position = new Position(parseInt(obj.widget.position.left), parseInt(obj.widget.position.top));
+      mado.bounds = new Bounds(
+        parseInt(obj.widget.offset.left), parseInt(obj.widget.offset.top),
+        parseInt(obj.widget.size.width), parseInt(obj.widget.size.height)
+      );
+      return mado;
+    } catch (e) { /* nice catch!! */ }
+  }
 }
 
 class MadoStore extends KVS {

@@ -49,4 +49,10 @@ class KVS {
       }).catch((err) => { return reject(err); });
     });
   }
+  overwriteAll(all) {
+    return new Promise((resolve, reject) => {
+      this.storage.setItem(this.namespace, JSON.stringify(all));
+      resolve(all);
+    }).catch((err) => { return reject(err); });
+  }
 }
