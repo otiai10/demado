@@ -1,0 +1,8 @@
+#!/bin/sh
+
+rm -rf ./app
+mkdir -p ./app
+cp -r ./src ./app/
+cp manifest.json ./app
+
+zip -r demado.zip app/*

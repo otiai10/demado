@@ -1,6 +1,4 @@
-build/*
-compiled/*
-release/*
+app/*
 *.zip
 node_modules/*
 bower_components/*
