@@ -1,6 +1,9 @@
 "use strict";
 
 angular.module("demado", []).controller("ConfigsController", ($scope) => {
+
+  $scope.appDetails = chrome.app.getDetails();
+
   $scope.newmado = new Mado(null, null);
   MadoStore.local().all().then((list) => {
     $scope.$apply(() => { $scope.list = list });
