@@ -3,6 +3,7 @@
 (() => {
   var m = new Router();
   m.handle("/mado/list", MadoController.GetList);
+  m.handle("/mado/launch", MadoController.Launch);
   m.handle("/page/onresize", PageController.SaveTempSize);
   m.handle("/page/onresize/draw", PageController.GetTempSize);
   m.handle("/page/positiontracking", PageController.PositionTracking);

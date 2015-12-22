@@ -14,4 +14,14 @@ class MadoController {
       });
     });
   }
+  static Launch(req, sender, sendResponse) {
+    Launcher.blank().launch(req.mado).then((win) => {
+      setTimeout(() => {
+        TabMessage.to(win.tabs[0].id).send({mado: req.mado});
+      }, 1000);
+      sendResponse({status:"ok", win: win});
+    }).catch((err) => {
+      sendResponse({status:"intenal", error: err});
+    })
+  }
 }

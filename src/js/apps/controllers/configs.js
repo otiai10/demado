@@ -65,12 +65,9 @@ angular.module("demado", []).controller("ConfigsController", ($scope) => {
 
   $scope.visible = (mado) => {
     MadoStore.local().set(mado).then((set) => {
-      return Launcher.blank().launch(mado);
-    }).then((win) => {
-      setTimeout(() => {
-        TabMessage.to(win.tabs[0].id).send({mado: mado});
-      }, 2000);
-      return Promise.resolve(win);
+      return Message.me().send("/mado/launch", {mado:mado});
+    }).then((res) => {
+      return Promise.resolve(res.win);
     }).then((win) => {
       if (!win.tabs || win.tabs.length == 0) return;
       $scope.visibleTab = win.tabs[0];
@@ -87,11 +84,7 @@ angular.module("demado", []).controller("ConfigsController", ($scope) => {
   };
 
   $scope.launch = (mado) => {
-    Launcher.blank().launch(mado).then((win) => {
-      setTimeout(() => {
-        TabMessage.to(win.tabs[0].id).send({mado: mado});
-      }, 5000);
-    });
+    Message.me().send("/mado/launch", {mado:mado});
   };
 
   $scope.edit = (mado) => {

@@ -10,8 +10,6 @@ TabMessage.listen((req, sender, res) => {
 
   // send onresize tracking for visible config
   window.onresize = (ev) => {
-    console.log(screen);
-    debugger;
     Message.me().send("/page/onresize", {
       w: Math.floor(window.innerWidth * req.mado.zoom),
       h: Math.floor(window.innerHeight * req.mado.zoom)
