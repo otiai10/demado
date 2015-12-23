@@ -1,7 +1,19 @@
 {
   "name": "demado",
   "version": "0.0.1",
-  "scripts" : {
-      "test" : "testem ci"
-  }
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/otiai10/demado"
+  },
+  "engine": {
+    "node": "5.0.0"
+  },
+  "devDependencies": {
+    "coffee-script": "^1.10.0",
+    "gulp-typescript": "2.10.0"
+  },
+  "scripts": {
+    "test": "testem ci"
+  },
+  "license": "MIT"
 }
