@@ -12,7 +12,8 @@ TabMessage.listen((req, sender, res) => {
   window.onresize = (ev) => {
     Message.me().send("/page/onresize", {
       w: Math.floor(window.innerWidth * req.mado.zoom),
-      h: Math.floor(window.innerHeight * req.mado.zoom)
+      h: Math.floor(window.innerHeight * req.mado.zoom),
+      isWindows: (window.navigator.userAgent.indexOf("Win") > 0)
     });
   };
 

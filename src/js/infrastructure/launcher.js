@@ -108,6 +108,13 @@ class Launcher {
       });
     });
   }
+  getWindow() {
+    return new Promise((res) => {
+      this.mod.windows.get(this.winID, (win) => {
+        res(win);
+      });
+    });
+  }
   static toggleMute(tabID, mod) {
     mod = mod || chrome;
     return new Promise((resolve, reject) => {

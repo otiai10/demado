@@ -11,10 +11,11 @@ class Cache {
     _registry[key] = {
       value: value,
       expire: expire,
-      id: (setTimeout(() => {
+      id: setTimeout(() => {
         delete _registry[key];
-      }, expire * 1000))
+      }, expire * 1000)
     };
+    return Promise.resolve(Object.create(_registry[key]));
   }
   static get(key) {
     if (!_registry[key]) return;
