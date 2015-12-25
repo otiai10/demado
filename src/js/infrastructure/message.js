@@ -41,8 +41,21 @@ class TabMessage {
   static to(tabID) {
     return new this(tabID);
   }
-  static listen(cb, mod) {
+  static listen(listener, mod) {
     mod = mod || chrome;
-    mod.runtime.onMessage.addListener(cb);
+    mod.runtime.onMessage.addListener((req, sender, sendResponse) => {
+      listener(req, sender, sendResponse);
+      return true;
+    });
+  }
+  static onMessage(mod) {
+    mod = mod || chrome;
+    return new Promise((resolve) => {
+      mod.runtime.onMessage.addListener((req, sender, sendResponse) => {
+        req.sender = sender;
+        req.response = sendResponse;
+        resolve(req);
+      });
+    });
   }
 }

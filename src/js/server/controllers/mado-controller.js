@@ -16,10 +16,16 @@ class MadoController {
   }
   static Launch(req, sender, sendResponse) {
     Launcher.blank().launch(req.mado).then((win) => {
-      console.log("[launch]", win, req.mado);
-      setTimeout(() => {
-        TabMessage.to(win.tabs[0].id).send({mado: req.mado});
+      var tabID = win.tabs[0].id;
+      var id = setInterval(() => {
+        TabMessage.to(tabID).send({mado: req.mado}).then((res) => {
+          if (res && res.status == "ok" && res.count > 10) {
+            console.log("[launch ok]", "tab", tabID, "interval", id);
+            clearInterval(id);
+          }
+        });
       }, 2000);
+      console.log("[launching]", "tab", tabID, "interval", id);
       sendResponse({status:"ok", win: win});
     }).catch((err) => {
       sendResponse({status:"intenal", error: err});

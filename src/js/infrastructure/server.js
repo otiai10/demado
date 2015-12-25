@@ -34,7 +34,7 @@ class Router {
   }
   notfound(req, sender, sendResponse) {
     sendResponse({
-      status: "not found"
+      status: "not found (router)"
     });
   }
 }

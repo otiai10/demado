@@ -15,7 +15,7 @@ class PageController {
   }
   static GetTempSize(req, sender, sendResponse) {
     var size = Cache.draw("pagesize."+req.tabID);
-    if (!size) return sendResponse({msg:"not found"});
+    if (!size) return sendResponse({status:"no cache"});
     sendResponse({
       status:"ok",
       size: size
