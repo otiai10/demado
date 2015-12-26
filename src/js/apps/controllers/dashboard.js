@@ -59,6 +59,10 @@ angular.module("demado", []).controller("DashboardController", ($scope) => {
     });
   };
 
+  $scope.capture = (mado) => {
+    Message.me().send("/mado/capture", {tab: mado.tabID, win: mado.winID});
+  };
+
   // TODO: infrastructure
   chrome.tabs.onRemoved.addListener((tabID) => {
     for (var key in $scope.mados) {

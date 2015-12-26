@@ -8,6 +8,8 @@
 
       <i ng-class="(mado.muted) ? 'fa fa-volume-off' : 'fa fa-volume-up'" class="clickable" ng-click="toggleMute(mado)" style="font-size:1.2em;margin-right:1em;"></i>
 
+      <i ng-if="mado.launched" class="clickable fa fa-camera" ng-click="capture(mado)" style="font-size:1.2em;margin-right:1em;"></i>
+
     </fieldset>
   </div>
 </div>
