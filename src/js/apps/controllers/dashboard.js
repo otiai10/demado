@@ -6,7 +6,7 @@ angular.module("demado", []).controller("DashboardController", ($scope) => {
     return Promise.resolve(list);
   }).then((list) => {
     var tasks = [];
-    for (var key in list) {
+    for (let key in list) {
       tasks.push(new Promise((resolve) => {
         Launcher.find({url:list[key].url + "*"}).then((tab) => {
           list[key].launched = true;
