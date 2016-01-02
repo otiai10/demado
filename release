@@ -1,8 +1,19 @@
 #!/bin/sh
 
-rm -rf ./app
-mkdir -p ./app
-cp -r ./src ./app/
-cp manifest.json ./app
+function version() {
+    head -n 1 CHANGELOG.md
+    head -n 4 manifest.json | tail -n 1
+}
 
-zip -r demado.zip app/*
+function build() {
+    rm -rf ./app
+    mkdir -p ./app
+    cp -r ./src ./app/
+    cp manifest.json ./app
+
+    zip -r demado.zip app/* 1>/dev/null 2>&1
+}
+
+build
+
+version
