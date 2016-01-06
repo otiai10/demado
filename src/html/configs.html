@@ -29,7 +29,7 @@
     <div class="row">
       <div class="large-6 medium-6 small-12 columns" ng-repeat="mado in list" ng-include="'./includes/mado.html'"></div>
       <div class="large-6 medium-6 small-12 columns" ng-if="newmado.name == null && newmado.url == null" ng-include="'./includes/new-mado-button.html'"></div>
-      <div class="large-6 medium-6 small-12 columns" ng-if="newmado.name != null && newmado.url != null" ng-include="'./includes/new-mado.html'"></div>
+      <div class="large-6 medium-6 small-12 columns" ng-if="newmado.name != null || newmado.url != null" ng-include="'./includes/new-mado.html'"></div>
     </div>
 
     <div class="row">
