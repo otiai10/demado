@@ -23,6 +23,14 @@ class Server {
       // return true;
     });
   }
+  listenExternalMessage(router) {
+    this.mod.runtime.onMessageExternal.addListener((req, sender, sendResponse) => {
+      var controller = router.routes[req.path];
+      if (!controller) controller = router.notfound;
+      controller(req, sender, sendResponse);
+      return true;
+    });
+  }
 }
 
 class Router {

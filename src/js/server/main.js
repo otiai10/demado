@@ -16,4 +16,8 @@
   c.handle("capture", CaptureController.GetCapture);
   c.handle("mute", MuteController.ToggleMuted);
   Server.me().listenCommand(c);
+
+  var exRouter = new Router();
+  exRouter.handle("/mado/launch/external", MadoController.ExternalLaunch);
+  Server.me().listenExternalMessage(exRouter);
 })();

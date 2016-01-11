@@ -31,6 +31,28 @@ class MadoController {
       sendResponse({status:"intenal", error: err});
     })
   }
+  static ExternalLaunch(req, sender, sendResponse) {
+    MadoStore.local().all().then((list) => {
+      for (let key in list) {
+        if (req.url.match(list[key].url)) return Promise.resolve(list[key]);
+      }
+      return Promise.reject("not found in demado config");
+    }).then((mado) => {
+      req.mado = mado;
+      mado.url = req.url; // ここで開くURLをリクエストURLに変える
+      return Launcher.blank().launch(mado);
+    }).then((win) => {
+      sendResponse({
+        status: "ok",
+        mado: req.mado
+      });
+    }).catch((err) => {
+      sendResponse({
+        status: "error",
+        message: err
+      });
+    });
+  }
   static Capture(req, sender, sendResponse) {
     if (!req.win) return sendResponse({status:"missing arg `win`"});
     Capture.window(req.win).photo().then((res) => {
