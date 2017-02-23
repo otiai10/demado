@@ -1,19 +1,43 @@
 {
   "name": "demado",
-  "version": "0.0.1",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/otiai10/demado"
-  },
+  "version": "0.3",
   "engine": {
-    "node": "5.0.0"
+    "node": "7.5"
   },
+  "repository": "https://github.com/otiai10/demado",
   "devDependencies": {
-    "coffee-script": "^1.10.0",
-    "gulp-typescript": "2.10.0"
+    "babel-loader": "^6.3.2",
+    "bulma": "^0.3.1",
+    "chomex": "*",
+    "css-loader": "^0.26.1",
+    "eslint": "^3.16.1",
+    "eslint-plugin-react": "^6.10.0",
+    "node-sass": "^4.5.0",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "sass-loader": "^6.0.2",
+    "scss-loader": "0.0.1",
+    "style-loader": "^0.13.1",
+    "webpack": "^2.2.1"
   },
   "scripts": {
-    "test": "testem ci"
+    "test": "jest tests",
+    "refresh": "rm -rf dest && mkdir dest && cp manifest.json dest && cp -r src/html dest/html && cp -r src/css dest/css && webpack",
+    "start": "yarn run refresh && webpack --watch"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "babel-core": "6.0",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-react": "^6.23.0",
+    "babel-preset-stage-0": "^6.22.0",
+    "bulma": "^0.3.1",
+    "jest-cli": "^19.0.2"
+  },
+  "main": "src/js/entrypoints/background.js",
+  "author": "otiai10 <otiai10@gmail.com>",
+  "jest": {
+    "verbose": true,
+    "testRegex": "tests/.*\\.js$"
+  }
 }
