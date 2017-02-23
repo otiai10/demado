@@ -1,7 +1,8 @@
 module.exports = {
   "env": {
     "es6": true,
-    "node": true
+    "node": true,
+    "browser": true
   },
   "extends": ["eslint:recommended", "plugin:react/recommended"],
   "parserOptions": {
@@ -15,6 +16,7 @@ module.exports = {
     "react"
   ],
   "rules": {
+    "no-console": 0,
     "indent": [
       "error",
       2
@@ -31,5 +33,5 @@ module.exports = {
       "error",
       "always"
     ]
-  }
+  },
 };

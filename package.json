@@ -23,7 +23,7 @@
   "scripts": {
     "test": "jest tests",
     "refresh": "rm -rf dest && mkdir dest && cp manifest.json dest && cp -r src/html dest/html && cp -r src/css dest/css && webpack",
-    "start": "yarn run refresh && webpack --watch"
+    "start": "yarn run refresh && webpack --watch --progress"
   },
   "license": "MIT",
   "dependencies": {
@@ -32,6 +32,7 @@
     "babel-preset-react": "^6.23.0",
     "babel-preset-stage-0": "^6.22.0",
     "bulma": "^0.3.1",
+    "classnames": "^2.2.5",
     "jest-cli": "^19.0.2"
   },
   "main": "src/js/entrypoints/background.js",

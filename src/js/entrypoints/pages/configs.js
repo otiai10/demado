@@ -5,7 +5,9 @@ import ReactDOM from 'react-dom';
 // CSS
 import 'bulma';
 
+import ConfigsView from '../../components/container/configs';
+
 ReactDOM.render(
-  <h1>ここに設定ファイルを書く</h1>,
+  <ConfigsView />,
   document.querySelector('main#app')
 );
