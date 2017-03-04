@@ -74,10 +74,39 @@ export default class ConfigsView extends Component {
       </div>
     );
   }
+
+  getMadoTiles() {
+    const color = (id) => {
+      switch(id % 4) {
+      case 0: return 'is-primary';
+      case 1: return 'is-info';
+      case 2: return 'is-success';
+      case 3: return 'is-warning';
+      }
+    };
+    return Mado.list().map(mado => {
+      return (
+        <div className="column" key={mado._id}>
+          <div className={cn('message', color(mado._id))}>
+            <div className="message-header">
+              <h1>{mado.name}</h1>
+            </div>
+            <div className="message-body">
+              <a>{mado.url}</a>
+            </div>
+          </div>
+        </div>
+      );
+    });
+  }
+
   render() {
     return (
       <section className="section">
         <h1 className="title">demadoの設定</h1>
+        <div className="columns is-multiline">
+          {this.getMadoTiles()}
+        </div>
         {this.getModal()}
       </section>
     );
