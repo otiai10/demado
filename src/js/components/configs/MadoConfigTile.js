@@ -57,8 +57,6 @@ export default class MadoConfigTile extends Component {
                   value={this.state.mado.size.height}
                   onChange={val => this.onSizeChanged('height', val)}
                 />
-            </div>
-            <div className="columns is-mobile">
               <NumberInput
                   className={this._color()}
                   label="offset:left"
