@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import Mado from '../models/Mado';
 import cn from 'classnames';
 
+import MadoConfigTile from '../components/configs/MadoConfigTile';
+
 export default class ConfigsView extends Component {
   constructor(props) {
     super(props);
@@ -22,7 +24,7 @@ export default class ConfigsView extends Component {
   _applyOldStorage() {
     const old = this._getOldStorage();
     if (!old) return;
-    this.setState({modal:
+    this.setState({modal: (
       <div className="modal-card">
         <header className="modal-card-head">
           <p className="modal-card-title">古い設定が見つかりました</p>
@@ -39,7 +41,7 @@ export default class ConfigsView extends Component {
           <a className="button" onClick={() => this.setState({modal:null})}>いまはしない</a>
         </footer>
       </div>
-    });
+    )});
   }
   onClickImport(old) {
     Object.keys(old).map(key => old[key]).map(m => {
@@ -76,28 +78,7 @@ export default class ConfigsView extends Component {
   }
 
   getMadoTiles() {
-    const color = (id) => {
-      switch(id % 4) {
-      case 0: return 'is-primary';
-      case 1: return 'is-info';
-      case 2: return 'is-success';
-      case 3: return 'is-warning';
-      }
-    };
-    return Mado.list().map(mado => {
-      return (
-        <div className="column" key={mado._id}>
-          <div className={cn('message', color(mado._id))}>
-            <div className="message-header">
-              <h1>{mado.name}</h1>
-            </div>
-            <div className="message-body">
-              <a>{mado.url}</a>
-            </div>
-          </div>
-        </div>
-      );
-    });
+    return Mado.list().map(mado => <MadoConfigTile mado={mado} key={mado._id} />);
   }
 
   render() {

@@ -33,6 +33,10 @@ module.exports = {
     "semi": [
       "error",
       "always"
+    ],
+    "react/jsx-indent": [
+      "error",
+      2
     ]
   },
 };
