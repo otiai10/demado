@@ -6,6 +6,7 @@
   },
   "repository": "https://github.com/otiai10/demado",
   "devDependencies": {
+    "babel-eslint": "^7.1.1",
     "babel-loader": "^6.3.2",
     "bulma": "^0.3.1",
     "chomex": "^0.0.70",

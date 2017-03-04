@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import Mado from '../models/Mado';
 import cn from 'classnames';
 
 export default class ConfigsView extends Component {
@@ -14,12 +15,9 @@ export default class ConfigsView extends Component {
     this._applyOldStorage();
   }
   _getOldStorage() {
-    // {{{ XXX: Debug
-    const dummy_old_database = '{"https://ponpon-pa.in/":{"url":"https://ponpon-pa.in/","name":"ポンペ","bounds":{"offset":{"x":10,"y":0},"size":{"w":485,"h":375}},"position":{"left":3,"top":23},"zoom":1},"http://game.granbluefantasy.jp/#mypage":{"url":"http://game.granbluefantasy.jp/#mypage","name":"グラブル","bounds":{"offset":{"x":0,"y":0},"size":{"w":640,"h":855}},"position":{"left":442,"top":23},"zoom":1},"http://www.dmm.com/netgame/social/-/gadgets/=/app_id=750145/":{"url":"http://www.dmm.com/netgame/social/-/gadgets/=/app_id=750145/","name":"ガールズシンフォニー","bounds":{"offset":{"x":0,"y":0},"size":{"w":1300,"h":738}},"position":{"left":37,"top":62},"zoom":1}}';
-    // }}}
     const str = window.localStorage.getItem('demado.app');
     if (str) return JSON.parse(str);
-    else return JSON.parse(dummy_old_database);
+    else return null;
   }
   _applyOldStorage() {
     const old = this._getOldStorage();
@@ -36,12 +34,35 @@ export default class ConfigsView extends Component {
           })}</ul>
         </section>
         <footer className="modal-card-foot">
-          <a className="button is-success">インポートする</a>
+          <a className="button is-success" onClick={() => this.onClickImport(old)}>インポートする</a>
           <a className="button is-danger">削除しちゃう</a>
           <a className="button" onClick={() => this.setState({modal:null})}>いまはしない</a>
         </footer>
       </div>
     });
+  }
+  onClickImport(old) {
+    Object.keys(old).map(key => old[key]).map(m => {
+      let mado = Mado.new({
+        url:  m.url,
+        name: m.name,
+        size: {
+          width:  m.bounds.size.w,
+          height: m.bounds.size.h,
+        },
+        offset: {
+          left: m.bounds.offset.x,
+          top:  m.bounds.offset.y,
+        },
+        position: {
+          x: m.position.left,
+          y: m.position.top,
+        },
+        zoom: m.zoom,
+      });
+      mado.save();
+    });
+    window.localStorage.removeItem('demado.app');
   }
   // }}}
 
