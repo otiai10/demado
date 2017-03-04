@@ -81,10 +81,19 @@ export default class ConfigsView extends Component {
     return Mado.list().map(mado => <MadoConfigTile mado={mado} key={mado._id} />);
   }
 
+  getPlusIcon() {
+    return (
+      <span
+        style={{cursor:'pointer'}}
+        onClick={() => alert('ここでモーダルを出す')}
+      >＋</span>
+    );
+  }
+
   render() {
     return (
       <section className="section">
-        <h1 className="title">demadoの設定</h1>
+        <h1 className="title">demadoの設定 {this.getPlusIcon()}</h1>
         <div className="columns is-multiline">
           {this.getMadoTiles()}
         </div>

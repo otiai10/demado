@@ -10,7 +10,7 @@
     "babel-loader": "^6.3.2",
     "bulma": "^0.3.1",
     "chomex": "^0.0.70",
-    "css-loader": "^0.26.1",
+    "css-loader": "^0.26.2",
     "eslint": "^3.16.1",
     "eslint-plugin-react": "^6.10.0",
     "node-sass": "^4.5.0",
@@ -34,7 +34,9 @@
     "babel-preset-stage-0": "^6.22.0",
     "bulma": "^0.3.1",
     "classnames": "^2.2.5",
-    "jest-cli": "^19.0.2"
+    "font-awesome": "^4.7.0",
+    "jest-cli": "^19.0.2",
+    "url-loader": "^0.5.8"
   },
   "main": "src/js/entrypoints/background.js",
   "author": "otiai10 <otiai10@gmail.com>",

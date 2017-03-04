@@ -9,8 +9,9 @@ module.exports = {
   },
   module: {
     loaders: [
-      {test: /\.js$/,  loaders: ['babel-loader']},
-      {test: /\.sass$/,loaders: ['style-loader', 'css-loader', 'sass-loader']}
+      {test: /\.js$/,loaders: ['babel-loader']},
+      {test: /\.(sa|c)ss$/,loaders: ['style-loader', 'css-loader', 'sass-loader']},
+      {test: /\.(eot|woff|woff2|ttf|svg)$/,loaders:['url-loader']},
     ]
   },
   resolve: {
