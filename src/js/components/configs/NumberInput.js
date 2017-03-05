@@ -18,7 +18,9 @@ export default class NumberInput extends Component {
   static propTypes = {
     label:     PropTypes.string.isRequired,
     value:     PropTypes.number.isRequired,
-    className: PropTypes.string,
+    className: PropTypes.oneOfType([
+      PropTypes.string, PropTypes.arrayOf(PropTypes.string)
+    ]),
     onChange:  PropTypes.func.isRequired,
   }
 }

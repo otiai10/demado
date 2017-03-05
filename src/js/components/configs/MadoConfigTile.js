@@ -70,6 +70,21 @@ export default class MadoConfigTile extends Component {
                   onChange={val => this.onOffsetChanged('top', val)}
                 />
             </div>
+            <div className="columns is-mobile">
+              <NumberInput
+                className={[this._color(), 'is-4']}
+                label="zoom"
+                value={this.state.mado.zoom}
+                onChange={val => console.log(val)}
+                />
+              <div className="column is-8">
+                <label className="label">position</label>
+                <div style={{display:'flex'}}>
+                  <span style={{flex:1}}>x: {this.state.mado.position.x}</span>
+                  <span style={{flex:1}}>y: {this.state.mado.position.y}</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
