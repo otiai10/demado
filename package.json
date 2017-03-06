@@ -36,6 +36,7 @@
     "classnames": "^2.2.5",
     "font-awesome": "^4.7.0",
     "jest-cli": "^19.0.2",
+    "react-bulma-stepper": "^1.0.0",
     "url-loader": "^0.5.8"
   },
   "main": "src/js/entrypoints/background.js",

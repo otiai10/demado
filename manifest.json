@@ -15,6 +15,12 @@
       "js/background.js"
     ]
   },
+  "content_scripts": [
+    {
+      "matches": ["*://*/*"],
+      "js": ["/js/content_script.js"]
+    }
+  ],
   "commands": {
     "capture": {
       "suggested_key": {

@@ -1,8 +1,9 @@
 
 module.exports = {
   entry: {
-    background: './src/js/entrypoints/background.js',
-    configs:    './src/js/entrypoints/pages/configs.js',
+    background:     './src/js/entrypoints/background.js',
+    content_script: './src/js/entrypoints/content_script.js',
+    configs:        './src/js/entrypoints/pages/configs.js',
   },
   output: {
     filename: './dest/js/[name].js',

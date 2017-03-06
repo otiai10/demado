@@ -1,8 +1,12 @@
 import React, {Component} from 'react';
-import Mado from '../models/Mado';
+
+import {Client} from 'chomex';
+
 import cn from 'classnames';
 
-import MadoConfigTile from '../components/configs/MadoConfigTile';
+import Mado from '../models/Mado';
+import MadoConfigTile         from '../components/configs/MadoConfigTile';
+import NewMadoConfigureDialog from '../components/configs/NewMadoConfigureDialog';
 
 export default class ConfigsView extends Component {
   constructor(props) {
@@ -10,6 +14,7 @@ export default class ConfigsView extends Component {
     this.state = {
       modal: null,
     };
+    this.client = new Client(chrome.runtime);
   }
 
   // {{{ TODO: このへんマジで後方互換性のためだけのものなのでほとぼりが冷めたら消す
@@ -77,6 +82,15 @@ export default class ConfigsView extends Component {
     );
   }
 
+  getNewMadoModal() {
+    return (
+      <NewMadoConfigureDialog
+        client={this.client}
+        close={() => this.setState({modal:null})}
+      />
+    );
+  }
+
   getMadoTiles() {
     return Mado.list().map(mado => <MadoConfigTile mado={mado} key={mado._id} />);
   }
@@ -85,7 +99,7 @@ export default class ConfigsView extends Component {
     return (
       <span
         style={{cursor:'pointer'}}
-        onClick={() => alert('ここでモーダルを出す')}
+        onClick={() => this.setState({modal: this.getNewMadoModal()})}
       >＋</span>
     );
   }

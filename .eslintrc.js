@@ -39,4 +39,7 @@ module.exports = {
       2
     ]
   },
+  "globals": {
+    "chrome": false,
+  }
 };
