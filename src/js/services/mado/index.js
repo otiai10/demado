@@ -1,20 +1,20 @@
 
 export class MadoConfigureManager {
   static instance = null;
-  static sharedInstance(opt = {}) {
+  static sharedInstance() {
     if (this.instance == null) {
-      this.instance = new this(opt);
+      this.instance = new this();
     }
     return this.instance;
   }
-  constructor(opt = {}) {
-    this.url      = opt.url      || '';
-    this.position = opt.position || {x: 10, y: 10};
-    this.size     = opt.size     || {width: 800, height: 480};
-    // empty
-    this.target   = {};
+  constructor() {
+    this.target = {};
   }
-  open() {
+  open(opt) {
+    this.url      = opt.url      || '';
+    this.position = opt.position || {x: 100, y: 100};
+    this.size     = opt.size     || {width: 520, height: 360};
+
     return (new Promise((resolve, reject) => {
       chrome.tabs.query({
         url: this.url,
@@ -40,7 +40,6 @@ export class MadoConfigureManager {
     });
   }
   hasTarget(tabId) {
-    console.log('hasTarget', this.target, tabId);
     return this.target && this.target.id == tabId;
   }
 }

@@ -1,8 +1,7 @@
 import {MadoConfigureManager} from '../../services/mado';
 
-export function MadoConfigure(message) {
-  let configurer = MadoConfigureManager.sharedInstance(message);
-  return configurer.open();
+export function MadoConfigure({url}) {
+  return MadoConfigureManager.sharedInstance().open({url});
 }
 
 export function MadoShouldDecorate() {
