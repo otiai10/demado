@@ -1,8 +1,6 @@
 import React, {Component,PropTypes} from 'react';
 import cn from 'classnames';
 
-import NumberInput from './NumberInput';
-
 export default class MadoConfigTile extends Component {
 
   constructor(props) {
@@ -32,59 +30,41 @@ export default class MadoConfigTile extends Component {
   }
 
   render() {
+    const mado = this.state.mado;
     return (
-      <div className="column" key={this.state.mado._id}>
+      <div className="column" key={mado._id}>
         <div className={cn('message', this._color())}>
           <div className="message-header">
-            <h1>{this.state.mado.name}</h1>
+            <h1>{mado.name}</h1>
           </div>
           <div className="message-body">
-            <div className="columns">
-              <div className="column">
-                <a>{this.state.mado.url}</a>
-              </div>
-            </div>
-            <div className="columns is-mobile">
-              <NumberInput
-                  className={this._color()}
-                  label="size:width"
-                  value={this.state.mado.size.width}
-                  onChange={val => this.onSizeChanged('width', val)}
-                />
-              <NumberInput
-                  className={this._color()}
-                  label="size:height"
-                  value={this.state.mado.size.height}
-                  onChange={val => this.onSizeChanged('height', val)}
-                />
-              <NumberInput
-                  className={this._color()}
-                  label="offset:left"
-                  value={this.state.mado.offset.left}
-                  onChange={val => this.onOffsetChanged('left', val)}
-                />
-              <NumberInput
-                  className={this._color()}
-                  label="offset:top"
-                  value={this.state.mado.offset.top}
-                  onChange={val => this.onOffsetChanged('top', val)}
-                />
-            </div>
-            <div className="columns is-mobile">
-              <NumberInput
-                className={[this._color(), 'is-4']}
-                label="zoom"
-                value={this.state.mado.zoom}
-                onChange={val => console.log(val)}
-                />
-              <div className="column is-8">
-                <label className="label">position</label>
-                <div style={{display:'flex'}}>
-                  <span style={{flex:1}}>x: {this.state.mado.position.x}</span>
-                  <span style={{flex:1}}>y: {this.state.mado.position.y}</span>
-                </div>
-              </div>
-            </div>
+            <table className="table is-narrow" style={{backgroundColor:'transparent'}}>
+              <tbody>
+                <tr>
+                  <th>URL</th>
+                  <td colSpan="4">{mado.url}</td>
+                </tr>
+                <tr>
+                  <th>窓のサイズ</th>
+                  <th>横幅</th><td>{mado.size.width}</td>
+                  <th>縦幅</th><td>{mado.size.height}</td>
+                </tr>
+                <tr>
+                  <th>ズレ</th>
+                  <th>左右</th><td>{mado.offset.left}</td>
+                  <th>上下</th><td>{mado.offset.top}</td>
+                </tr>
+                <tr>
+                  <th>ズーム</th>
+                  <td colSpan="4">{mado.zoom}</td>
+                </tr>
+                <tr>
+                  <th>起動位置</th>
+                  <th>X</th><td>{mado.position.x}</td>
+                  <th>Y</th><td>{mado.position.y}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
