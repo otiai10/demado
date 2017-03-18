@@ -1,5 +1,6 @@
 import React, {Component,PropTypes} from 'react';
 import cn from 'classnames';
+import {Client} from 'chomex';
 
 export default class MadoConfigTile extends Component {
 
@@ -8,6 +9,8 @@ export default class MadoConfigTile extends Component {
     this.state = {
       mado: this.props.mado,
     };
+    // TODO: これ、上からpropsで渡されたほうがいいかも？
+    this.client = new Client(chrome.runtime);
   }
 
   _color() {
@@ -68,7 +71,11 @@ export default class MadoConfigTile extends Component {
                     </tr>
                     <tr>
                       <td>
-                        <i className="fa fa-trash is-danger" style={styles.icon}/>
+                        <i className="fa fa-trash is-danger"
+                          style={styles.icon} onClick={() => {
+                            this.client.message('/mado:delete', mado).then(() => location.reload());
+                          }}
+                        />
                       </td>
                       <td></td>
                       <td></td>

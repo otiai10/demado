@@ -1,6 +1,13 @@
 import {MadoConfigureManager} from '../../services/mado';
 import Mado from '../../models/Mado';
 
+export function MadoDelete({_id}) {
+  const mado = Mado.find(_id);
+  if (!mado) return {status:404, message:`Not found mado config for id ${_id}`};
+  mado.delete();
+  return {status:200};
+}
+
 export function MadoConfigure({url}) {
   return MadoConfigureManager.sharedInstance().open({url});
 }
