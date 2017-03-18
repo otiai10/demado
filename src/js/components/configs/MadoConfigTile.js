@@ -30,6 +30,7 @@ export default class MadoConfigTile extends Component {
   }
 
   render() {
+    const styles = {icon:{fontSize:'24px',cursor:'pointer'}};
     const mado = this.state.mado;
     return (
       <div className="column" key={mado._id}>
@@ -40,14 +41,14 @@ export default class MadoConfigTile extends Component {
           <div className="message-body">
             <div className="columns">
               <div className="column">
-                <table className="table is-narrow" style={{backgroundColor:'transparent'}}>
+                <table className="table is-narrow" style={{backgroundColor:'transparent',marginBottom:0}}>
                   <tbody>
                     <tr>
                       <th>URL</th>
-                      <td colSpan="4">{mado.url}</td>
+                      <td colSpan="4" style={{wordBreak:'break-all'}}>{mado.url}</td>
                     </tr>
                     <tr>
-                      <th>窓のサイズ</th>
+                      <th style={{minWidth:'106px'}}>窓のサイズ</th>
                       <th>横幅</th><td>{mado.size.width}</td>
                       <th>縦幅</th><td>{mado.size.height}</td>
                     </tr>
@@ -65,15 +66,17 @@ export default class MadoConfigTile extends Component {
                       <th>X</th><td>{mado.position.x}</td>
                       <th>Y</th><td>{mado.position.y}</td>
                     </tr>
+                    <tr>
+                      <td>
+                        <i className="fa fa-trash is-danger" style={styles.icon}/>
+                      </td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
                   </tbody>
                 </table>
-              </div>
-            </div>
-            <div className="columns">
-              <div className="column">
-                <a className="button is-danger is-outlined">
-                  <i className="fa fa-trash" />
-                </a>
               </div>
             </div>
           </div>
