@@ -38,33 +38,44 @@ export default class MadoConfigTile extends Component {
             <h1>{mado.name}</h1>
           </div>
           <div className="message-body">
-            <table className="table is-narrow" style={{backgroundColor:'transparent'}}>
-              <tbody>
-                <tr>
-                  <th>URL</th>
-                  <td colSpan="4">{mado.url}</td>
-                </tr>
-                <tr>
-                  <th>窓のサイズ</th>
-                  <th>横幅</th><td>{mado.size.width}</td>
-                  <th>縦幅</th><td>{mado.size.height}</td>
-                </tr>
-                <tr>
-                  <th>ズレ</th>
-                  <th>左右</th><td>{mado.offset.left}</td>
-                  <th>上下</th><td>{mado.offset.top}</td>
-                </tr>
-                <tr>
-                  <th>ズーム</th>
-                  <td colSpan="4">{mado.zoom}</td>
-                </tr>
-                <tr>
-                  <th>起動位置</th>
-                  <th>X</th><td>{mado.position.x}</td>
-                  <th>Y</th><td>{mado.position.y}</td>
-                </tr>
-              </tbody>
-            </table>
+            <div className="columns">
+              <div className="column">
+                <table className="table is-narrow" style={{backgroundColor:'transparent'}}>
+                  <tbody>
+                    <tr>
+                      <th>URL</th>
+                      <td colSpan="4">{mado.url}</td>
+                    </tr>
+                    <tr>
+                      <th>窓のサイズ</th>
+                      <th>横幅</th><td>{mado.size.width}</td>
+                      <th>縦幅</th><td>{mado.size.height}</td>
+                    </tr>
+                    <tr>
+                      <th>ズレ</th>
+                      <th>左右</th><td>{mado.offset.left}</td>
+                      <th>上下</th><td>{mado.offset.top}</td>
+                    </tr>
+                    <tr>
+                      <th>ズーム</th>
+                      <td colSpan="4">{mado.zoom}</td>
+                    </tr>
+                    <tr>
+                      <th>起動位置</th>
+                      <th>X</th><td>{mado.position.x}</td>
+                      <th>Y</th><td>{mado.position.y}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div className="columns">
+              <div className="column">
+                <a className="button is-danger is-outlined">
+                  <i className="fa fa-trash" />
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
