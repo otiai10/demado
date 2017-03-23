@@ -1,5 +1,6 @@
 import {MadoConfigureManager} from '../../services/mado';
 import Mado from '../../models/Mado';
+import Launcher from '../../services/mado/Launcher';
 
 export function MadoDelete({_id}) {
   const mado = Mado.find(_id);
@@ -28,6 +29,14 @@ export function MadoShouldDecorate() {
     return new Promise(resolve => {
       chrome.tabs.getZoom(this.sender.tab.id, (zoom) => {
         resolve({status:200, zoom, decorator:'configure'});
+      });
+    });
+  }
+  const entry = Launcher.sharedInstance().has(this.sender.tab.id);
+  if (entry) {
+    return new Promise(resolve => {
+      chrome.tabs.setZoom(this.sender.tab.id, parseFloat(entry.mado.zoom), () => {
+        resolve({status:200, entry, decorator:'app'});
       });
     });
   }
@@ -62,4 +71,12 @@ export function MadoConfigureUpsert(draft) {
     const mado = Mado.create(draft);
     resolve(mado);
   });
+}
+
+/**
+ * 窓を実際つくるやつ
+ */
+export function MadoLaunch({_id}) {
+  const mado = Mado.find(_id);
+  return Launcher.sharedInstance().launch(mado);
 }
