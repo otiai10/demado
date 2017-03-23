@@ -22,8 +22,8 @@ export default class MadoLauncher {
         type: 'popup',
         width: parseInt(mado.size.width   * mado.zoom),
         height: parseInt(mado.size.height * mado.zoom),
-        left: mado.position.left,
-        top: mado.position.top,
+        left: mado.position.x,
+        top:  mado.position.y,
       }, win => {
         const entry = this.register(mado, win.tabs[0], win);
         resolve(entry);

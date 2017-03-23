@@ -15,6 +15,12 @@ export default class AppDecorator {
     // this.context.onbeforeunload = () => {
     //   return true;
     // };
+    this.interval = this.context.setInterval(() => {
+      this.client.message('/mado/position:update', {
+        x: this.context.screenX,
+        y: this.context.screenY,
+      });
+    }, 30*1000); // 30秒おきにポジションを記憶
   }
   resize(zoom) {
     const innerWidth  = Math.floor(this.context.innerWidth * zoom);

@@ -80,3 +80,12 @@ export function MadoLaunch({_id}) {
   const mado = Mado.find(_id);
   return Launcher.sharedInstance().launch(mado);
 }
+
+/**
+ * まどの最後の起動位置を記憶
+ */
+export function MadoPositionUpdate({x, y}) {
+  const entry = Launcher.sharedInstance().has(this.sender.tab.id);
+  if (!entry) return true;
+  return entry.mado.update({position:{x, y}});
+}

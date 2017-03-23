@@ -11,6 +11,7 @@ router.on('/mado/configure:draft',       Controllers.MadoConfigureDraft);
 router.on('/mado/configure:upsert',      Controllers.MadoConfigureUpsert);
 router.on('/mado:delete',                Controllers.MadoDelete);
 router.on('/mado:launch',                Controllers.MadoLaunch);
+router.on('/mado/position:update',       Controllers.MadoPositionUpdate);
 // これすごい大事
 router.on('/mado/should-decorate',       Controllers.MadoShouldDecorate);
 
