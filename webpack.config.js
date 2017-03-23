@@ -4,6 +4,7 @@ module.exports = {
     background:     './src/js/entrypoints/background.js',
     content_script: './src/js/entrypoints/content_script.js',
     configs:        './src/js/entrypoints/pages/configs.js',
+    popup:          './src/js/entrypoints/pages/popup.js',
   },
   output: {
     filename: './dest/js/[name].js',
