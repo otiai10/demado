@@ -35,6 +35,11 @@ export default class MadoLauncher {
     this.registry[tab.id] = entry;
     return entry;
   }
+  unlaunch(tabId) {
+    const entry = {...this.registry[tabId]};
+    delete this.registry[tabId];
+    return entry;
+  }
   has(tabId) {
     return this.registry[tabId];
   }

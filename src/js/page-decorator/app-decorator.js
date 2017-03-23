@@ -12,6 +12,9 @@ export default class AppDecorator {
     this.context.document.body.style.left = `-${entry.mado.offset.left}px`;
     this.context.document.body.style.top  = `-${entry.mado.offset.top}px`;
     this.resize(entry.mado.zoom);
+    // this.context.onbeforeunload = () => {
+    //   return true;
+    // };
   }
   resize(zoom) {
     const innerWidth  = Math.floor(this.context.innerWidth * zoom);
