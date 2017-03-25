@@ -63,6 +63,13 @@ export default class MadoLauncher {
     });
   }
 
+  /**
+   * tabの情報が変わることがあるので、それを更新するやつ
+   */
+  update(tab) {
+    if (this.registry[tab.id]) this.registry[tab.id].tab = tab;
+  }
+
   static __instance = null
   static sharedInstance() {
     if (this.__instance == null) {

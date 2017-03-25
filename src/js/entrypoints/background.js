@@ -12,6 +12,7 @@ router.on('/mado/configure:upsert',      Controllers.MadoConfigureUpsert);
 router.on('/mado:delete',                Controllers.MadoDelete);
 router.on('/mado:launch',                Controllers.MadoLaunch);
 router.on('/mado:screenshot',            Controllers.MadoScreenshot);
+router.on('/mado:toggle-mute',           Controllers.MadoToggleMute);
 router.on('/mado/position:update',       Controllers.MadoPositionUpdate);
 router.on('/mado/entries',               Controllers.MadoEntries);
 // これすごい大事

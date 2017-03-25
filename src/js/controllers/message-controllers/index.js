@@ -107,3 +107,15 @@ export function MadoScreenshot({mado, winId}) {
     });
   });
 }
+
+export function MadoToggleMute({tabId}) {
+  return new Promise(resolve => {
+    chrome.tabs.get(tabId, tab => {
+      const muted = !tab.mutedInfo.muted;
+      chrome.tabs.update(tab.id, {muted}, tab => {
+        Launcher.sharedInstance().update(tab);
+        resolve({status:200,tab});
+      });
+    });
+  });
+}
