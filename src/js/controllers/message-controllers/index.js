@@ -76,7 +76,8 @@ export function MadoConfigureUpsert(draft) {
 /**
  * 窓を実際つくるやつ
  */
-export function MadoLaunch({_id}) {
+export function MadoLaunch({_id, winId}) {
+  if (winId) return Launcher.sharedInstance().focus(winId);
   const mado = Mado.find(_id);
   return Launcher.sharedInstance().launch(mado);
 }

@@ -7,7 +7,6 @@ export default class PopupView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // entries: [{}, {}, {}, {}, {}],
       entries: [],
     };
     this.client = new Client(chrome.runtime);
@@ -20,7 +19,7 @@ export default class PopupView extends Component {
       <section className="section" style={{padding: '32px 16px 16px 16px'}}>
         <div className="container">
           <div className="columns">
-            {this.state.entries.map((entry, i) => <MadoEntryRow key={i} entry={entry} />)}
+            {this.state.entries.map((entry, i) => <MadoEntryRow key={i} entry={entry} client={this.client} />)}
           </div>
         </div>
       </section>

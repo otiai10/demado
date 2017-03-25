@@ -15,6 +15,11 @@ export default class MadoLauncher {
   constructor() {
     this.registry = {};
   }
+  focus(winId) {
+    return new Promise(resolve => {
+      chrome.windows.update(winId, {focused: true}, resolve);
+    });
+  }
   launch(mado) {
     return new Promise(resolve => {
       chrome.windows.create({
