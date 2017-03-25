@@ -39,7 +39,7 @@ export default class MadoEntryRow extends Component {
   renderCameraButton() {
     if (!this.props.entry.tab) return null;
     return (
-      <div style={this._style().icon} onClick={this.toggleMute.bind(this)}>
+      <div style={this._style().icon} onClick={this.takeScreenshot.bind(this)}>
         <i className="fa fa-camera" />
       </div>
     );
@@ -76,6 +76,13 @@ export default class MadoEntryRow extends Component {
   toggleMute(ev) {
     ev.preventDefault();
     ev.stopPropagation();
+  }
+  takeScreenshot(ev) {
+    ev.preventDefault();
+    ev.stopPropagation();
+    this.props.client.message('/mado:screenshot', {
+      mado: this.props.entry.mado, winId: this.props.entry.winId,
+    });
   }
   static propTypes = {
     entry:  PropTypes.object.isRequired,

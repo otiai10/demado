@@ -95,3 +95,15 @@ export function MadoEntries() {
   const entries = Launcher.sharedInstance().populate(Mado.list());
   return {status: 200, entries};
 }
+
+export function MadoScreenshot({mado, winId}) {
+  return new Promise(resolve => {
+    chrome.tabs.captureVisibleTab(winId,{format: 'png'}, url => {
+      resolve({url});
+      let a = document.createElement('a');
+      a.href = url;
+      a.download = mado.name;
+      a.click();
+    });
+  });
+}
