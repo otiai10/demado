@@ -22,6 +22,13 @@ export default class PopupView extends Component {
             {this.state.entries.map((entry, i) => <MadoEntryRow key={i} entry={entry} client={this.client} />)}
           </div>
         </div>
+        <div className="container" style={{paddingTop:'16px'}}>
+          <h1
+            className="title is-5"
+            style={{textAlign:'center',cursor:'pointer'}}
+            onClick={() => window.open('/html/configs.html')}
+            >＋</h1>
+        </div>
       </section>
     );
   }

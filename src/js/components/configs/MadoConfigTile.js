@@ -81,11 +81,13 @@ export default class MadoConfigTile extends Component {
                       <td></td>
                       <td></td>
                       <td>
+                        {/* ここはいずれ編集アイコンを置く
                         <i className="fa fa-chrome"
                           style={styles.icon} onClick={() => {
                             this.client.message('/mado:launch', mado);
                           }}
                         />
+                        */}
                       </td>
                     </tr>
                   </tbody>
