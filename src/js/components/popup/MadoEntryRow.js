@@ -16,7 +16,6 @@ export default class MadoEntryRow extends Component {
     return {
       column: {
         paddingTop: 0,
-        cursor: 'pointer',
       },
       title: {
         display: 'flex',
@@ -52,7 +51,7 @@ export default class MadoEntryRow extends Component {
         <div className={cn('message', this._color())}>
           <div
             className="message-body mado-config"
-            style={{padding:'8px'}}
+            style={{padding:'8px', cursor:'pointer'}}
             onClick={this.launchOrFocus.bind(this)}
             >
             <div style={{display:'flex'}}>
