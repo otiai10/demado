@@ -2,7 +2,7 @@
  * 実際つくられる窓のエントリインスタンス
  */
 class MadoEntry {
-  constructor(mado, tab, win) {
+  constructor(mado, tab, win = {}) {
     this.mado  = mado;
     this.tab   = tab;
     this.winId = win.id;
@@ -43,6 +43,21 @@ export default class MadoLauncher {
   has(tabId) {
     return this.registry[tabId];
   }
+
+  /**
+   * すべてにMado設定を受けて、tabなどをpopulateしてEntryを返す。
+   * もちろんこのLauncherインスタンスで管理していないものには、tabなどが無いEntryを返す。
+   */
+  populate(mados) {
+    const entries = Object.values(this.registry).reduce((self, entry) => {
+      self[entry.mado._id] = entry;
+      return self;
+    }, {});
+    return mados.map(mado => {
+      return entries[mado._id] ? entries[mado._id] : new MadoEntry(mado);
+    });
+  }
+
   static __instance = null
   static sharedInstance() {
     if (this.__instance == null) {

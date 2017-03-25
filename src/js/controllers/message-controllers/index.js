@@ -89,3 +89,8 @@ export function MadoPositionUpdate({x, y}) {
   if (!entry) return true;
   return entry.mado.update({position:{x, y}});
 }
+
+export function MadoEntries() {
+  const entries = Launcher.sharedInstance().populate(Mado.list());
+  return {status: 200, entries};
+}
