@@ -7,3 +7,7 @@
 .empty {
   -webkit-animation: plus 2s infinite;
 }
+
+#table-nohover>tr {
+  background-color: transparent;
+}

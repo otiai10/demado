@@ -45,7 +45,7 @@ export default class MadoConfigTile extends Component {
             <div className="columns">
               <div className="column">
                 <table className="table is-narrow" style={{backgroundColor:'transparent',marginBottom:0}}>
-                  <tbody>
+                  <tbody id="table-nohover">
                     <tr>
                       <th>URL</th>
                       <td colSpan="4" style={{wordBreak:'break-all'}}>{mado.url}</td>
