@@ -23,7 +23,7 @@
   "scripts": {
     "test": "jest tests",
     "clean": "rm -rf dest && mkdir dest && cp manifest.json dest && cp -r src/html dest/html && cp -r src/css dest/css && cp -r src/img dest/img",
-    "release": "yarn run clean && NODE_ENV=production webpack --progress",
+    "release": "yarn run clean && NODE_ENV=production webpack --progress && rm -f demado.zip && zip -r demado.zip dest",
     "start": "yarn run clean && webpack --watch --progress"
   },
   "license": "MIT",
