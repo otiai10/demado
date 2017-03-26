@@ -128,3 +128,15 @@ export function MadoToggleMute({tabId}) {
     });
   });
 }
+
+export function DashboardOpen() {
+  const height = 24 * 2 + Mado.list().length * 50, width = 330;
+  return new Promise(resolve => {
+    chrome.windows.create({
+      type:'popup',
+      url: '/html/dashboard.html',
+      height: (height < 170 ? 170 : height),
+      width,
+    }, resolve);
+  });
+}

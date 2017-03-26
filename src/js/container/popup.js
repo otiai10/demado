@@ -14,6 +14,25 @@ export default class PopupView extends Component {
   componentDidMount() {
     this.client.message('/mado/entries').then(({entries}) => this.setState({entries}));
   }
+  getIcons() {
+    if (this.state.entries.length == 0) {
+      return <h1 className="title is-5" style={{cursor:'pointer',textAlign:'center'}} onClick={() => window.open('/html/configs.html')}>＋</h1>;
+    }
+    return (
+      <div style={{display:'flex'}}>
+        <div style={{flex:1,display:'flex'}}>
+          <span className="title is-5" style={{cursor:'pointer'}} onClick={() => window.open('/html/configs.html')}>
+          ＋
+          </span>
+        </div>
+        <div style={{flex:1,display:'flex', justifyContent:'flex-end'}}>
+          <span className="title is-5" style={{cursor:'pointer'}} onClick={() => this.client.message('/dashboard:open')}>
+            <i className="fa fa-th-list" />
+          </span>
+        </div>
+      </div>
+    );
+  }
   render() {
     return (
       <section className="section" style={{padding: '32px 16px 16px 16px'}}>
@@ -23,11 +42,7 @@ export default class PopupView extends Component {
           </div>
         </div>
         <div className="container" style={{paddingTop:'16px'}}>
-          <h1
-            className="title is-5"
-            style={{textAlign:'center',cursor:'pointer'}}
-            onClick={() => window.open('/html/configs.html')}
-            >＋</h1>
+          {this.getIcons()}
         </div>
       </section>
     );

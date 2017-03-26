@@ -18,6 +18,8 @@ router.on('/mado/entries',               Controllers.MadoEntries);
 // これすごい大事
 router.on('/mado/should-decorate',       Controllers.MadoShouldDecorate);
 
+router.on('/dashboard:open', Controllers.DashboardOpen);
+
 chrome.runtime.onMessage.addListener(router.listener());
 
 // 外部（というかponpetick）からのリクエスト

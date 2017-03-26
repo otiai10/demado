@@ -5,6 +5,7 @@ module.exports = {
     content_script: './src/js/entrypoints/content_script.js',
     configs:        './src/js/entrypoints/pages/configs.js',
     popup:          './src/js/entrypoints/pages/popup.js',
+    dashboard:      './src/js/entrypoints/pages/dashboard.js',
   },
   output: {
     filename: './dest/js/[name].js',
