@@ -8,6 +8,8 @@ import Mado from '../models/Mado';
 import MadoConfigTile         from '../components/configs/MadoConfigTile';
 import NewMadoConfigureDialog from '../components/configs/NewMadoConfigureDialog';
 
+import '../components/configs/main.css';
+
 export default class ConfigsView extends Component {
   constructor(props) {
     super(props);
@@ -98,6 +100,7 @@ export default class ConfigsView extends Component {
   getPlusIcon() {
     return (
       <span
+        className={cn({empty: Mado.list().length == 0})}
         style={{cursor:'pointer'}}
         onClick={() => this.setState({modal: this.getNewMadoModal()})}
       >＋</span>
