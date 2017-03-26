@@ -72,12 +72,16 @@ export default class MadoConfigTile extends Component {
                     <tr>
                       <td colSpan="5">
                         <i className="fa fa-trash is-danger"
-                          style={styles.icon} onClick={() => {
+                          style={styles.icon}
+                          title="設定の削除"
+                          onClick={() => {
+                            if (!window.confirm(`「${mado.name}」を削除しますか？`)) return;
                             this.client.message('/mado:delete', mado).then(() => location.reload());
                           }}
                         />
                         <i className="fa fa-file-code-o"
                           style={styles.icon}
+                          title="設定のエクスポート"
                           onClick={() => this.props.showMadoJSON(mado)}
                         />
                       </td>
