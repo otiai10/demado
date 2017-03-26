@@ -83,6 +83,15 @@ export function MadoLaunch({_id, winId}) {
 }
 
 /**
+ * 外部Chrome拡張からのLaunchリクエスト
+ */
+export function ExternalMadoLaunch(req) {
+  const mados = Mado.filter(mado => req.url.match(mado.url));
+  if (mados.length == 0) return {status:404,message:'Not found in demado configs'};
+  return Launcher.sharedInstance().launch({...mados[0], url: req.url});
+}
+
+/**
  * まどの最後の起動位置を記憶
  */
 export function MadoPositionUpdate({x, y}) {

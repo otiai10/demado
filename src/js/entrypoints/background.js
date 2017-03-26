@@ -20,5 +20,10 @@ router.on('/mado/should-decorate',       Controllers.MadoShouldDecorate);
 
 chrome.runtime.onMessage.addListener(router.listener());
 
+// 外部（というかponpetick）からのリクエスト
+let ex = new Router();
+ex.on('/mado/launch/external', Controllers.ExternalMadoLaunch);
+chrome.runtime.onMessageExternal.addListener(ex.listener());
+
 // とりあえずここでいいや
 chrome.tabs.onRemoved.addListener(id => Launcher.sharedInstance().unlaunch(id));
