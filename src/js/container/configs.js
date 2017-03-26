@@ -17,6 +17,8 @@ export default class ConfigsView extends Component {
       modal: null,
     };
     this.client = new Client(chrome.runtime);
+    // だるいしここでやるわ
+    document.querySelector('#demado-version').innerHTML = 'version ' + chrome.runtime.getManifest().version;
   }
 
   // {{{ TODO: このへんマジで後方互換性のためだけのものなのでほとぼりが冷めたら消す
