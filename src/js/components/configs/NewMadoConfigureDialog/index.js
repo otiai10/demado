@@ -32,7 +32,7 @@ export default class NewMadoConfigureDialog extends Component {
     this.setState({step:3, draft: {...this.state.draft, ...draft}});
   }
   importMadoFromYamlString() {
-    const yamlstring = window.prompt('なんか入れろ');
+    const yamlstring = window.prompt('エクスポートされたYAML形式の設定を改行そのままでここにコピペしてください');
     try {
       const mado = Mado.fromExportalYAML(yamlstring);
       console.log(mado);
