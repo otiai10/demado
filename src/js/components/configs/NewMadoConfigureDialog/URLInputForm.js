@@ -5,7 +5,7 @@ export default class URLInputForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      url: 'http://www.dmm.com/netgame/social/-/gadgets/=/app_id=750145/',
+      url: '',
     };
   }
   render() {
