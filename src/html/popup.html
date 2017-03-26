@@ -1,37 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf8">
-  <title>dashboard</title>
-  <link rel="stylesheet" href="../css/normalize.min.css">
-  <link rel="stylesheet" href="../css/almost-flat-ui.min.css">
-  <link rel="stylesheet" href="../css/font-awesome.min.css">
-  <link rel="stylesheet" href="../css/app-global.css">
-  <script type="text/javascript" src="../js/models/kvs.js"></script>
-  <script type="text/javascript" src="../js/models/bounds.js"></script>
-  <script type="text/javascript" src="../js/models/mado.js"></script>
-  <script type="text/javascript" src="../js/infrastructure/message.js"></script>
-  <script type="text/javascript" src="../js/infrastructure/launcher.js"></script>
-  <script type="text/javascript" src="../js/apps/vendor/angular.min.js"></script>
-  <script type="text/javascript" src="../js/apps/controllers/dashboard.js"></script>
+  <meta charset="utf-8" />
+  <style>
+    html, body {
+      margin:         0;
+      padding:        0;
+      width:      300px;
+      min-height: 120px;
+    }
+    .mado-config {
+      transition: all 0.2s;
+    }
+    .mado-config:hover {
+      box-shadow: 0 0 10px #ddd;
+    }
+  </style>
 </head>
-<body ng-app="demado" style="width:400px;">
-  <div ng-controller="DashboardController">
-    <div class="row">
-      <div class="small-12 columns" ng-include="'./includes/dashboard-contents.html'"></div>
-    </div>
-    <div class="row">
-      <div class="small-6 columns">
-        <h3>
-          <a href="/src/html/configs.html" target="_blank" tabindex="-1" class="text-right"><i class="fa fa-cog"></i></a>
-        </h3>
-      </div>
-      <div class="small-6 columns text-right">
-        <h3>
-          <a tabindex="-1"><i class="fa fa-external-link" ng-click="openPanelDashboard()"></i></a>
-        </h3>
-      </div>
-    </div>
-  </div>
+<body>
+  <main id="app"></main>
+  <script type="text/javascript" src="../js/popup.js"></script>
 </body>
 </html>

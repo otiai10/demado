@@ -6,3 +6,6 @@ bower_components/*
 *.iml
 
 src/js/config/constants.js
+
+dest
+demado.zip

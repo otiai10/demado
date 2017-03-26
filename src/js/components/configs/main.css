@@ -1,0 +1,13 @@
+@-webkit-keyframes plus {
+  0%   { text-shadow: 0 0 40px #00d1b2; }
+  20%  { text-shadow: 0 0  4px #00d1b2; }
+  80%  { text-shadow: 0 0  4px #00d1b2; }
+  100% { text-shadow: 0 0 40px #00d1b2; }
+}
+.empty {
+  -webkit-animation: plus 2s infinite;
+}
+
+#table-nohover>tr {
+  background-color: transparent;
+}

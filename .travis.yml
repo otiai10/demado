@@ -1,11 +1,7 @@
 language: node_js
+addons:
+  firefox: "46.0"
 node_js:
-  - "5.0"
-install:
-  - "npm install -g testem"
-before_script:
-  - npm install
+  - "7.5"
 script:
-  - testem launchers
-  # とりあえずだまらせとこう
-  # - testem ci
+  - yarn test

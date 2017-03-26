@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf8">
+  <title>config - demado</title>
+  <link rel="stylesheet" href="../css/normalize.min.css">
+  <link rel="stylesheet" href="../css/almost-flat-ui.min.css">
+  <link rel="stylesheet" href="../css/font-awesome.min.css">
+  <!-- common -->
+  <script type="text/javascript" src="../js/models/kvs.js"></script>
+  <script type="text/javascript" src="../js/models/bounds.js"></script>
+  <script type="text/javascript" src="../js/models/mado.js"></script>
+  <script type="text/javascript" src="../js/models/cache.js"></script>
+  <script type="text/javascript" src="../js/models/config.js"></script>
+  <script type="text/javascript" src="../js/infrastructure/launcher.js"></script>
+  <script type="text/javascript" src="../js/infrastructure/message.js"></script>
+  <script type="text/javascript" src="../js/infrastructure/storage.js"></script>
+  <!-- app -->
+  <script type="text/javascript" src="../js/apps/vendor/angular.min.js"></script>
+  <script type="text/javascript" src="../js/apps/controllers/configs.js"></script>
+</head>
+<body ng-app="demado">
+  <div ng-controller="ConfigsController">
+    <div class="row">
+      <div class="large-12 columns">
+        <h1><i class="fa fa-cog"></i> mado config</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="large-6 medium-6 small-12 columns" ng-repeat="mado in list" ng-include="'./includes/mado.html'"></div>
+      <div class="large-6 medium-6 small-12 columns" ng-if="newmado.name == null && newmado.url == null" ng-include="'./includes/new-mado-button.html'"></div>
+      <div class="large-6 medium-6 small-12 columns" ng-if="newmado.name != null || newmado.url != null" ng-include="'./includes/new-mado.html'"></div>
+    </div>
+
+    <div class="row">
+      <div class="large-12 columns">
+        <h1><i class="fa fa-cog"></i> general</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="large-12 columns" ng-include="'./includes/general-configs.html'"></div>
+    </div>
+
+    <div class="row">
+      <div class="large-12 columns">
+        <h1><i class="fa fa-question-circle"></i> help</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="large-12 columns" ng-include="'./includes/help.html'"></div>
+    </div>
+
+    <div class="row">
+      <div class="large-12 columns">
+        <h1><i class="fa fa-github"></i> development</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="large-12 columns" ng-include="'./includes/develop.html'"></div>
+    </div>
+
+  </div>
+</body>
+</html>

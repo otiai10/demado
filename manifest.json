@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "demado",
-  "version": "0.2.6",
+  "version": "1.0.1",
   "description": "ブラゲーのランチャー",
   "permissions" : [
     "downloads",
@@ -10,49 +10,24 @@
     "storage",
     "activeTab"
   ],
-  "icons" : {
-    "48"  : "src/img/icon/icon.48.png",
-    "128" : "src/img/icon/icon.128.png"
+  "icons": {
+    "128": "img/128.png"
   },
   "browser_action": {
-    "default_icon": "src/img/icon/icon.48.png",
-    "default_popup":"src/html/popup.html"
+    "default_icon": {
+      "32": "img/32.png"
+    },
+    "default_popup": "html/popup.html"
   },
   "background": {
     "scripts":[
-      "src/js/config/constants.js",
-      "src/js/infrastructure/server.js",
-      "src/js/infrastructure/capture.js",
-      "src/js/infrastructure/download.js",
-      "src/js/infrastructure/message.js",
-      "src/js/infrastructure/launcher.js",
-      "src/js/server/controllers/mado-controller.js",
-      "src/js/server/controllers/page-controller.js",
-      "src/js/server/controllers/capture-controller.js",
-      "src/js/server/controllers/mute-controller.js",
-      "src/js/server/controllers/config-controller.js",
-      "src/js/models/kvs.js",
-      "src/js/models/bounds.js",
-      "src/js/models/mado.js",
-      "src/js/models/cache.js",
-      "src/js/models/config.js",
-      "src/js/server/main.js"
+      "js/background.js"
     ]
   },
   "content_scripts": [
     {
-      "matches": [
-        "http://*/*",
-        "https://*/*"
-      ],
-      "js": [
-        "src/js/infrastructure/message.js",
-        "src/js/infrastructure/launcher.js",
-        "src/js/models/kvs.js",
-        "src/js/models/bounds.js",
-        "src/js/models/mado.js",
-        "src/js/apps/page.js"
-      ]
+      "matches": ["*://*/*"],
+      "js": ["/js/content_script.js"]
     }
   ],
   "commands": {
@@ -73,5 +48,5 @@
       "description":"ミュートします"
     }
   },
-  "options_page" : "src/html/configs.html"
+  "options_page" : "html/configs.html"
 }
