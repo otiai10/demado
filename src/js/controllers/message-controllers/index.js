@@ -14,8 +14,10 @@ export function MadoConfigure({url}) {
 }
 export function MadoConfigureZoomUpdate({zoom}) {
   return new Promise(resolve => {
-    chrome.tabs.setZoom(this.sender.tab.id, parseFloat(zoom), () => {
-      chrome.tabs.get(this.sender.tab.id, resolve);
+    chrome.tabs.setZoomSettings(this.sender.tab.id, {scope:'per-tab'}, () => {
+      chrome.tabs.setZoom(this.sender.tab.id, parseFloat(zoom), () => {
+        chrome.tabs.get(this.sender.tab.id, resolve);
+      });
     });
   });
 }
@@ -35,8 +37,10 @@ export function MadoShouldDecorate() {
   const entry = Launcher.sharedInstance().has(this.sender.tab.id);
   if (entry) {
     return new Promise(resolve => {
-      chrome.tabs.setZoom(this.sender.tab.id, parseFloat(entry.mado.zoom), () => {
-        resolve({status:200, entry, decorator:'app'});
+      chrome.tabs.setZoomSettings(this.sender.tab.id, {scope:'per-tab'}, () => {
+        chrome.tabs.setZoom(this.sender.tab.id, parseFloat(entry.mado.zoom), () => {
+          resolve({status:200, entry, decorator:'app'});
+        });
       });
     });
   }
