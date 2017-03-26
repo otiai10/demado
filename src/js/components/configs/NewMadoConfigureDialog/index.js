@@ -5,6 +5,8 @@ import URLInputForm         from './URLInputForm';
 import MadoConfigureWaiting from './MadoConfigureWaiting';
 import NameConfirmationForm from './NameConfirmationForm';
 
+import Mado from '../../../models/Mado';
+
 export default class NewMadoConfigureDialog extends Component {
   constructor(props) {
     super(props);
@@ -28,6 +30,16 @@ export default class NewMadoConfigureDialog extends Component {
   }
   onDraftCreated(draft) {
     this.setState({step:3, draft: {...this.state.draft, ...draft}});
+  }
+  importMadoFromYamlString() {
+    const yamlstring = window.prompt('なんか入れろ');
+    try {
+      const mado = Mado.fromExportalYAML(yamlstring);
+      console.log(mado);
+      this.setState({step:3, draft: mado});
+    } catch (err) {
+      window.alert('エキスポート機能で出力されるYAML形式に従ってください: \n' + err.toString());
+    }
   }
   getSectionForStep() {
     switch(this.state.step) {
@@ -72,7 +84,13 @@ export default class NewMadoConfigureDialog extends Component {
           </section>
         </section>
         <footer className="modal-card-foot">
-          <a className="button" onClick={this.props.close}>いまはしない</a>
+          <a
+            className="button" onClick={this.importMadoFromYamlString.bind(this)}
+            disabled={this.state.step == 3}
+            >
+            <i className="fa fa-file-code-o" style={{marginRight:'8px'}} />
+            <span>設定をインポート</span>
+          </a>
         </footer>
       </div>
     );

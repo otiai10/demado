@@ -33,7 +33,7 @@ export default class MadoConfigTile extends Component {
   }
 
   render() {
-    const styles = {icon:{fontSize:'24px',cursor:'pointer'}};
+    const styles = {icon:{fontSize:'24px',cursor:'pointer', margin: '8px 16px 0 0'}};
     const mado = this.state.mado;
     return (
       <div className="column" key={mado._id}>
@@ -70,24 +70,16 @@ export default class MadoConfigTile extends Component {
                       <th>Y</th><td>{mado.position.y}</td>
                     </tr>
                     <tr>
-                      <td>
+                      <td colSpan="5">
                         <i className="fa fa-trash is-danger"
                           style={styles.icon} onClick={() => {
                             this.client.message('/mado:delete', mado).then(() => location.reload());
                           }}
                         />
-                      </td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td>
-                        {/* ここはいずれ編集アイコンを置く
-                        <i className="fa fa-chrome"
-                          style={styles.icon} onClick={() => {
-                            this.client.message('/mado:launch', mado);
-                          }}
+                        <i className="fa fa-file-code-o"
+                          style={styles.icon}
+                          onClick={() => this.props.showMadoJSON(mado)}
                         />
-                        */}
                       </td>
                     </tr>
                   </tbody>
@@ -106,5 +98,6 @@ export default class MadoConfigTile extends Component {
       url:  PropTypes.string.isRequired,
       size: PropTypes.object.isRequired,
     }).isRequired,
+    showMadoJSON: PropTypes.func.isRequired,
   }
 }

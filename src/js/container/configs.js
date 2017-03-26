@@ -75,6 +75,20 @@ export default class ConfigsView extends Component {
   }
   // }}}
 
+  showMadoJSON(mado) {
+    this.setState({modal: (
+      <div className="modal-card">
+        <header className="modal-card-head">
+          <p className="modal-card-title">「{mado.name}」の設定をエクスポート</p>
+          <button className="delete" onClick={() => this.setState({modal:null})}></button>
+        </header>
+        <section className="modal-card-body">
+          <pre><code className="code">{mado.toExportalYAML()}</code></pre>
+        </section>
+      </div>
+    )});
+  }
+
   getModal() {
     return (
       <div className={cn('modal', {'is-active':!!this.state.modal})}>
@@ -94,7 +108,7 @@ export default class ConfigsView extends Component {
   }
 
   getMadoTiles() {
-    return Mado.list().map(mado => <MadoConfigTile mado={mado} key={mado._id} />);
+    return Mado.list().map(mado => <MadoConfigTile mado={mado} key={mado._id} showMadoJSON={this.showMadoJSON.bind(this)} />);
   }
 
   getPlusIcon() {
