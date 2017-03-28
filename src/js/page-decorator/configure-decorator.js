@@ -45,6 +45,7 @@ export default class ConfigureDecorator {
     bg.style.display        = 'flex';
     bg.style.alignItems     = 'center';
     bg.style.justifyContent = 'center';
+    bg.style.pointerEvents  = 'none'; // 白背景など窓枠を決定できない場合、窓コンテンツをクリックできる必要がある
     return bg;
   }
   getControlPanel(doc, zoom) {
@@ -55,6 +56,7 @@ export default class ConfigureDecorator {
     container.style.height          = '60%';
     container.style.padding         = '12px 36px';
     container.style.overflowY       = 'scroll';
+    container.style.pointerEvents   = 'all'; // パネルそのものはちゃんとイベント拾う
     container.appendChild(this.getResizer(doc));
     container.appendChild(this.getOffseter(doc));
     container.appendChild(this.getZoomer(doc, zoom));
