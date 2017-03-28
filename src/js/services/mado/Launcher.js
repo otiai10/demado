@@ -54,7 +54,8 @@ export default class MadoLauncher {
    * もちろんこのLauncherインスタンスで管理していないものには、tabなどが無いEntryを返す。
    */
   populate(mados) {
-    const entries = Object.values(this.registry).reduce((self, entry) => {
+    // Object.values使ってたらChrome54以上じゃないと動かない
+    const entries = Object.keys(this.registry).map(key => this.registry[key]).reduce((self, entry) => {
       self[entry.mado._id] = entry;
       return self;
     }, {});
