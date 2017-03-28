@@ -33,6 +33,7 @@ export default class ConfigureDecorator {
     this.panel = this.getControlPanel(doc, zoom);
     this.background.appendChild(this.panel);
     doc.body.appendChild(this.background);
+    this.context.document.querySelector('html').style.overflow = 'hidden'; // スクロールバー消す
   }
   getBackground(doc) {
     let bg = doc.createElement('div');
