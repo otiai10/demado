@@ -21,8 +21,16 @@ export class MadoConfigureManager {
       }, tabs => {
         if (!tabs || !tabs.length) return reject();
         this.target = tabs[0];
-        resolve(tabs[0]);
+        resolve(tabs);
       });
+    }).then(tabs => {
+      if (window.confirm('このURLで開かれているタブを一度すべて閉じる必要があります。閉じちゃっていいですか？')) {
+        return new Promise((resolve, reject) => {
+          chrome.tabs.remove(tabs.map(tab => tab.id), reject);
+        });
+      } else {
+        return Promise.resolve(tabs[0]);
+      }
     })).catch(() => {
       return new Promise(resolve => {
         chrome.windows.create({
