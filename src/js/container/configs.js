@@ -66,11 +66,27 @@ export default class ConfigsView extends Component {
       >＋</span>
     );
   }
+  getResetIcon() {
+    if (Mado.list().length == 0) return null;
+    return (
+      <span
+        style={{color:'#dfdfdf',cursor:'pointer',float:'right'}}
+        onClick={() => {
+          if (window.confirm('全削除しますか？') && window.confirm(`マジで全削除しますか？\n\n${Mado.list().map(mado => '- ' + mado.name).join('\n')}`)) {
+            Mado.drop();
+            location.reload();
+          }
+        }}
+        >
+        <i className="fa fa-trash-o" />
+      </span>
+    );
+  }
 
   render() {
     return (
       <section className="section">
-        <h1 className="title">demadoの設定 {this.getPlusIcon()}</h1>
+        <h1 className="title">demadoの設定 {this.getPlusIcon()} {this.getResetIcon()}</h1>
         <div className="columns is-multiline">
           {this.getMadoTiles()}
         </div>
