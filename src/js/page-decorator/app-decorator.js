@@ -21,6 +21,8 @@ export default class AppDecorator {
         y: this.context.screenY,
       });
     }, 30*1000); // 30秒おきにポジションを記憶
+    // TODO: オプションでスクロールそのものはできるようにする. cf) ::-webkit-scrollbar
+    this.context.document.querySelector('html').style.overflow = 'hidden'; // スクロールバー消す
   }
   resize(zoom) {
     const innerWidth  = Math.floor(this.context.innerWidth * zoom);
