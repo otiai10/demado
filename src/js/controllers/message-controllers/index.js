@@ -1,5 +1,6 @@
 import {MadoConfigureManager} from '../../services/mado';
 import Mado from '../../models/Mado';
+import Config from '../../models/Config';
 import Launcher from '../../services/mado/Launcher';
 
 import Time from '../../services/time';
@@ -115,11 +116,13 @@ export function MadoScreenshot({mado, winId}) {
   return new Promise(resolve => {
     chrome.tabs.captureVisibleTab(winId,{format: 'png'}, url => {
       const filename = `${mado.name}_${Time.new().xxx()}.png`;
-      chrome.downloads.download({url, filename}, resolve);
-      // let a = document.createElement('a');
-      // a.href = url;
-      // a.download = mado.name;
-      // a.click();
+      if (Config.find('use-prisc').value) {
+        chrome.runtime.sendMessage('gghkamaeinhfnhpempdbopannocnlbkg', {
+          path:'open/edit', params: {imgURI: url}
+        }, resolve);
+      } else {
+        chrome.downloads.download({url, filename}, resolve);
+      }
     });
   });
 }

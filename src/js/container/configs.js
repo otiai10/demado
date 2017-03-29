@@ -7,6 +7,7 @@ import cn from 'classnames';
 import Mado from '../models/Mado';
 import MadoConfigTile         from '../components/configs/MadoConfigTile';
 import NewMadoConfigureDialog from '../components/configs/NewMadoConfigureDialog';
+import SettingsView           from '../components/configs/Settings';
 
 import '../components/configs/main.css';
 
@@ -85,13 +86,19 @@ export default class ConfigsView extends Component {
 
   render() {
     return (
-      <section className="section">
-        <h1 className="title">demadoの設定 {this.getPlusIcon()} {this.getResetIcon()}</h1>
-        <div className="columns is-multiline">
-          {this.getMadoTiles()}
-        </div>
-        {this.getModal()}
-      </section>
+      <div>
+        <section className="section">
+          <h1 className="title">demadoの設定 {this.getPlusIcon()} {this.getResetIcon()}</h1>
+          <div className="columns is-multiline">
+            {this.getMadoTiles()}
+          </div>
+          {this.getModal()}
+        </section>
+        <section className="section">
+          <h1 className="title">全体設定</h1>
+          <SettingsView />
+        </section>
+      </div>
     );
   }
 }
