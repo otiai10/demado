@@ -42,7 +42,10 @@ export function MadoShouldDecorate() {
     return new Promise(resolve => {
       chrome.tabs.setZoomSettings(this.sender.tab.id, {scope:'per-tab'}, () => {
         chrome.tabs.setZoom(this.sender.tab.id, parseFloat(entry.mado.zoom), () => {
-          resolve({status:200, entry, decorator:'app'});
+          const configs = {
+            onbeforeunload: Config.find('ask-before-unload').value,
+          };
+          resolve({status:200, entry, decorator:'app', configs});
         });
       });
     });
