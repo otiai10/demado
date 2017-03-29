@@ -2,6 +2,8 @@ import {MadoConfigureManager} from '../../services/mado';
 import Mado from '../../models/Mado';
 import Launcher from '../../services/mado/Launcher';
 
+import Time from '../../services/time';
+
 export function MadoDelete({_id}) {
   const mado = Mado.find(_id);
   if (!mado) return {status:404, message:`Not found mado config for id ${_id}`};
@@ -112,11 +114,12 @@ export function MadoEntries() {
 export function MadoScreenshot({mado, winId}) {
   return new Promise(resolve => {
     chrome.tabs.captureVisibleTab(winId,{format: 'png'}, url => {
-      resolve({url});
-      let a = document.createElement('a');
-      a.href = url;
-      a.download = mado.name;
-      a.click();
+      const filename = `${mado.name}_${Time.new().xxx()}.png`;
+      chrome.downloads.download({url, filename}, resolve);
+      // let a = document.createElement('a');
+      // a.href = url;
+      // a.download = mado.name;
+      // a.click();
     });
   });
 }
