@@ -5,6 +5,7 @@ export default class SettingsView extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      beforeunload: Config.find('ask-before-unload'),
       prisc: Config.find('use-prisc'),
     };
   }
@@ -17,6 +18,16 @@ export default class SettingsView extends Component {
       <div>
         <table className="table">
           <tbody>
+            <tr>
+              <td>
+                <input
+                  id="ask-before-unload" type="checkbox"
+                  checked={this.state.beforeunload.value}
+                  onChange={this._checked.bind(this, 'beforeunload', 'ask-before-unload')}
+                />
+              </td>
+              <th><label htmlFor="ask-before-unload">窓を閉じるとき確認ダイアログを表示する</label></th>
+            </tr>
             <tr>
               <td>
                 <input
