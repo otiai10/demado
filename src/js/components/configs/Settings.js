@@ -8,16 +8,23 @@ export default class SettingsView extends Component {
       prisc: Config.find('use-prisc'),
     };
   }
+  _checked(name, modelname, ev) {
+    this.state[name].update({value:ev.target.checked});
+    this.setState({[name]:Config.find(modelname)});
+  }
   render() {
     return (
       <div>
         <table className="table">
           <tbody>
             <tr>
-              <td><input id="use-prisc" type="checkbox" checked={this.state.prisc.value} onChange={ev => {
-                this.state.prisc.update({value:ev.target.checked});
-                this.setState({prisc:Config.find('use-prisc')});
-              }}/></td>
+              <td>
+                <input
+                  id="use-prisc" type="checkbox"
+                  checked={this.state.prisc.value}
+                  onChange={this._checked.bind(this, 'prisc', 'use-prisc')}
+                />
+              </td>
               <th><label htmlFor="use-prisc">スクショはPriscで開く</label></th>
             </tr>
           </tbody>
