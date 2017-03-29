@@ -37,7 +37,7 @@ export function MadoShouldDecorate() {
       });
     });
   }
-  const entry = Launcher.sharedInstance().has(this.sender.tab.id);
+  let entry = Launcher.sharedInstance().has(this.sender.tab.id);
   if (entry) {
     return new Promise(resolve => {
       chrome.tabs.setZoomSettings(this.sender.tab.id, {scope:'per-tab'}, () => {
@@ -46,6 +46,7 @@ export function MadoShouldDecorate() {
             onbeforeunload: Config.find('ask-before-unload').value,
           };
           resolve({status:200, entry, decorator:'app', configs});
+          setTimeout(() => entry.decorated = true, 100);// レスポンス送ったあとにフラグ立てる
         });
       });
     });

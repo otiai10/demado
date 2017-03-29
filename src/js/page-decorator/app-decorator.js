@@ -11,7 +11,7 @@ export default class AppDecorator {
   decorate({entry, configs}) {
     this.context.document.body.style.left = `-${entry.mado.offset.left}px`;
     this.context.document.body.style.top  = `-${entry.mado.offset.top}px`;
-    this.resize(entry.mado.zoom);
+    if (!entry.decorated) this.resize(entry.mado.zoom);
     this.context.onbeforeunload = () => configs.onbeforeunload ? true : null;
     this.interval = this.context.setInterval(() => {
       this.client.message('/mado/position:update', {
