@@ -29,3 +29,4 @@ chrome.runtime.onMessageExternal.addListener(ex.listener());
 
 // とりあえずここでいいや
 chrome.tabs.onRemoved.addListener(id => Launcher.sharedInstance().unlaunch(id));
+chrome.windows.onRemoved.addListener(id => Launcher.sharedInstance().unlaunchAllInWindow(id));
