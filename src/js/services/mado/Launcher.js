@@ -41,9 +41,18 @@ export default class MadoLauncher {
     return entry;
   }
   unlaunch(tabId) {
-    const entry = {...this.registry[tabId]};
     delete this.registry[tabId];
-    return entry;
+    return true;
+  }
+  /**
+   * tabs.onRemovedだけで削除しきれないケースが？どうやら？あるっぽい？ので？
+   * 若干冗長なんだけど、
+   * windows.onRemovedでも一応スイープしてあげる
+   */
+  unlaunchAllInWindow(winId) {
+    Object.keys(this.registry).map(tabId => {
+      if (this.registry[tabId] && this.registry[tabId].tab.windowId == winId) this.unlaunch(tabId);
+    });
   }
   has(tabId) {
     return this.registry[tabId];

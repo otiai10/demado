@@ -1,6 +1,9 @@
 import {MadoConfigureManager} from '../../services/mado';
 import Mado from '../../models/Mado';
+import Config from '../../models/Config';
 import Launcher from '../../services/mado/Launcher';
+
+import Time from '../../services/time';
 
 export function MadoDelete({_id}) {
   const mado = Mado.find(_id);
@@ -9,6 +12,14 @@ export function MadoDelete({_id}) {
   return {status:200};
 }
 
+export function MadoEditConfig({mado}) {
+  return MadoConfigureManager.sharedInstance().open(mado);
+}
+export function MadoEditConfigCommit({dict, mado:{_id}}) {
+  let mado = Mado.find(_id);
+  mado.update(dict);
+  return {status:200,mado};
+}
 export function MadoConfigure({url}) {
   return MadoConfigureManager.sharedInstance().open({url});
 }
@@ -27,19 +38,24 @@ export function MadoConfigureZoomUpdate({zoom}) {
  */
 export function MadoShouldDecorate() {
   let configurer = MadoConfigureManager.sharedInstance();
-  if (configurer.hasTarget(this.sender.tab.id)) {
+  let target = configurer.has(this.sender.tab.id);
+  if (target) {
     return new Promise(resolve => {
       chrome.tabs.getZoom(this.sender.tab.id, (zoom) => {
-        resolve({status:200, zoom, decorator:'configure'});
+        resolve({status:200, zoom, decorator:'configure', mado:target.mado});
       });
     });
   }
-  const entry = Launcher.sharedInstance().has(this.sender.tab.id);
+  let entry = Launcher.sharedInstance().has(this.sender.tab.id);
   if (entry) {
     return new Promise(resolve => {
       chrome.tabs.setZoomSettings(this.sender.tab.id, {scope:'per-tab'}, () => {
         chrome.tabs.setZoom(this.sender.tab.id, parseFloat(entry.mado.zoom), () => {
-          resolve({status:200, entry, decorator:'app'});
+          const configs = {
+            onbeforeunload: Config.find('ask-before-unload').value,
+          };
+          resolve({status:200, entry, decorator:'app', configs});
+          setTimeout(() => entry.decorated = true, 100);// レスポンス送ったあとにフラグ立てる
         });
       });
     });
@@ -112,11 +128,14 @@ export function MadoEntries() {
 export function MadoScreenshot({mado, winId}) {
   return new Promise(resolve => {
     chrome.tabs.captureVisibleTab(winId,{format: 'png'}, url => {
-      resolve({url});
-      let a = document.createElement('a');
-      a.href = url;
-      a.download = mado.name;
-      a.click();
+      const filename = `${mado.name}_${Time.new().xxx()}.png`;
+      if (Config.find('use-prisc').value) {
+        chrome.runtime.sendMessage('gghkamaeinhfnhpempdbopannocnlbkg', {
+          path:'open/edit', params: {imgURI: url}
+        }, resolve);
+      } else {
+        chrome.downloads.download({url, filename}, resolve);
+      }
     });
   });
 }

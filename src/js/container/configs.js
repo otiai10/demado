@@ -7,6 +7,7 @@ import cn from 'classnames';
 import Mado from '../models/Mado';
 import MadoConfigTile         from '../components/configs/MadoConfigTile';
 import NewMadoConfigureDialog from '../components/configs/NewMadoConfigureDialog';
+import SettingsView           from '../components/configs/Settings';
 
 import '../components/configs/main.css';
 
@@ -66,16 +67,38 @@ export default class ConfigsView extends Component {
       >＋</span>
     );
   }
+  getResetIcon() {
+    if (Mado.list().length == 0) return null;
+    return (
+      <span
+        style={{color:'#dfdfdf',cursor:'pointer',float:'right'}}
+        onClick={() => {
+          if (window.confirm('全削除しますか？') && window.confirm(`マジで全削除しますか？\n\n${Mado.list().map(mado => '- ' + mado.name).join('\n')}`)) {
+            Mado.drop();
+            location.reload();
+          }
+        }}
+        >
+        <i className="fa fa-trash-o" />
+      </span>
+    );
+  }
 
   render() {
     return (
-      <section className="section">
-        <h1 className="title">demadoの設定 {this.getPlusIcon()}</h1>
-        <div className="columns is-multiline">
-          {this.getMadoTiles()}
-        </div>
-        {this.getModal()}
-      </section>
+      <div>
+        <section className="section">
+          <h1 className="title">demadoの設定 {this.getPlusIcon()} {this.getResetIcon()}</h1>
+          <div className="columns is-multiline">
+            {this.getMadoTiles()}
+          </div>
+          {this.getModal()}
+        </section>
+        <section className="section">
+          <h1 className="title">全体設定</h1>
+          <SettingsView />
+        </section>
+      </div>
     );
   }
 }

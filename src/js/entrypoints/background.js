@@ -9,6 +9,8 @@ router.on('/mado/configure',             Controllers.MadoConfigure);
 router.on('/mado/configure/zoom:update', Controllers.MadoConfigureZoomUpdate);
 router.on('/mado/configure:draft',       Controllers.MadoConfigureDraft);
 router.on('/mado/configure:upsert',      Controllers.MadoConfigureUpsert);
+router.on('/mado/edit-config',           Controllers.MadoEditConfig);
+router.on('/mado/edit-config:commit',    Controllers.MadoEditConfigCommit);
 router.on('/mado:delete',                Controllers.MadoDelete);
 router.on('/mado:launch',                Controllers.MadoLaunch);
 router.on('/mado:screenshot',            Controllers.MadoScreenshot);
@@ -29,3 +31,4 @@ chrome.runtime.onMessageExternal.addListener(ex.listener());
 
 // とりあえずここでいいや
 chrome.tabs.onRemoved.addListener(id => Launcher.sharedInstance().unlaunch(id));
+chrome.windows.onRemoved.addListener(id => Launcher.sharedInstance().unlaunchAllInWindow(id));
