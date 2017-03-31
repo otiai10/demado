@@ -81,6 +81,10 @@ export default class MadoConfigTile extends Component {
                           title="エクスポート"
                           onClick={() => this.props.showMadoJSON(mado)}
                         />
+                        <i className="action fa fa-pencil"
+                          title="編集"
+                          onClick={() => this.client.message('/mado/edit-config', {mado}).then(() => window.close())}
+                        />
                       </td>
                     </tr>
                   </tbody>

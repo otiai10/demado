@@ -10,11 +10,11 @@ export class MadoConfigureManager {
   constructor() {
     this.target = {};
   }
-  open(opt) {
-    this.url      = opt.url      || '';
-    this.position = opt.position || {x: 100, y: 100};
-    this.size     = opt.size     || {width: 520, height: 360};
-
+  open(mado) {
+    if (mado._id) this.mado = mado;
+    this.url      = mado.url      || '';
+    this.position = mado.position || {x: 100, y: 100};
+    this.size     = this._ensureSize() || {width: 520, height: 360};
     return (new Promise((resolve, reject) => {
       chrome.tabs.query({
         url: this.url,
@@ -47,7 +47,14 @@ export class MadoConfigureManager {
       });
     });
   }
-  hasTarget(tabId) {
-    return this.target && this.target.id == tabId;
+  _ensureSize() {
+    if (!this.mado) return null;
+    return {
+      width:  parseInt(this.mado.size.width * this.mado.zoom),
+      height: parseInt(this.mado.size.height * this.mado.zoom),
+    };
+  }
+  has(tabId) {
+    return this.target && this.target.id == tabId ? this : null;
   }
 }

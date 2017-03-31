@@ -27,7 +27,8 @@ export default class ConfigureDecorator {
     this.resizer.querySelector('#size-width').value = target.innerWidth;
     this.resizer.querySelector('#size-height').value = target.innerHeight;
   }
-  decorate({zoom}) {
+  decorate({zoom,mado}) {
+    this.mado = mado;
     const doc = this.context.document;
     this.background = this.getBackground(doc);
     this.panel = this.getControlPanel(doc, zoom);
@@ -132,12 +133,13 @@ export default class ConfigureDecorator {
     return node;
   }
   getCommit(doc) {
+    const label = this.mado ? `「${this.mado.name}」を更新する` : 'これで決定';
     const template = `
       <div>
         <p style="word-break:break-all;">URL: ${this.context.location.href}</p>
         <div style="${s.row}">
           <div style="flex:1">
-            <button style="${s.button}" id="dmd-configure-commit">これで決定</button>
+            <button style="${s.button}" id="dmd-configure-commit">${label}</button>
           </div>
         </div>
       </div>
@@ -159,6 +161,10 @@ export default class ConfigureDecorator {
       zoom: parseFloat(this.panel.querySelector('#dmd-zoom').value),
       position: {x:0, y:0},
     };
-    this.client.message('/mado/configure:draft', dict).then(() => this.context.close());
+    if (this.mado) {
+      this.client.message('/mado/edit-config:commit', {dict, mado:this.mado}).then(() => this.context.close());
+    } else {
+      this.client.message('/mado/configure:draft', dict).then(() => this.context.close());
+    }
   }
 }

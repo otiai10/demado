@@ -12,6 +12,14 @@ export function MadoDelete({_id}) {
   return {status:200};
 }
 
+export function MadoEditConfig({mado}) {
+  return MadoConfigureManager.sharedInstance().open(mado);
+}
+export function MadoEditConfigCommit({dict, mado:{_id}}) {
+  let mado = Mado.find(_id);
+  mado.update(dict);
+  return {status:200,mado};
+}
 export function MadoConfigure({url}) {
   return MadoConfigureManager.sharedInstance().open({url});
 }
@@ -30,10 +38,11 @@ export function MadoConfigureZoomUpdate({zoom}) {
  */
 export function MadoShouldDecorate() {
   let configurer = MadoConfigureManager.sharedInstance();
-  if (configurer.hasTarget(this.sender.tab.id)) {
+  let target = configurer.has(this.sender.tab.id);
+  if (target) {
     return new Promise(resolve => {
       chrome.tabs.getZoom(this.sender.tab.id, (zoom) => {
-        resolve({status:200, zoom, decorator:'configure'});
+        resolve({status:200, zoom, decorator:'configure', mado:target.mado});
       });
     });
   }
