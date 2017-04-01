@@ -13,7 +13,7 @@ export function MadoDelete({_id}) {
 }
 
 export function MadoEditConfig({mado}) {
-  return MadoConfigureManager.sharedInstance().open(mado);
+  return MadoConfigureManager.sharedInstance(true).open(mado);
 }
 export function MadoEditConfigCommit({dict, mado:{_id}}) {
   let mado = Mado.find(_id);
@@ -21,7 +21,7 @@ export function MadoEditConfigCommit({dict, mado:{_id}}) {
   return {status:200,mado};
 }
 export function MadoConfigure({url}) {
-  return MadoConfigureManager.sharedInstance().open({url});
+  return MadoConfigureManager.sharedInstance(true).open({url});
 }
 export function MadoConfigureZoomUpdate({zoom}) {
   return new Promise(resolve => {

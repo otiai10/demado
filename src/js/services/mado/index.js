@@ -1,8 +1,8 @@
 
 export class MadoConfigureManager {
   static instance = null;
-  static sharedInstance() {
-    if (this.instance == null) {
+  static sharedInstance(clean = false) {
+    if (clean || this.instance == null) {
       this.instance = new this();
     }
     return this.instance;
