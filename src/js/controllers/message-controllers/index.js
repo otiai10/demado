@@ -137,7 +137,7 @@ export function MadoEntries() {
 export function MadoScreenshot({mado, winId}) {
   return new Promise(resolve => {
     chrome.tabs.captureVisibleTab(winId,{format: 'png'}, url => {
-      const filename = `${mado.name}_${Time.new().xxx()}.png`;
+      const filename = `${mado.name.replace('/','_','g')}/${Time.new().xxx()}.png`;
       if (Config.find('use-prisc').value) {
         chrome.runtime.sendMessage('gghkamaeinhfnhpempdbopannocnlbkg', {
           path:'open/edit', params: {imgURI: url}
