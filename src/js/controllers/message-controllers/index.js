@@ -18,6 +18,7 @@ export function MadoEditConfig({mado}) {
 export function MadoEditConfigCommit({dict, mado:{_id}}) {
   let mado = Mado.find(_id);
   mado.update(dict);
+  window.open('/html/configs.html');
   return {status:200,mado};
 }
 export function MadoConfigure({url}) {
