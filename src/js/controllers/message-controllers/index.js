@@ -42,9 +42,17 @@ export function MadoShouldDecorate() {
   let target = configurer.has(this.sender.tab.id);
   if (target) {
     return new Promise(resolve => {
-      chrome.tabs.getZoom(this.sender.tab.id, (zoom) => {
-        resolve({status:200, zoom, decorator:'configure', mado:target.mado});
-      });
+      if (!!target.mado && target.mado.zoom != 1) {
+        chrome.tabs.setZoomSettings(this.sender.tab.id, {scope:'per-tab'}, () => {
+          chrome.tabs.setZoom(this.sender.tab.id, parseFloat(target.mado.zoom), () => {
+            resolve({status:200, zoom:target.mado.zoom, decorator:'configure', mado:target.mado});
+          });
+        });
+      } else {
+        chrome.tabs.getZoom(this.sender.tab.id, (zoom) => {
+          resolve({status:200, zoom, decorator:'configure', mado:target.mado});
+        });
+      }
     });
   }
   let entry = Launcher.sharedInstance().has(this.sender.tab.id);
