@@ -2,6 +2,7 @@ import {Router} from 'chomex';
 
 import Launcher from '../services/mado/Launcher';
 import * as Controllers from '../controllers/message-controllers';
+import * as Commands    from '../controllers/command-controllers';
 
 let router = new Router();
 // このへんは設定いじるときしか使われない
@@ -21,8 +22,15 @@ router.on('/mado/entries',               Controllers.MadoEntries);
 router.on('/mado/should-decorate',       Controllers.MadoShouldDecorate);
 
 router.on('/dashboard:open', Controllers.DashboardOpen);
+router.on('/dashboard:track',Controllers.DashboardTrack);
 
 chrome.runtime.onMessage.addListener(router.listener());
+
+// コマンドのやつ
+let commands = new Router(name => {return {name};});
+commands.on('capture', Commands.Capture);
+commands.on('mute',    Commands.Mute);
+chrome.commands.onCommand.addListener(commands.listener());
 
 // 外部（というかponpetick）からのリクエスト
 let ex = new Router();

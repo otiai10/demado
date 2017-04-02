@@ -1,6 +1,7 @@
 import {MadoConfigureManager} from '../../services/mado';
 import Mado from '../../models/Mado';
 import Config from '../../models/Config';
+import DashboardBounds from '../../models/DashboardBounds';
 import Launcher from '../../services/mado/Launcher';
 
 import Time from '../../services/time';
@@ -13,15 +14,16 @@ export function MadoDelete({_id}) {
 }
 
 export function MadoEditConfig({mado}) {
-  return MadoConfigureManager.sharedInstance().open(mado);
+  return MadoConfigureManager.sharedInstance(true).open(mado);
 }
 export function MadoEditConfigCommit({dict, mado:{_id}}) {
   let mado = Mado.find(_id);
   mado.update(dict);
+  window.open('/html/configs.html');
   return {status:200,mado};
 }
 export function MadoConfigure({url}) {
-  return MadoConfigureManager.sharedInstance().open({url});
+  return MadoConfigureManager.sharedInstance(true).open({url});
 }
 export function MadoConfigureZoomUpdate({zoom}) {
   return new Promise(resolve => {
@@ -41,9 +43,17 @@ export function MadoShouldDecorate() {
   let target = configurer.has(this.sender.tab.id);
   if (target) {
     return new Promise(resolve => {
-      chrome.tabs.getZoom(this.sender.tab.id, (zoom) => {
-        resolve({status:200, zoom, decorator:'configure', mado:target.mado});
-      });
+      if (!!target.mado && target.mado.zoom != 1) {
+        chrome.tabs.setZoomSettings(this.sender.tab.id, {scope:'per-tab'}, () => {
+          chrome.tabs.setZoom(this.sender.tab.id, parseFloat(target.mado.zoom), () => {
+            resolve({status:200, zoom:target.mado.zoom, decorator:'configure', mado:target.mado});
+          });
+        });
+      } else {
+        chrome.tabs.getZoom(this.sender.tab.id, (zoom) => {
+          resolve({status:200, zoom, decorator:'configure', mado:target.mado});
+        });
+      }
     });
   }
   let entry = Launcher.sharedInstance().has(this.sender.tab.id);
@@ -126,18 +136,21 @@ export function MadoEntries() {
 }
 
 export function MadoScreenshot({mado, winId}) {
+  // {{{ TODO: DRY
   return new Promise(resolve => {
     chrome.tabs.captureVisibleTab(winId,{format: 'png'}, url => {
-      const filename = `${mado.name}_${Time.new().xxx()}.png`;
+      const filename = `${mado.name.replace('/','_','g')}/${Time.new().xxx()}.png`;
       if (Config.find('use-prisc').value) {
         chrome.runtime.sendMessage('gghkamaeinhfnhpempdbopannocnlbkg', {
-          path:'open/edit', params: {imgURI: url}
-        }, resolve);
+          action: '/open/edit', path:'open/edit',
+          params: {imgURI: url, filename}
+        }, () => resolve({status:200}));
       } else {
         chrome.downloads.download({url, filename}, resolve);
       }
     });
   });
+  // }}}
 }
 
 export function MadoToggleMute({tabId}) {
@@ -153,13 +166,20 @@ export function MadoToggleMute({tabId}) {
 }
 
 export function DashboardOpen() {
-  const height = 24 * 2 + Mado.list().length * 50, width = 330;
+  const bounds = DashboardBounds.common();
+  const height = 24 * 2 + Mado.list().length * 50;
   return new Promise(resolve => {
     chrome.windows.create({
       type:'popup',
       url: '/html/dashboard.html',
       height: (height < 170 ? 170 : height),
-      width,
+      width: bounds.size.width,
+      left:  bounds.position.x,
+      top:   bounds.position.y,
     }, resolve);
   });
+}
+export function DashboardTrack({position}) {
+  DashboardBounds.common().update({position});
+  return {status:200};
 }

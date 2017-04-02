@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "demado",
-  "version": "1.0.6",
+  "version": "1.0.8",
   "description": "ブラゲーのランチャー",
   "permissions" : [
     "downloads",
@@ -37,7 +37,7 @@
         "mac": "Command+Shift+S",
         "windows": "Ctrl+Shift+S"
       },
-      "description":"Priscでスクショします"
+      "description":"demadoが効いてる現在の画面をスクショします"
     },
     "mute": {
       "suggested_key": {
@@ -45,7 +45,7 @@
         "mac": "Command+Shift+M",
         "windows": "Ctrl+Shift+M"
       },
-      "description":"ミュートします"
+      "description":"demadoが効いてる現在の画面をミュートします"
     }
   },
   "options_page" : "html/configs.html"

@@ -93,20 +93,23 @@ export default class ConfigureDecorator {
   }
   onOffsetChange(key, ev) {
     // これマイナスなんだよなあ
-    this.context.document.body.style[key] = `-${ev.target.value}px`;
+    const value = typeof ev == 'object' ? ev.target.value : ev;
+    this.context.document.body.style[key] = `-${value}px`;
   }
   getOffseter(doc) {
+    const left = this.mado ? this.mado.offset.left : 0;
+    const top  = this.mado ? this.mado.offset.top  : 0;
     const template = `
       <div>
         <p>ウィンドウに対するコンテンツのズレですが、大きさ変えると必要なかったりします</p>
         <div style="${s.row}">
           <div style="flex:1">
             <span style="${s.label}">左右</span>
-            <input style="${s.input}" value="0" id="offset-left" min="0" type="number" />
+            <input style="${s.input}" value="${left}" id="offset-left" min="0" type="number" />
           </div>
           <div style="flex:1">
             <span style="${s.label}">上下</span>
-            <input style="${s.input}" value="0" id="offset-top" min="0" type="number" />
+            <input style="${s.input}" value="${top}" id="offset-top" min="0" type="number" />
           </div>
         </div>
       </div>
@@ -114,6 +117,9 @@ export default class ConfigureDecorator {
     const node = DOM(doc)(template)[0];
     node.querySelector('#offset-left').addEventListener('change', this.onOffsetChange.bind(this, 'left'));
     node.querySelector('#offset-top').addEventListener('change',  this.onOffsetChange.bind(this, 'top'));
+    // 既存の設定を反映
+    this.onOffsetChange('left', left);
+    this.onOffsetChange('top', top);
     return node;
   }
   getZoomer(doc, currentZoom) {

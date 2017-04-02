@@ -9,6 +9,7 @@ export default class Time {
   // もう名前考えるのつかれた
   xxx(joint = '') {
     return [
+      `${this.d.getFullYear()}`,
       `${this._pad(this.d.getMonth() + 1)}`,
       `${this._pad(this.d.getDate())}`,
       `${this._pad(this.d.getHours())}`,

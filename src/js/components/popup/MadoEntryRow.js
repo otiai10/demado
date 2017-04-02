@@ -2,12 +2,6 @@ import React, {Component,PropTypes} from 'react';
 import cn from 'classnames';
 
 export default class MadoEntryRow extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      muted: this.props.entry.tab ? this.props.entry.tab.mutedInfo.muted : false,
-    };
-  }
   // ここで色のバリエーションつけるやつ、設定画面と同じなので、別々に定義してるとあぶない。
   _color() {
     switch(this.props.entry.mado._id % 4) {
@@ -35,9 +29,10 @@ export default class MadoEntryRow extends Component {
   }
   renderMuteButton() {
     if (!this.props.entry.tab) return null;
+    const {muted} = this.props.entry.tab.mutedInfo;
     return (
       <div style={this._style().icon} onClick={this.toggleMute.bind(this)}>
-        {this.state.muted ? <i className="fa fa-volume-off" /> : <i className="fa fa-volume-up" />}
+        {muted ? <i className="fa fa-volume-off" /> : <i className="fa fa-volume-up" />}
       </div>
     );
   }
@@ -83,7 +78,7 @@ export default class MadoEntryRow extends Component {
     ev.stopPropagation();
     this.props.client.message('/mado:toggle-mute', {
       mado: this.props.entry.mado, tabId: this.props.entry.tab.id,
-    }).then(({tab}) => this.setState({muted:tab.mutedInfo.muted}));
+    }).then(() => this.props.refresh());
   }
   takeScreenshot(ev) {
     ev.preventDefault();
@@ -95,5 +90,6 @@ export default class MadoEntryRow extends Component {
   static propTypes = {
     entry:  PropTypes.object.isRequired,
     client: PropTypes.object.isRequired,
+    refresh: PropTypes.func.isRequired,
   }
 }

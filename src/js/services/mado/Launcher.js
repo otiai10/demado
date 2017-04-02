@@ -59,6 +59,19 @@ export default class MadoLauncher {
   }
 
   /**
+   * 現在のwindowがLauncherのコンテキストにある場合はentryを返す。
+   */
+  context() {
+    return new Promise((resolve, reject) => {
+      chrome.tabs.getAllInWindow(null, tabs => {
+        if (tabs.length == 0) return reject();
+        const entry = this.has(tabs[0].id);
+        return entry ? resolve(entry) : reject();
+      });
+    });
+  }
+
+  /**
    * すべてにMado設定を受けて、tabなどをpopulateしてEntryを返す。
    * もちろんこのLauncherインスタンスで管理していないものには、tabなどが無いEntryを返す。
    */
