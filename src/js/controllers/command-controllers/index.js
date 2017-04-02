@@ -17,7 +17,7 @@ export function Capture() {
         chrome.runtime.sendMessage('gghkamaeinhfnhpempdbopannocnlbkg', {
           action: '/open/edit', path:'open/edit',
           params: {imgURI: url, filename}
-        }, resolve);
+        }, () => resolve({status:200}));
       } else {
         chrome.downloads.download({url, filename}, resolve);
       }
