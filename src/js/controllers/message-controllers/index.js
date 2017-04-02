@@ -1,6 +1,7 @@
 import {MadoConfigureManager} from '../../services/mado';
 import Mado from '../../models/Mado';
 import Config from '../../models/Config';
+import DashboardBounds from '../../models/DashboardBounds';
 import Launcher from '../../services/mado/Launcher';
 
 import Time from '../../services/time';
@@ -165,13 +166,16 @@ export function MadoToggleMute({tabId}) {
 }
 
 export function DashboardOpen() {
-  const height = 24 * 2 + Mado.list().length * 50, width = 330;
+  const bounds = DashboardBounds.common();
+  const height = 24 * 2 + Mado.list().length * 50;
   return new Promise(resolve => {
     chrome.windows.create({
       type:'popup',
       url: '/html/dashboard.html',
       height: (height < 170 ? 170 : height),
-      width,
+      width: bounds.size.width,
+      left:  bounds.position.x,
+      top:   bounds.position.y,
     }, resolve);
   });
 }
