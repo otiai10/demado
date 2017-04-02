@@ -135,18 +135,21 @@ export function MadoEntries() {
 }
 
 export function MadoScreenshot({mado, winId}) {
+  // {{{ TODO: DRY
   return new Promise(resolve => {
     chrome.tabs.captureVisibleTab(winId,{format: 'png'}, url => {
       const filename = `${mado.name.replace('/','_','g')}/${Time.new().xxx()}.png`;
       if (Config.find('use-prisc').value) {
         chrome.runtime.sendMessage('gghkamaeinhfnhpempdbopannocnlbkg', {
-          path:'open/edit', params: {imgURI: url}
+          action: '/open/edit', path:'open/edit',
+          params: {imgURI: url, filename}
         }, resolve);
       } else {
         chrome.downloads.download({url, filename}, resolve);
       }
     });
   });
+  // }}}
 }
 
 export function MadoToggleMute({tabId}) {
