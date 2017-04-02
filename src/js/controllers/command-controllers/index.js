@@ -40,7 +40,19 @@ export function Capture() {
   });
 }
 
-export function Mute(a, b, c) {
-  console.log('Mute', this, a, b, c);
-  return true;
+export function Mute() {
+  return current().then(tab => {
+    const entry = Launcher.sharedInstance().has(tab.id);
+    return entry ? Promise.resolve(entry) : Promise.reject();
+  }).then(entry => {
+    return new Promise(resolve => {
+      chrome.tabs.get(entry.tab.id, tab => {
+        const muted = !tab.mutedInfo.muted;
+        chrome.tabs.update(tab.id, {muted}, tab => {
+          Launcher.sharedInstance().update(tab);
+          resolve({status:200,tab});
+        });
+      });
+    });
+  });
 }
