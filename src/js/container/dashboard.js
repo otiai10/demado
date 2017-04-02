@@ -13,10 +13,17 @@ export default class DashboardView extends Component {
     this.refresh();
   }
   componentDidMount() {
-    this.interval = setInterval(() => this.refresh(), 5000);
+    this.interval = setInterval(() => {
+      this.refresh();
+      this.track();
+    }, 5000);
   }
   refresh() {
     this.client.message('/mado/entries').then(({entries}) => this.setState({entries}));
+  }
+  track() {
+    const {screenX, screenY} = window;
+    this.client.message('/dashboard:track', {position:{x:screenX,y:screenY}});
   }
   render() {
     return (

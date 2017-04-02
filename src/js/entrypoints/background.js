@@ -22,6 +22,7 @@ router.on('/mado/entries',               Controllers.MadoEntries);
 router.on('/mado/should-decorate',       Controllers.MadoShouldDecorate);
 
 router.on('/dashboard:open', Controllers.DashboardOpen);
+router.on('/dashboard:track',Controllers.DashboardTrack);
 
 chrome.runtime.onMessage.addListener(router.listener());
 

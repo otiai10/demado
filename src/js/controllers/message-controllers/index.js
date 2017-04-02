@@ -179,3 +179,7 @@ export function DashboardOpen() {
     }, resolve);
   });
 }
+export function DashboardTrack({position}) {
+  DashboardBounds.common().update({position});
+  return {status:200};
+}
