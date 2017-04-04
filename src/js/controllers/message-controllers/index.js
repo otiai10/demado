@@ -3,6 +3,7 @@ import Mado from '../../models/Mado';
 import Config from '../../models/Config';
 import DashboardBounds from '../../models/DashboardBounds';
 import Launcher from '../../services/mado/Launcher';
+import filename from '../../services/filename';
 
 import Time from '../../services/time';
 
@@ -139,7 +140,7 @@ export function MadoScreenshot({mado, winId}) {
   // {{{ TODO: DRY
   return new Promise(resolve => {
     chrome.tabs.captureVisibleTab(winId,{format: 'png'}, url => {
-      const filename = `${mado.name.replace('/','_','g')}/${Time.new().xxx()}.png`;
+      const filename = `${filename.safe(mado.name)}/${Time.new().xxx()}.png`;
       if (Config.find('use-prisc').value) {
         chrome.runtime.sendMessage('gghkamaeinhfnhpempdbopannocnlbkg', {
           action: '/open/edit', path:'open/edit',
