@@ -34,3 +34,7 @@ i.fa.action:hover:after {
   color:       #303030;
   text-align:     left;
 }
+
+.text.is-danger {
+  color: #cd0930;
+}

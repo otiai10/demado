@@ -1,11 +1,12 @@
 import React, {Component,PropTypes} from 'react';
 import {Stepper,Step} from 'react-bulma-stepper';
 
+import cn from 'classnames';
+
 import URLInputForm         from './URLInputForm';
 import MadoConfigureWaiting from './MadoConfigureWaiting';
 import NameConfirmationForm from './NameConfirmationForm';
-
-import Mado from '../../../models/Mado';
+import ImportMadoDialog     from '../ImportMadoDialog';
 
 export default class NewMadoConfigureDialog extends Component {
   constructor(props) {
@@ -13,6 +14,7 @@ export default class NewMadoConfigureDialog extends Component {
     this.state = {
       step: 1,
       draft: null,
+      importing: false,
     };
     this.startDraftObservation();
   }
@@ -31,15 +33,15 @@ export default class NewMadoConfigureDialog extends Component {
   onDraftCreated(draft) {
     this.setState({step:3, draft: {...this.state.draft, ...draft}});
   }
-  importMadoFromYamlString() {
-    const yamlstring = window.prompt('エクスポートされたYAML形式の設定を改行そのままでここにコピペしてください');
-    try {
-      const mado = Mado.fromExportalYAML(yamlstring);
-      console.log(mado);
-      this.setState({step:3, draft: mado});
-    } catch (err) {
-      window.alert('エキスポート機能で出力されるYAML形式に従ってください: \n' + err.toString());
-    }
+  getMoreModal() {
+    return (
+      <div className={cn('modal', this.state.importing ? 'is-active' : null)}>
+        <ImportMadoDialog
+          close={() => this.props.close()}
+          commit={draft => this.setState({importing:false, draft, step: 3})}
+        />
+      </div>
+    );
   }
   getSectionForStep() {
     switch(this.state.step) {
@@ -85,13 +87,14 @@ export default class NewMadoConfigureDialog extends Component {
         </section>
         <footer className="modal-card-foot">
           <a
-            className="button" onClick={this.importMadoFromYamlString.bind(this)}
+            className="button" onClick={() => this.setState({importing:true})}
             disabled={this.state.step == 3}
             >
             <i className="fa fa-file-code-o" style={{marginRight:'8px'}} />
             <span>設定をインポート</span>
           </a>
         </footer>
+        {this.getMoreModal()}
       </div>
     );
   }
