@@ -44,6 +44,7 @@ export default class ConfigureDecorator {
     bg.style.top    = 0;
     bg.style.right  = 0;
     bg.style.bottom = 0;
+    bg.style.zIndex = 1000;// AbemeTVなどheader/footerがz-indexで上にくるので決定ボタンが押せない
     bg.style.display        = 'flex';
     bg.style.alignItems     = 'center';
     bg.style.justifyContent = 'center';
