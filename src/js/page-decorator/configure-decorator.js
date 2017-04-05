@@ -35,6 +35,7 @@ export default class ConfigureDecorator {
   }
   decorate({zoom,mado}) {
     this.mado = mado;
+    this.adjustFrame(zoom, mado);
     const doc = this.context.document;
     this.background = this.getBackground(doc);
     this.panel = this.getControlPanel(doc, zoom);
@@ -186,5 +187,18 @@ export default class ConfigureDecorator {
     } else {
       this.client.message('/mado/configure:draft', dict).then(() => this.context.close());
     }
+  }
+  /**
+   * 設定コンテキストであってもaero領域を加味してリサイズしてあげる必要がある。
+   * レンダリングの問題で1px余計に広がることがあるんだけど、つらみしかない。
+   */
+  adjustFrame(zoom, mado) {
+    const z = parseFloat(mado ? mado.zoom : zoom);
+    const innerWidth  = Math.floor(this.context.innerWidth * z);
+    const innerHeight = Math.floor(this.context.innerHeight * z);
+    this.context.resizeBy(
+      this.context.outerWidth -  innerWidth,
+      this.context.outerHeight - innerHeight,
+    );
   }
 }
