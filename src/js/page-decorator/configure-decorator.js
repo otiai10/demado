@@ -1,3 +1,5 @@
+import debounce from 'debounce';
+
 const DOM = (doc) => (template) => {
   let tmp = doc.createElement('div');
   tmp.innerHTML = template.trim();
@@ -22,6 +24,10 @@ export default class ConfigureDecorator {
 
     // これ大事！！
     this.context.document.body.style.position = 'relative';
+
+    // inputを用いたサイズの調整は、すべてのイベントでwindow.resizeToするとヤバイ気がするので
+    // 200ミリ秒不応期を設けるべき。
+    this.onSizeChange = debounce(this.onSizeChange, 200);
   }
   onWindowResize({target}) {
     this.resizer.querySelector('#size-width').value = target.innerWidth;
@@ -66,29 +72,36 @@ export default class ConfigureDecorator {
     container.appendChild(this.getCommit(doc));
     return container;
   }
-  onSizeChange(key, ev) {
-    console.log('onSizeChange', key, ev.target.value);
+  onSizeChange() {
+    const aero = {
+      x: this.context.outerWidth  - this.context.innerWidth,
+      y: this.context.outerHeight - this.context.innerHeight,
+    };
+    this.context.resizeTo(
+      parseInt(this.resizer.querySelector('#size-width').value) + aero.x,
+      parseInt(this.resizer.querySelector('#size-height').value) + aero.y
+    );
   }
   getResizer(doc) {
     const {innerWidth:w, innerHeight:h} = this.context;
     const template = `
       <div>
-        <p>大きさはウィンドウを直接ひっぱって調整してください</p>
+        <p>大きさは主にウィンドウを直接ひっぱって調整してください。入力はなるべく微調整に使ってください</p>
         <div style="${s.row}">
           <div style="flex:1">
             <span style="${s.label}">横幅</span>
-            <input style="${s.input}" value="${w}" id="size-width" disabled  type="number" min="10" />
+            <input style="${s.input}" value="${w}" id="size-width" type="number" min="10" />
           </div>
           <div style="flex:1">
             <span style="${s.label}">縦幅</span>
-            <input style="${s.input}" value="${h}" id="size-height" disabled type="number" min="10" />
+            <input style="${s.input}" value="${h}" id="size-height" type="number" min="10" />
           </div>
         </div>
       </div>
     `;
     const node = DOM(doc)(template)[0];
-    node.querySelector('#size-width').addEventListener('change',  this.onSizeChange.bind(this, 'width'));
-    node.querySelector('#size-height').addEventListener('change', this.onSizeChange.bind(this, 'height'));
+    node.querySelector('#size-width').addEventListener('change',  this.onSizeChange.bind(this));
+    node.querySelector('#size-height').addEventListener('change', this.onSizeChange.bind(this));
     this.resizer = node;
     return node;
   }
