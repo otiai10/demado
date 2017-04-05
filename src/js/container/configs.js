@@ -30,12 +30,30 @@ export default class ConfigsView extends Component {
           <button className="delete" onClick={() => this.setState({modal:null})}></button>
         </header>
         <section className="modal-card-body">
-          <pre><code className="code">{mado.toExportalYAML()}</code></pre>
+          <input id="serial" className="input" readOnly={true} type="text" value={mado.toExportalDEMAL()} />
         </section>
+        <footer className="modal-card-foot">
+          <button className="button" onClick={this.onClickTweet.bind(this, mado)}><i className="fa fa-twitter" /> ツイートする</button>
+          <button className="button" onClick={this.onClickClipboard.bind(this)}><i className="fa fa-clipboard" /> クリップボードにコピー</button>
+        </footer>
       </div>
     )});
   }
-
+  onClickTweet(mado) {
+    const base  = 'https://twitter.com/intent/tweet';
+    const title = encodeURIComponent(mado.name + '\n');
+    const demal = encodeURIComponent(mado.toExportalDEMAL());
+    const tags  = ['demado','demado_memo'].join(',');
+    window.open(`${base}?text=${title}${demal}&hashtags=${tags}`);
+  }
+  onClickClipboard() {
+    // ちょっとReactっぽくないけど
+    const input = document.querySelector('input#serial');
+    input.select();
+    document.execCommand('copy');
+    window.alert(`copied!\n>>>\n${input.value}`);
+    this.setState({modal:null});
+  }
   getModal() {
     return (
       <div className={cn('modal', {'is-active':!!this.state.modal})}>
