@@ -40,3 +40,16 @@ chrome.runtime.onMessageExternal.addListener(ex.listener());
 // とりあえずここでいいや
 chrome.tabs.onRemoved.addListener(id => Launcher.sharedInstance().unlaunch(id));
 chrome.windows.onRemoved.addListener(id => Launcher.sharedInstance().unlaunchAllInWindow(id));
+
+// TODO: これはchomexで提供しなくていいのかな
+let installed = new Router(({reason}) => {return {name:reason};});
+installed.on('update', () => {
+  const message = [
+    'demadoがアップデートされました',
+    `version ${chrome.runtime.getManifest().version}`,
+    '各窓とbackgroundの接続が一時的に切れるので、スクショやミュートが無効になります。必要があれば、窓を閉じて、右上から窓を作り直してください。',
+    'こういうアラートを出さずに解決する方法を模索中です。'
+  ].join('\n');
+  window.alert(message);
+});
+chrome.runtime.onInstalled.addListener(installed.listener());
