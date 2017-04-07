@@ -1666,9 +1666,9 @@ delegates@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/delegates/-/delegates-1.0.0.tgz#84c6e159b81904fdca59a0ef44cd870d31250f9a"
 
-demal@^0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/demal/-/demal-0.0.3.tgz#27781bde6d6ca21528a3aa9c6ef1adc425e93978"
+demal@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/demal/-/demal-0.0.4.tgz#a93c197bacc1152c8a7320597c374c381ea3e6a1"
   dependencies:
     jest-cli "^19.0.2"
 

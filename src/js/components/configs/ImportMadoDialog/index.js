@@ -53,7 +53,7 @@ export default class ImportMadoDialog extends Component {
         this.setState({mado, error:null, valid: true});
       } catch (err_2) {
         this.setState({
-          error: [err.toString(), err_2.toString()].join('\n'),
+          error: ['1: ' + err.toString(), '2: ' + err_2.toString()].join('\n'),
           mado: null, valid:false
         });
       }
