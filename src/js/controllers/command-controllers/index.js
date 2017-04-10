@@ -1,6 +1,7 @@
 import Config   from '../../models/Config';
 import Launcher from '../../services/mado/Launcher';
 import Time     from '../../services/time';
+import {safe} from '../../services/filename';
 
 export function Capture() {
   return Launcher.sharedInstance().context().then(entry => {
@@ -12,7 +13,7 @@ export function Capture() {
   }).then(({entry, url}) => {
     // {{{ TODO: DRY
     return new Promise(resolve => {
-      const filename = `${entry.mado.name.replace('/','_','g')}/${Time.new().xxx()}.png`;
+      const filename = `${safe(entry.mado.name)}/${Time.new().xxx()}.png`;
       if (Config.find('use-prisc').value) {
         chrome.runtime.sendMessage('gghkamaeinhfnhpempdbopannocnlbkg', {
           action: '/open/edit', path:'open/edit',

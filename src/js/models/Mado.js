@@ -1,17 +1,28 @@
 import {Model} from 'chomex';
 import yaml from 'js-yaml';
+import demal from 'demal';
 
 export default class Mado extends Model {
-  toExportalYAML() {
-    return yaml.dump({
-      u: this.url,
+  toExportalDEMAL() {
+    return demal.serialize({
       s: {w: this.size.width,  h: this.size.height},
       o: {l: this.offset.left, t: this.offset.top},
       z: this.zoom,
+      u: this.url,
     });
   }
   static fromExportalYAML(yamlstring) {
     const obj = yaml.load(yamlstring);
+    return Mado.new({
+      url:    obj.u.replace(/\s+.*$/, ''),
+      size:   {width: obj.s.w, height: obj.s.h},
+      offset: {left: obj.o.l, top: obj.o.t},
+      zoom:   obj.z,
+      position: {x:10,y:10},
+    });
+  }
+  static fromExportalDEMAL(demalstring) {
+    const obj = demal.parse(demalstring).json();
     return Mado.new({
       url:    obj.u.replace(/\s+.*$/, ''),
       size:   {width: obj.s.w, height: obj.s.h},

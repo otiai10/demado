@@ -1576,9 +1576,19 @@ dashdash@^1.12.0:
   dependencies:
     assert-plus "^1.0.0"
 
+date-now@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/date-now/-/date-now-1.0.1.tgz#bb7d086438debe4182a485fb3df3fbfb99d6153c"
+
 date-now@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/date-now/-/date-now-0.1.4.tgz#eaf439fd4d4848ad74e5cc7dbef200672b9e345b"
+
+debounce@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/debounce/-/debounce-1.0.0.tgz#0948af513d2e4ce407916f8506a423d3f9cf72d8"
+  dependencies:
+    date-now "1.0.1"
 
 debug@^2.1.1, debug@^2.2.0:
   version "2.6.1"
@@ -1655,6 +1665,12 @@ delayed-stream@~1.0.0:
 delegates@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/delegates/-/delegates-1.0.0.tgz#84c6e159b81904fdca59a0ef44cd870d31250f9a"
+
+demal@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/demal/-/demal-0.0.4.tgz#a93c197bacc1152c8a7320597c374c381ea3e6a1"
+  dependencies:
+    jest-cli "^19.0.2"
 
 des.js@^1.0.0:
   version "1.0.0"
@@ -2930,14 +2946,7 @@ js-tokens@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-3.0.1.tgz#08e9f132484a2c45a30907e9dc4d5567b7f114d7"
 
-js-yaml@^3.5.1, js-yaml@^3.7.0:
-  version "3.8.1"
-  resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.8.1.tgz#782ba50200be7b9e5a8537001b7804db3ad02628"
-  dependencies:
-    argparse "^1.0.7"
-    esprima "^3.1.1"
-
-js-yaml@^3.8.2:
+js-yaml@^3.5.1, js-yaml@^3.7.0, js-yaml@^3.8.2:
   version "3.8.2"
   resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.8.2.tgz#02d3e2c0f6beab20248d412c352203827d786721"
   dependencies:
