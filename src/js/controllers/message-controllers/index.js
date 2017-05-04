@@ -167,6 +167,17 @@ export function MadoToggleMute({tabId}) {
   });
 }
 
+export function MadoResizeBy({w, h}) {
+  return new Promise(resolve => {
+    chrome.windows.get(this.sender.tab.windowId, (win) => {
+      chrome.windows.update(win.id, {
+        width:  win.width + w,
+        height: win.height + h,
+      }, resolve);
+    });
+  });
+}
+
 export function DashboardOpen() {
   const bounds = DashboardBounds.common();
   const height = 24 * 2 + Mado.list().length * 50;
