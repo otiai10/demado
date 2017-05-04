@@ -24,7 +24,7 @@ export default class MadoLauncher {
     return new Promise(resolve => {
       chrome.windows.create({
         url: mado.url,
-        type: 'popup',
+        type: mado.addressbar ? 'normal' : 'popup',
         width: parseInt(mado.size.width   * mado.zoom),
         height: parseInt(mado.size.height * mado.zoom),
         left: mado.position.x,
