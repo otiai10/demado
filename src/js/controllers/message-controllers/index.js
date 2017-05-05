@@ -99,9 +99,14 @@ export function MadoConfigureDraft(draft) {
  * ゆくゆくはUpsertにしたいけど、とりあえずInsertする
  */
 export function MadoConfigureUpsert(draft) {
-  return new Promise(resolve => {
-    const mado = Mado.create(draft);
-    resolve(mado);
+  return new Promise((resolve,reject) => {
+    // TODO: やっぱりModelのcreate errorはthrowじゃなくてちゃんとerrorオブジェクト返すべき
+    try {
+      const mado = Mado.create(draft);
+      resolve(mado);
+    } catch (err) {
+      reject({status:500,message:err.toString()});
+    }
   });
 }
 
