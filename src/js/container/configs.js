@@ -42,7 +42,7 @@ export default class ConfigsView extends Component {
   }
 
   showAdvanced(mado) {
-    this.setState({modal: <AdvancedConfigDialog mado={mado} />});
+    this.setState({modal: <AdvancedConfigDialog mado={mado} close={() => this.setState({modal:null})}/>});
   }
 
   onClickTweet(mado) {
