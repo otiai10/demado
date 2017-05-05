@@ -50,12 +50,15 @@ export default class Mado extends Model {
       x: Model.Types.number.isRequired,
       y: Model.Types.number.isRequired,
     }).isRequired,
+    // アドレスバー表示
+    addressbar: Model.Types.bool,
   }
   static template = {
-    zoom:     1,
-    size:     {width:200,height:100},
-    offset:   {left:0,top:0},
-    position: {x:10,y:10}
+    zoom:       1,
+    size:       {width:200,height:100},
+    offset:     {left:0,top:0},
+    position:   {x:10,y:10},
+    addressbar: false,
   }
   static nextID = Model.sequentialID
 }

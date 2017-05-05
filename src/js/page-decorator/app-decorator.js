@@ -25,9 +25,9 @@ export default class AppDecorator {
   resize(zoom) {
     const innerWidth  = Math.floor(this.context.innerWidth * zoom);
     const innerHeight = Math.floor(this.context.innerHeight * zoom);
-    this.context.resizeBy(
-      this.context.outerWidth -  innerWidth,
-      this.context.outerHeight - innerHeight,
-    );
+    this.client.message('/mado:resize-by', {
+      w: this.context.outerWidth -  innerWidth,
+      h: this.context.outerHeight - innerHeight - 1, // XXX なにこれw
+    });
   }
 }
