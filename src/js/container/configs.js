@@ -7,6 +7,7 @@ import cn from 'classnames';
 import Mado from '../models/Mado';
 import MadoConfigTile         from '../components/configs/MadoConfigTile';
 import NewMadoConfigureDialog from '../components/configs/NewMadoConfigureDialog';
+import AdvancedConfigDialog   from '../components/configs/AdvancedConfigDialog';
 import SettingsView           from '../components/configs/Settings';
 
 import '../components/configs/main.css';
@@ -39,6 +40,11 @@ export default class ConfigsView extends Component {
       </div>
     )});
   }
+
+  showAdvanced(mado) {
+    this.setState({modal: <AdvancedConfigDialog mado={mado} />});
+  }
+
   onClickTweet(mado) {
     const base  = 'https://twitter.com/intent/tweet';
     const title = encodeURIComponent(mado.name + '\n');
@@ -73,7 +79,7 @@ export default class ConfigsView extends Component {
   }
 
   getMadoTiles() {
-    return Mado.list().map(mado => <MadoConfigTile mado={mado} key={mado._id} showMadoJSON={this.showMadoJSON.bind(this)} />);
+    return Mado.list().map(mado => <MadoConfigTile mado={mado} key={mado._id} showMadoJSON={this.showMadoJSON.bind(this)} showAdvanced={this.showAdvanced.bind(this)} />);
   }
 
   getPlusIcon() {

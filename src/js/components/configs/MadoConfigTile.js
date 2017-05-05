@@ -81,6 +81,10 @@ export default class MadoConfigTile extends Component {
                           title="エクスポート"
                           onClick={() => this.props.showMadoJSON(mado)}
                         />
+                        <i className="action fa fa-cogs"
+                          title="高度な設定"
+                          onClick={() => this.props.showAdvanced(mado)}
+                        />
                         <i className="action fa fa-pencil"
                           title="編集"
                           onClick={() => this.client.message('/mado/edit-config', {mado}).then(() => window.close())}
@@ -104,5 +108,6 @@ export default class MadoConfigTile extends Component {
       size: PropTypes.object.isRequired,
     }).isRequired,
     showMadoJSON: PropTypes.func.isRequired,
+    showAdvanced: PropTypes.func.isRequired,
   }
 }
