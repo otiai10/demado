@@ -54,6 +54,7 @@ export default class NameConfirmationForm extends Component {
                 let draft = {
                   ...this.props.draft,
                   name: this.state.name,
+                  advanced: {},
                 };
                 delete draft['action'];
                 this.props.client.message('/mado/configure:upsert', draft)

@@ -1,3 +1,4 @@
+import {Client} from 'chomex';
 import Config   from '../../models/Config';
 import Launcher from '../../services/mado/Launcher';
 import Time     from '../../services/time';
@@ -15,10 +16,10 @@ export function Capture() {
     return new Promise(resolve => {
       const filename = `${safe(entry.mado.name)}/${Time.new().xxx()}.png`;
       if (Config.find('use-prisc').value) {
-        chrome.runtime.sendMessage('gghkamaeinhfnhpempdbopannocnlbkg', {
+        Client.for(chrome.runtime, 'gghkamaeinhfnhpempdbopannocnlbkg').message('/open/edit', {
           action: '/open/edit', path:'open/edit',
           params: {imgURI: url, filename}
-        }, () => resolve({status:200}));
+        }).then(() => resolve({status:200}));
       } else {
         chrome.downloads.download({url, filename}, resolve);
       }

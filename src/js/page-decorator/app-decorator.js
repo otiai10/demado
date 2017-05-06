@@ -12,6 +12,7 @@ export default class AppDecorator {
     this.context.document.body.style.left = `-${entry.mado.offset.left}px`;
     this.context.document.body.style.top  = `-${entry.mado.offset.top}px`;
     if (!entry.decorated) this.resize(entry.mado.zoom);
+    this.advanced(entry.mado);
     this.context.onbeforeunload = () => configs.onbeforeunload ? true : null;
     this.interval = this.context.setInterval(() => {
       this.client.message('/mado/position:update', {
@@ -25,9 +26,16 @@ export default class AppDecorator {
   resize(zoom) {
     const innerWidth  = Math.floor(this.context.innerWidth * zoom);
     const innerHeight = Math.floor(this.context.innerHeight * zoom);
-    this.context.resizeBy(
-      this.context.outerWidth -  innerWidth,
-      this.context.outerHeight - innerHeight,
-    );
+    this.client.message('/mado:resize-by', {
+      w: this.context.outerWidth -  innerWidth,
+      h: this.context.outerHeight - innerHeight - 1, // XXX なにこれw
+    });
+  }
+  advanced(mado) {
+    if (!mado.advanced) return;
+    (mado.advanced.remove || '').split('/').map(selector => {
+      const target = this.context.document.querySelector(selector.trim());
+      if (target && typeof target.remove == 'function') target.remove();
+    });
   }
 }

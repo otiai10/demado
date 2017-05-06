@@ -1,3 +1,4 @@
+import {Client} from 'chomex';
 import {MadoConfigureManager} from '../../services/mado';
 import Mado from '../../models/Mado';
 import Config from '../../models/Config';
@@ -98,9 +99,14 @@ export function MadoConfigureDraft(draft) {
  * ゆくゆくはUpsertにしたいけど、とりあえずInsertする
  */
 export function MadoConfigureUpsert(draft) {
-  return new Promise(resolve => {
-    const mado = Mado.create(draft);
-    resolve(mado);
+  return new Promise((resolve,reject) => {
+    // TODO: やっぱりModelのcreate errorはthrowじゃなくてちゃんとerrorオブジェクト返すべき
+    try {
+      const mado = Mado.create(draft);
+      resolve(mado);
+    } catch (err) {
+      reject({status:500,message:err.toString()});
+    }
   });
 }
 
@@ -142,10 +148,10 @@ export function MadoScreenshot({mado, winId}) {
     chrome.tabs.captureVisibleTab(winId,{format: 'png'}, url => {
       const filename = `${safe(mado.name)}/${Time.new().xxx()}.png`;
       if (Config.find('use-prisc').value) {
-        chrome.runtime.sendMessage('gghkamaeinhfnhpempdbopannocnlbkg', {
+        Client.for(chrome.runtime, 'gghkamaeinhfnhpempdbopannocnlbkg').message('/open/edit', {
           action: '/open/edit', path:'open/edit',
           params: {imgURI: url, filename}
-        }, () => resolve({status:200}));
+        }).then(() => resolve({status:200}));
       } else {
         chrome.downloads.download({url, filename}, resolve);
       }
@@ -162,6 +168,17 @@ export function MadoToggleMute({tabId}) {
         Launcher.sharedInstance().update(tab);
         resolve({status:200,tab});
       });
+    });
+  });
+}
+
+export function MadoResizeBy({w, h}) {
+  return new Promise(resolve => {
+    chrome.windows.get(this.sender.tab.windowId, (win) => {
+      chrome.windows.update(win.id, {
+        width:  win.width + w,
+        height: win.height + h,
+      }, resolve);
     });
   });
 }
