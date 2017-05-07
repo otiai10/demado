@@ -42,7 +42,7 @@ export default class AppDecorator {
    */
   _advanced(mado) {
     if (!mado.advanced) return;
-    (mado.advanced.remove || '').split('/').map(selector => {
+    (mado.advanced.remove || '').split('/').filter(s => !!s).map(selector => {
       const target = this.context.document.querySelector(selector.trim());
       if (target && typeof target.remove == 'function') target.remove();
     });
