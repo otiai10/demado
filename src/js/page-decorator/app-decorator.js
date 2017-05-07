@@ -57,6 +57,6 @@ export default class AppDecorator {
         x: this.context.screenX,
         y: this.context.screenY,
       });
-    }, 30*1000); // 30秒おきにポジションを記憶
+    }, 10*1000); // 10秒おきにポジションを記憶
   }
 }
