@@ -29,7 +29,7 @@
     "pack-chrome": "zip -r demado.zip dest",
     "pack-firefox": "cd dest && zip -r ../demado.xpi * && cd ..",
     "release": "npm run clean && npm run build-release && npm run pack-chrome && npm run pack-firefox",
-    "start": "yarn run clean && webpack --watch --progress"
+    "start": "npm run clean && webpack --watch --progress"
   },
   "license": "GPL-3.0",
   "dependencies": {
