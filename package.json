@@ -24,8 +24,11 @@
   },
   "scripts": {
     "test": "jest tests",
-    "clean": "rm -rf dest && mkdir dest && cp manifest.json dest && cp -r src/html dest/html && cp -r src/css dest/css && cp -r src/img dest/img",
-    "release": "yarn run clean && NODE_ENV=production webpack --progress && rm -f demado.zip && zip -r demado.zip dest",
+    "clean": "rm -f demado.zip demado.xpi && rm -rf dest && mkdir dest && cp manifest.json dest && cp -r src/html dest/html && cp -r src/css dest/css && cp -r src/img dest/img",
+    "build-release": "NODE_ENV=production webpack --progress",
+    "pack-chrome": "zip -r demado.zip dest",
+    "pack-firefox": "cd dest && zip -r ../demado.xpi * && cd ..",
+    "release": "npm run clean && npm run build-release && npm run pack-chrome && npm run pack-firefox",
     "start": "yarn run clean && webpack --watch --progress"
   },
   "license": "MIT",
