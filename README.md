@@ -16,7 +16,7 @@ demado.zip # for Chrome
 demado.xpi # for Firefox
 ```
 
-リリース
+ダウンロード
 
-- [demado - Chrome ウェブストア](https://chrome.google.com/webstore/detail/demado/dfmhlfpfpbijchleocfbpcdjgnbpdigh)
-- ~~demado :: Firefox 向けアドオン~~ :shipit: **< COMING SOON!**
+- [demado - Chrome ウェブストア](https://chrome.google.com/webstore/detail/demado/dfmhlfpfpbijchleocfbpcdjgnbpdigh?hl=ja)
+- [demado :: Firefox 向けアドオン](https://addons.mozilla.org/ja/firefox/addon/demado-for-firefox/)
