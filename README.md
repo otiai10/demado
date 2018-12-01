@@ -3,7 +3,20 @@
 開発
 
 ```sh
-yarn install
-yarn test
-yarn start
+% npm install
+% npm start
 ```
+
+リリースビルド
+
+```sh
+% npm run release
+% ls | grep demado
+demado.zip # for Chrome
+demado.xpi # for Firefox
+```
+
+ダウンロード
+
+- [demado - Chrome ウェブストア](https://chrome.google.com/webstore/detail/demado/dfmhlfpfpbijchleocfbpcdjgnbpdigh?hl=ja)
+- [demado :: Firefox 向けアドオン](https://addons.mozilla.org/ja/firefox/addon/demado-for-firefox/)
