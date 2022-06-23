@@ -6,9 +6,7 @@
   "permissions" : [
     "downloads",
     "tabs",
-    "<all_urls>",
-    "storage",
-    "activeTab"
+    "<all_urls>"
   ],
   "icons": {
     "128": "img/128.png"
