@@ -13,6 +13,12 @@ RUN npm test
 RUN npm run release
 
 FROM alpine
-WORKDIR /dest
-COPY --from=builder /app/demado.zip /dest/demado.zip
-COPY --from=builder /app/demado.xpi /dest/demado.xpi
+WORKDIR /release
+COPY --from=builder /app/demado.zip /release/demado.zip
+COPY --from=builder /app/demado.xpi /release/demado.xpi
+
+# How to use
+#
+# docker build -t demado .
+# docker run demado
+# docker cp demado:/release ./release

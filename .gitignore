@@ -11,3 +11,6 @@ src/js/config/constants.js
 dest
 demado.zip
 demado.xpi
+
+# misc
+.DS_Store
