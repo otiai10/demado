@@ -8,7 +8,8 @@ RUN apt-get install -y \
 
 COPY . /app
 WORKDIR /app
-RUN npm ci && npm rebuild node-sass
+RUN npm install
+RUN npm rebuild node-sass
 RUN npm test
 RUN npm run release
 
