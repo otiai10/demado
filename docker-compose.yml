@@ -1,0 +1,9 @@
+version: "3.9"
+services:
+  dev:
+    container_name: demado-dev
+    build: .
+    entrypoint: npm start
+    volumes:
+      - ./src:/app/src:rw
+      - ./dest:/app/dest:rw

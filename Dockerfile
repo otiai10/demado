@@ -4,19 +4,19 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update -qq
 RUN apt-get install -y \
-  python2 nodejs npm zip
+  python2 nodejs npm zip inotify-tools
 
 COPY . /app
 WORKDIR /app
 RUN npm install
 RUN npm rebuild node-sass
-RUN npm test
-RUN npm run release
+# RUN npm test
+# RUN npm run release
 
-FROM alpine
-WORKDIR /release
-COPY --from=builder /app/demado.zip /release/demado.zip
-COPY --from=builder /app/demado.xpi /release/demado.xpi
+# FROM alpine
+# WORKDIR /release
+# COPY --from=builder /app/demado.zip /release/demado.zip
+# COPY --from=builder /app/demado.xpi /release/demado.xpi
 
 # How to use
 #
