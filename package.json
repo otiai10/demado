@@ -26,8 +26,8 @@
     "test": "jest tests",
     "clean": "rm -f demado.zip demado.xpi && rm -rf ./dest/* && cp src/manifest.json dest && cp -r src/html dest/html && cp -r src/css dest/css && cp -r src/img dest/img",
     "build-release": "NODE_ENV=production webpack --progress",
-    "pack-chrome": "zip -r demado.zip dest",
-    "pack-firefox": "cd dest && zip -r ../demado.xpi * && cd ..",
+    "pack-chrome": "zip -r ./release/demado.zip dest",
+    "pack-firefox": "cd dest && zip -r ../release/demado.xpi * && cd ..",
     "release": "npm run clean && npm run build-release && npm run pack-chrome && npm run pack-firefox",
     "start": "npm run clean && webpack --watch --progress"
   },

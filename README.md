@@ -3,15 +3,17 @@
 開発
 
 ```sh
-% npm install
-% npm start
+% docker compose up dev
 ```
 
 リリースビルド
 
 ```sh
-% npm run release
-% ls | grep demado
+% docker compose up release
+```
+
+```sh
+% ls ./release
 demado.zip # for Chrome
 demado.xpi # for Firefox
 ```
