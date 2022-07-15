@@ -16,6 +16,22 @@
     main {
       min-height: 100%;
     }
+    span#balloon {
+      position: relative;
+      font-size: 0.8em;
+      background-color: white;
+      border-radius: 8px;
+      padding: 8px 16px;
+    }
+    span#balloon:after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      margin-left: -8px;
+      border: 8px solid transparent;
+      border-top: 8px solid white;
+    }
   </style>
 </head>
 <body>
@@ -29,8 +45,13 @@
     <div class="container">
       <div class="content has-text-centered">
         <p id="demado-version"></p>
+        <p>
+          <span id="balloon">
+            ボタン無反応問題、および-32000問題を解決した気がします.
+          </span>
+        </p>
         <p style="font-size:0.8em;">
-          アップデートの内容は<a href="https://github.com/otiai10/demado/commits/develop">ここ</a>を見てください。
+          アップデート内容は<a href="https://github.com/otiai10/demado/commits/main">ここ</a>を見てください。
         </p>
         <p>
           <a href="https://github.com/otiai10/demado">https://github.com/otiai10/demad</a>

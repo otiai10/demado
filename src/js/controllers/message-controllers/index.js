@@ -116,6 +116,11 @@ export function MadoConfigureUpsert(draft) {
 export function MadoLaunch({_id, winId}) {
   if (winId) return Launcher.sharedInstance().focus(winId);
   const mado = Mado.find(_id);
+  // -32000問題
+  // https://qiita.com/7of9/items/390ff8c1914e5ff6c68c
+  // https://source.chromium.org/chromium/chromium/src/+/d51682b36adc22496f45a8111358a8bb30914534
+  if (mado.size.width + mado.position.x  <= (mado.size.width/2)) mado.position.x = 0;
+  if (mado.size.height + mado.position.y <= (mado.size.width/2)) mado.position.y = 0;
   return Launcher.sharedInstance().launch(mado);
 }
 
@@ -134,6 +139,11 @@ export function ExternalMadoLaunch(req) {
 export function MadoPositionUpdate({x, y}) {
   const entry = Launcher.sharedInstance().has(this.sender.tab.id);
   if (!entry) return true;
+  // -32000問題
+  // https://qiita.com/7of9/items/390ff8c1914e5ff6c68c
+  // https://source.chromium.org/chromium/chromium/src/+/d51682b36adc22496f45a8111358a8bb30914534
+  if (entry.mado.size.width + x  <= entry.mado.size.width/2) x = 0;
+  if (entry.mado.size.height + y <= entry.mado.size.height/2) y = 0;
   return entry.mado.update({position:{x, y}});
 }
 
