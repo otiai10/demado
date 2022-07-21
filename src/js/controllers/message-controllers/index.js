@@ -119,9 +119,11 @@ export function MadoLaunch({_id, winId}) {
   // TODO: -32000問題
   // https://qiita.com/7of9/items/390ff8c1914e5ff6c68c
   // https://source.chromium.org/chromium/chromium/src/+/d51682b36adc22496f45a8111358a8bb30914534
-  // if (mado.size.width + mado.position.x  <= (mado.size.width/2)) mado.position.x = 0;
-  // if (mado.size.height + mado.position.y <= (mado.size.height/2)) mado.position.y = 0;
-  return Launcher.sharedInstance().launch(mado);
+  // Unchecked runtime.lastError: Invalid value for bounds. Bounds must be at least 50% within visible screen space.
+  return Launcher.sharedInstance().launch(mado).catch(() => {
+    mado.position = { x: 0, y: 0 };
+    return Launcher.sharedInstance().launch(mado);
+  });
 }
 
 /**
@@ -139,11 +141,6 @@ export function ExternalMadoLaunch(req) {
 export function MadoPositionUpdate({x, y}) {
   const entry = Launcher.sharedInstance().has(this.sender.tab.id);
   if (!entry) return true;
-  // TODO: -32000問題
-  // https://qiita.com/7of9/items/390ff8c1914e5ff6c68c
-  // https://source.chromium.org/chromium/chromium/src/+/d51682b36adc22496f45a8111358a8bb30914534
-  if (entry.mado.size.width + x  <= entry.mado.size.width/2) x = 0;
-  if (entry.mado.size.height + y <= entry.mado.size.height/2) y = 0;
   return entry.mado.update({position:{x, y}});
 }
 

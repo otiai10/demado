@@ -21,7 +21,7 @@ export default class MadoLauncher {
     });
   }
   launch(mado) {
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
       chrome.windows.create({
         url: mado.url,
         type: mado.addressbar ? 'normal' : 'popup',
@@ -30,8 +30,12 @@ export default class MadoLauncher {
         left: mado.position.x,
         top:  mado.position.y,
       }, win => {
-        const entry = this.register(mado, win.tabs[0], win);
-        resolve(entry);
+        if (!win || !win.tabs || !win.tabs.length) {
+          reject();
+        } else {
+          const entry = this.register(mado, win.tabs[0], win);
+          resolve(entry);
+        }
       });
     });
   }
