@@ -201,7 +201,25 @@ export function DashboardOpen() {
       width: bounds.size.width,
       left:  bounds.position.x,
       top:   bounds.position.y,
-    }, resolve);
+    }, win => {
+      if (win && win.tabs && win.tabs.length) {
+        return resolve(win);
+      }
+      // TODO: -32000問題
+      // https://qiita.com/7of9/items/390ff8c1914e5ff6c68c
+      // https://source.chromium.org/chromium/chromium/src/+/d51682b36adc22496f45a8111358a8bb30914534
+      // Unchecked runtime.lastError: Invalid value for bounds. Bounds must be at least 50% within visible screen space.
+      chrome.windows.create({
+        type:'popup',
+        url: '/html/dashboard.html',
+        height: (height < 170 ? 170 : height),
+        width: bounds.size.width,
+        left:  /* bounds.position.x */ 0,
+        top:   /* bounds.position.y */ 0,
+      }, win => {
+        resolve(win);
+      });
+    });
   });
 }
 export function DashboardTrack({position}) {
