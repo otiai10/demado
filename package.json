@@ -7,7 +7,7 @@
   "repository": "https://github.com/otiai10/demado",
   "devDependencies": {
     "babel-eslint": "^7.1.1",
-    "babel-loader": "^6.3.2",
+    "babel-loader": "^9.1.0",
     "chomex": "^1.0.5",
     "css-loader": "^0.26.2",
     "debounce": "^1.0.0",
@@ -20,7 +20,7 @@
     "sass-loader": "^6.0.2",
     "scss-loader": "0.0.1",
     "style-loader": "^0.13.1",
-    "webpack": "^2.2.1"
+    "webpack": "^5.75.0"
   },
   "scripts": {
     "test": "jest tests",
