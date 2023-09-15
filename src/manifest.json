@@ -1,0 +1,26 @@
+{
+    "manifest_version": 3,
+    "name": "demado",
+    "version": "2.0.0",
+    "action": {
+        "default_icon": {
+            "16": "icons/icon-16.png",
+            "32": "icons/icon-32.png"
+        },
+        "default_title": "Click me",
+        "default_popup": "pages/index.html"
+    },
+    "default_locale": "ja",
+    "description": "ブラゲーのランチャー。ミュートとかもしたいよ",
+    "icons": {
+        "16":  "icons/icon-16.png",
+        "32":  "icons/icon-32.png",
+        "48":  "icons/icon-48.png",
+        "128": "icons/icon-128.png"
+    },
+    "author": "otiai10@gmail.com",
+    "background": {
+        "service_worker": "background.js",
+        "type": "module"
+    }
+}
