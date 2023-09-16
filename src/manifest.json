@@ -8,7 +8,7 @@
             "32": "icons/icon-32.png"
         },
         "default_title": "Click me",
-        "default_popup": "pages/index.html"
+        "default_popup": "pages/index.html?p=popup"
     },
     "default_locale": "ja",
     "description": "ブラゲーのランチャー。ミュートとかもしたいよ",
@@ -22,5 +22,6 @@
     "background": {
         "service_worker": "background.js",
         "type": "module"
-    }
+    },
+    "options_page": "pages/index.html?p=options"
 }

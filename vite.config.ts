@@ -18,4 +18,7 @@ export default defineConfig({
       },
     },
   },
+  server: {
+    open: '/pages/index.html',
+  },
 })
