@@ -1,50 +1,27 @@
 {
-  "manifest_version": 2,
-  "name": "demado",
-  "version": "1.2.1",
-  "description": "ブラゲーのランチャー",
-  "permissions" : [
-    "downloads",
-    "tabs",
-    "<all_urls>"
-  ],
-  "icons": {
-    "128": "img/128.png"
-  },
-  "browser_action": {
-    "default_icon": {
-      "32": "img/32.png"
+    "manifest_version": 3,
+    "name": "demado",
+    "version": "2.0.0",
+    "action": {
+        "default_icon": {
+            "16": "icons/icon-16.png",
+            "32": "icons/icon-32.png"
+        },
+        "default_title": "Click me",
+        "default_popup": "pages/index.html?p=popup"
     },
-    "default_popup": "html/popup.html"
-  },
-  "background": {
-    "scripts":[
-      "js/background.js"
-    ]
-  },
-  "content_scripts": [
-    {
-      "matches": ["*://*/*"],
-      "js": ["/js/content_script.js"]
-    }
-  ],
-  "commands": {
-    "capture": {
-      "suggested_key": {
-        "default": "Ctrl+Shift+S",
-        "mac": "Command+Shift+S",
-        "windows": "Ctrl+Shift+S"
-      },
-      "description":"demadoが効いてる現在の画面をスクショします"
+    "default_locale": "ja",
+    "description": "ブラゲーのランチャー。ミュートとかもしたいよ",
+    "icons": {
+        "16":  "icons/icon-16.png",
+        "32":  "icons/icon-32.png",
+        "48":  "icons/icon-48.png",
+        "128": "icons/icon-128.png"
     },
-    "mute": {
-      "suggested_key": {
-        "default": "Ctrl+Shift+M",
-        "mac": "Command+Shift+M",
-        "windows": "Ctrl+Shift+M"
-      },
-      "description":"demadoが効いてる現在の画面をミュートします"
-    }
-  },
-  "options_page" : "html/configs.html"
+    "author": "otiai10@gmail.com",
+    "background": {
+        "service_worker": "background.js",
+        "type": "module"
+    },
+    "options_page": "pages/index.html?p=options"
 }
