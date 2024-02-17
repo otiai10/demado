@@ -54,3 +54,13 @@ installed.on('update', () => {
   window.alert(message);
 });
 chrome.runtime.onInstalled.addListener(installed.listener());
+
+// {{{ MV3対応のためのデータ移行
+(() => {
+  const obj = Object.keys(localStorage).reduce((ctx, namespace) => {
+    ctx[namespace] = JSON.parse(localStorage[namespace]);
+    return ctx;
+  }, {});
+  chrome.storage.local.set(obj);
+})();
+// }}}
