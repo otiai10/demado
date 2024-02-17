@@ -42,25 +42,29 @@ chrome.runtime.onMessageExternal.addListener(ex.listener());
 chrome.tabs.onRemoved.addListener(id => Launcher.sharedInstance().unlaunch(id));
 chrome.windows.onRemoved.addListener(id => Launcher.sharedInstance().unlaunchAllInWindow(id));
 
+const migrateLocalStorageToChromeStorage = (trigger) => {
+  const obj = Object.keys(localStorage).reduce((ctx, namespace) => {
+    ctx[namespace] = JSON.parse(localStorage[namespace]);
+    return ctx;
+  }, {});
+  chrome.storage.local.set(obj).then(() => {
+    console.log('Migrated localStorage to chrome.storage.local:', trigger, obj);
+  });
+};
+
 // TODO: これはchomexで提供しなくていいのかな
 let installed = new Router(({reason}) => {return {name:reason};});
 installed.on('update', () => {
   const message = [
     'demadoがアップデートされました',
     `version ${chrome.runtime.getManifest().version}`,
+    `Chrome拡張のプラットフォーム側の仕様変更により、設計の大きな変更を予定しています。`,
     '各窓とbackgroundの接続が一時的に切れるので、スクショやミュートが無効になります。必要があれば、窓を閉じて、右上から窓を作り直してください。',
-    'こういうアラートを出さずに解決する方法を模索中です。'
+    'こういうアラートを出さずに解決する方法を模索中です。',
   ].join('\n');
   window.alert(message);
+  migrateLocalStorageToChromeStorage('on_update');
 });
 chrome.runtime.onInstalled.addListener(installed.listener());
 
-// {{{ MV3対応のためのデータ移行
-(() => {
-  const obj = Object.keys(localStorage).reduce((ctx, namespace) => {
-    ctx[namespace] = JSON.parse(localStorage[namespace]);
-    return ctx;
-  }, {});
-  chrome.storage.local.set(obj);
-})();
-// }}}
+migrateLocalStorageToChromeStorage('on_runtime');

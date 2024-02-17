@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "demado",
-  "version": "1.2.4",
+  "version": "1.2.8",
   "description": "ブラゲーのランチャー",
   "permissions" : [
     "downloads",
