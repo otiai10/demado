@@ -1,0 +1,25 @@
+{
+    "manifest_version": 3,
+    "name": "demado",
+    "description": "ブラゲーのランチャー",
+    "version": "2.0.0",
+    "permissions": [
+        "alarms",
+        "notifications"
+    ],
+    "icons": {
+      "128": "icons/128.png"
+    },
+    "action": {
+        "default_icon": {
+            "128": "icons/128.png"
+        },
+        "default_title": "demado",
+        "default_popup": "index.html#popup"
+    },
+    "background": {
+        "service_worker": "background.js",
+        "type": "module"
+    },
+    "options_page": "index.html#options"
+}

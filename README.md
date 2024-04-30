@@ -1,24 +1,13 @@
-[![Build Status](https://travis-ci.org/otiai10/demado.svg?branch=master)](https://travis-ci.org/otiai10/demado)
+# demado
 
-開発
+ブラゲーのランチャー
 
-```sh
-% docker compose up dev
-```
+# Dev Note
 
-リリースビルド
+* [Color Scheme](https://coolors.co/2b2d42-e86a92-f7e733-f7f7f9-41e2ba)
+  * #2B2D42
+  * #E86A92
+  * #F7E733
+  * #F7F7F9
+  * #41E2BA
 
-```sh
-% docker compose up release
-```
-
-```sh
-% ls ./release
-demado.zip # for Chrome
-demado.xpi # for Firefox
-```
-
-ダウンロード
-
-- [demado - Chrome ウェブストア](https://chrome.google.com/webstore/detail/demado/dfmhlfpfpbijchleocfbpcdjgnbpdigh?hl=ja)
-- [demado :: Firefox 向けアドオン](https://addons.mozilla.org/ja/firefox/addon/demado-for-firefox/)
