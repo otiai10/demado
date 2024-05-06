@@ -1,14 +1,18 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import './index.css'
+import './index.scss'
 
 import { RouterProvider, createHashRouter } from "react-router-dom";
 import { PopupPage } from './Popup.tsx';
-import { OptionsPage } from './Options.tsx';
+import { OptionsPage, loader as MadoLoader } from './Options.tsx';
 
 const router = createHashRouter([
   { path: "/popup", element: <PopupPage />, },
-  { path: "/options", element: <OptionsPage />, },
+  {
+    path: "/options",
+    element: <OptionsPage />,
+    loader: MadoLoader,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

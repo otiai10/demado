@@ -4,8 +4,15 @@
     "description": "ブラゲーのランチャー",
     "version": "2.0.0",
     "permissions": [
-        "alarms",
-        "notifications"
+        "downloads",
+        "storage"
+    ],
+    "optional_permissions": [
+        "tabs"
+    ],
+    "optional_host_permissions": [
+        "http://*/*",
+        "https://*/*"
     ],
     "icons": {
       "128": "icons/128.png"

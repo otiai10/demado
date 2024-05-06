@@ -1,0 +1,21 @@
+
+// Reset All for #root
+body, #root {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@import 'bulma';
+
+// Custom
+.demado-card {
+    border-style: solid;
+    border-width: 1px;
+    box-shadow: none;
+    transition: box-shadow 0.1s;
+}
+.demado-card:hover {
+    cursor: pointer;
+    box-shadow: var(--bulma-card-shadow) !important;
+}

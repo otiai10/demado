@@ -12,6 +12,7 @@
   "dependencies": {
     "bulma": "^1.0.0",
     "chromite": "^0.0.7",
+    "jstorm": "^0.12.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
