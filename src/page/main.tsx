@@ -4,14 +4,19 @@ import './index.scss'
 
 import { RouterProvider, createHashRouter } from "react-router-dom";
 import { PopupPage } from './Popup.tsx';
-import { OptionsPage, loader as MadoLoader } from './Options.tsx';
+import { OptionsPage } from './Options.tsx';
+import { mados } from '../loaders';
 
 const router = createHashRouter([
-  { path: "/popup", element: <PopupPage />, },
+  {
+    path: "/popup",
+    element: <PopupPage />,
+    loader: mados,
+  },
   {
     path: "/options",
     element: <OptionsPage />,
-    loader: MadoLoader,
+    loader: mados,
   },
 ]);
 
