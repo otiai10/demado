@@ -1,5 +1,6 @@
 import { useLoaderData } from "react-router-dom";
 import Mado from "../models/Mado";
+import { CreateNewMadoModal } from "../components/mado/CreateNewMadoModal";
 
 export function OptionsPage() {
   const { mados } = useLoaderData() as { mados: Mado[] };
@@ -56,6 +57,7 @@ export function OptionsPage() {
         </div>
       </div>
     </section>,
+    <CreateNewMadoModal />
   ];
 }
 

@@ -14,9 +14,12 @@ importers:
       chromite:
         specifier: ^0.0.7
         version: 0.0.7
+      font-awesome:
+        specifier: ^4.7.0
+        version: 4.7.0
       jstorm:
-        specifier: ^0.12.0
-        version: 0.12.0
+        specifier: ^0.15.0
+        version: 0.15.0
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -38,13 +41,13 @@ importers:
         version: 18.2.14
       '@typescript-eslint/eslint-plugin':
         specifier: ^6.0.0
-        version: 6.8.0(@typescript-eslint/parser@6.8.0)(eslint@8.52.0)(typescript@5.2.2)
+        version: 6.8.0(@typescript-eslint/parser@6.8.0(eslint@8.52.0)(typescript@5.2.2))(eslint@8.52.0)(typescript@5.2.2)
       '@typescript-eslint/parser':
         specifier: ^6.0.0
         version: 6.8.0(eslint@8.52.0)(typescript@5.2.2)
       '@vitejs/plugin-react-swc':
         specifier: ^3.3.2
-        version: 3.4.0(vite@4.5.0)
+        version: 3.4.0(vite@4.5.0(@types/node@20.8.7)(sass@1.75.0))
       eslint:
         specifier: ^8.45.0
         version: 8.52.0
@@ -56,13 +59,13 @@ importers:
         version: 0.4.3(eslint@8.52.0)
       react-router-dom:
         specifier: ^6.17.0
-        version: 6.17.0(react-dom@18.2.0)(react@18.2.0)
+        version: 6.17.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       typescript:
         specifier: ^5.0.2
         version: 5.2.2
       vite:
         specifier: ^4.4.5
-        version: 4.5.0(@types/node@20.8.7)
+        version: 4.5.0(@types/node@20.8.7)(sass@1.75.0)
 
 packages:
 
@@ -610,6 +613,10 @@ packages:
   flatted@3.2.9:
     resolution: {integrity: sha512-36yxDn5H7OFZQla0/jFJmbIKTdZAQHngCedGxiMmpNfEZM0sdEeT+WczLQrjK6D7o2aiyLYDnkw0R3JK0Qv1RQ==}
 
+  font-awesome@4.7.0:
+    resolution: {integrity: sha512-U6kGnykA/6bFmg1M/oT9EkFeIYv7JlX3bozwQJWiiLz6L0w3F5vBVPxHlwyX/vtNq1ckcpRKOB9f2Qal/VtFpg==}
+    engines: {node: '>=0.10.3'}
+
   fs.realpath@1.0.0:
     resolution: {integrity: sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==}
 
@@ -704,8 +711,8 @@ packages:
   json-stable-stringify-without-jsonify@1.0.1:
     resolution: {integrity: sha512-Bdboy+l7tA3OGW6FjyFHWkP5LuByj1Tk33Ljyq0axyzdk9//JSi2u3fP1QSmd1KNwq6VOKYGlAu87CisVir6Pw==}
 
-  jstorm@0.12.0:
-    resolution: {integrity: sha512-ZL8SHaG6NpEFXsqEgJGGpYpQEtGOeoMgMknGeRZB298omaoAh8o3drY5v+1q+f/Lo+ifdhX0tOjU1V/F7/jTXQ==}
+  jstorm@0.15.0:
+    resolution: {integrity: sha512-9F/15ZmXeOjnFB9mVq1kV2mDwwQxuJZneSA8PsqtW6+lyoyrLuIsUmEd0X4pqZBYVVdDNYlWAl5oWqVLKSp2/Q==}
 
   keyv@4.5.4:
     resolution: {integrity: sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==}
@@ -1178,7 +1185,7 @@ snapshots:
 
   '@types/semver@7.5.4': {}
 
-  '@typescript-eslint/eslint-plugin@6.8.0(@typescript-eslint/parser@6.8.0)(eslint@8.52.0)(typescript@5.2.2)':
+  '@typescript-eslint/eslint-plugin@6.8.0(@typescript-eslint/parser@6.8.0(eslint@8.52.0)(typescript@5.2.2))(eslint@8.52.0)(typescript@5.2.2)':
     dependencies:
       '@eslint-community/regexpp': 4.9.1
       '@typescript-eslint/parser': 6.8.0(eslint@8.52.0)(typescript@5.2.2)
@@ -1193,6 +1200,7 @@ snapshots:
       natural-compare: 1.4.0
       semver: 7.5.4
       ts-api-utils: 1.0.3(typescript@5.2.2)
+    optionalDependencies:
       typescript: 5.2.2
     transitivePeerDependencies:
       - supports-color
@@ -1205,6 +1213,7 @@ snapshots:
       '@typescript-eslint/visitor-keys': 6.8.0
       debug: 4.3.4
       eslint: 8.52.0
+    optionalDependencies:
       typescript: 5.2.2
     transitivePeerDependencies:
       - supports-color
@@ -1221,6 +1230,7 @@ snapshots:
       debug: 4.3.4
       eslint: 8.52.0
       ts-api-utils: 1.0.3(typescript@5.2.2)
+    optionalDependencies:
       typescript: 5.2.2
     transitivePeerDependencies:
       - supports-color
@@ -1236,6 +1246,7 @@ snapshots:
       is-glob: 4.0.3
       semver: 7.5.4
       ts-api-utils: 1.0.3(typescript@5.2.2)
+    optionalDependencies:
       typescript: 5.2.2
     transitivePeerDependencies:
       - supports-color
@@ -1261,10 +1272,10 @@ snapshots:
 
   '@ungap/structured-clone@1.2.0': {}
 
-  '@vitejs/plugin-react-swc@3.4.0(vite@4.5.0)':
+  '@vitejs/plugin-react-swc@3.4.0(vite@4.5.0(@types/node@20.8.7)(sass@1.75.0))':
     dependencies:
       '@swc/core': 1.3.94
-      vite: 4.5.0(@types/node@20.8.7)
+      vite: 4.5.0(@types/node@20.8.7)(sass@1.75.0)
     transitivePeerDependencies:
       - '@swc/helpers'
 
@@ -1506,6 +1517,8 @@ snapshots:
 
   flatted@3.2.9: {}
 
+  font-awesome@4.7.0: {}
+
   fs.realpath@1.0.0: {}
 
   fsevents@2.3.3:
@@ -1591,7 +1604,7 @@ snapshots:
 
   json-stable-stringify-without-jsonify@1.0.1: {}
 
-  jstorm@0.12.0: {}
+  jstorm@0.15.0: {}
 
   keyv@4.5.4:
     dependencies:
@@ -1690,7 +1703,7 @@ snapshots:
       react: 18.2.0
       scheduler: 0.23.0
 
-  react-router-dom@6.17.0(react-dom@18.2.0)(react@18.2.0):
+  react-router-dom@6.17.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
     dependencies:
       '@remix-run/router': 1.10.0
       react: 18.2.0
@@ -1784,14 +1797,15 @@ snapshots:
     dependencies:
       punycode: 2.3.0
 
-  vite@4.5.0(@types/node@20.8.7):
+  vite@4.5.0(@types/node@20.8.7)(sass@1.75.0):
     dependencies:
-      '@types/node': 20.8.7
       esbuild: 0.18.20
       postcss: 8.4.31
       rollup: 3.29.4
     optionalDependencies:
+      '@types/node': 20.8.7
       fsevents: 2.3.3
+      sass: 1.75.0
 
   which@2.0.2:
     dependencies:

@@ -1,6 +1,7 @@
-import { Model } from 'jstorm/chrome/local';
+import { Model, Types } from 'jstorm/chrome/local';
+import { Schema } from 'jstorm/model';
 
-const colorSet = [
+const defaultColorSet = [
   '#00D1B2',
   '#4258FF',
   '#66D1FF',
@@ -16,15 +17,75 @@ const colorSet = [
 export default class Mado extends Model {
   static override _namespace_ = 'Mado';
   static override _nextID_ = () => Math.random().toString(36).slice(2);
-  public name!: string;
-  public url!: string;
-  public color!: string;
+
+  static override schema: Schema = {
+    name: Types.string.isRequired,
+    // description: Types.string,
+
+    /**
+     * @LAUNCH-PROPERTIES
+     * `chrome.windows.create` でウィンドウを作るときにに渡すオプション
+     **/
+    // ウェブページURL
+    url: Types.string.isRequired,
+    // 窓サイズ
+    size: Types.shape({
+      width:  Types.number.isRequired,
+      height: Types.number.isRequired,
+    }).isRequired,
+    // ディスプレイに対するLaunchPosition
+    position: Types.shape({
+      x: Types.number.isRequired,
+      y: Types.number.isRequired,
+    }).isRequired,
+    // アドレスバー表示
+    addressbar: Types.bool,
+
+    /**
+     * @MODIFY-PROPERTIES
+     * `chrome.tabs.update` や、
+     * `chrome.tabs.executeScript` など、
+     * タブを操作するときに渡すオプション
+     **/
+    // ズーム倍率
+    zoom: Types.number.isRequired,
+    // 窓コンテンツのずれ
+    offset: Types.shape({
+      left: Types.number.isRequired,
+      top:  Types.number.isRequired,
+    }),
+    // 高度なDOM操作
+    advanced: Types.shape({
+      remove: Types.arrayOf(Types.string),
+    }),
+
+    /**
+     * @UI-PROPERTIES
+     * ユーザーインターフェースの設定
+     */
+    index: Types.number,
+    colorcode: Types.string,
+  }
+
+  public name: string = "";
+  // public descrption: string = "";
+  public url: string = "https://www.youtube.com/watch?v=MGt25mv4-2Q";
+  public size = { width: 680, height: 380 };
+  public position = { x: 0, y: 0 };
+  public addressbar: boolean = false;
+
+  public zoom: number = 0.75;
+  public offset = { left: 0, top: 0 };
+  public advanced = { remove: [] };
+
+  public index: number = 0;
+  public colorcode: string = "";
 
   private static colorcodeByIndex(index: number): string {
-    return colorSet[index % colorSet.length];
+    return defaultColorSet[index % defaultColorSet.length];
   }
 
   public colorcodeByIndex(index: number): string {
-    return this.color || Mado.colorcodeByIndex(index);
+    return this.colorcode || Mado.colorcodeByIndex(index);
   }
 }
