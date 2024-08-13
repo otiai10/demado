@@ -69,12 +69,13 @@ export default class Mado extends Model {
 
   public name: string = "";
   // public descrption: string = "";
-  public url: string = "https://www.youtube.com/watch?v=MGt25mv4-2Q";
-  public size = { width: 680, height: 380 };
+  // public url: string = "https://www.youtube.com/embed/243vPl8HdVk?si=Q6klBm7LRVqR196I";
+  public url: string = "";
+  public size = { width: 1200, height: 720 };
   public position = { x: 0, y: 0 };
   public addressbar: boolean = false;
 
-  public zoom: number = 0.75;
+  public zoom: number = 1.0;
   public offset = { left: 0, top: 0 };
   public advanced = { remove: [] };
 
@@ -87,5 +88,14 @@ export default class Mado extends Model {
 
   public colorcodeByIndex(index: number): string {
     return this.colorcode || Mado.colorcodeByIndex(index);
+  }
+
+  public hasValidURL(): boolean {
+    try {
+      new URL(this.url);
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 }

@@ -1,142 +1,18 @@
-
-interface Preference {
-  label: string;
-  key: string;
-
-  icon?: string;
-
-  min?: number;
-  max?: number;
-}
-
-function InputField({
-  label, type, icon,
-  placeholder = "",
-  help = "",
-  required = true,
-}: {
-  label: string;
-  type: string;
-  icon: string;
-  placeholder?: string;
-  help?: string;
-  required?: boolean;
-}) {
-  return (
-    <div className="field">
-      <label className="label">{label}</label>
-      <div className="control has-icons-left has-icons-right">
-        <input className="input" type={type} placeholder={placeholder} required={required} />
-        <span className="icon is-small is-left">
-          <i className={"fa " + icon}></i>
-        </span>
-        {/* <span className="icon is-small is-right">
-                  <i className="fa fa-check"></i>
-                </span> */}
-      </div>
-      <p className="help is-success">{help}</p>
-    </div>
-
-  )
-}
-
-function MatrixField({
-  label,
-  items,
-}: {
-  label: string;
-  items: Preference[];
-}) {
-  return (
-    <div className="field">
-      <label className="label">{label}</label>
-      <div className="control">
-        <div className="columns">
-
-          {items.map(item => {
-            return (
-              <div className="column" style={{ display: "flex", alignItems: "center" }}>
-                <label style={{ whiteSpace: "nowrap", marginRight: "1rem" }}>{item.label}</label>
-                <div className="control has-icons-left">
-                  <input className="input" type="number" min={item.min} max={item.max} />
-                  <span className="icon is-small is-left"><i className={"fa " + (item.icon || "fa-arrows-left-right")}></i></span>
-                </div>
-              </div>
-            )
-          })}
-
-          {/* <div className="column" style={{ display: "flex", alignItems: "center" }}>
-            <div style={{ whiteSpace: "nowrap", marginRight: "1rem" }}>横幅</div>
-            <input className="input" type="number" min={100} />
-          </div>
-          <div className="column" style={{ display: "flex", alignItems: "center" }}>
-            <div style={{ whiteSpace: "nowrap", marginRight: "1rem" }}>高さ</div>
-            <input className="input" type="number" min={100} />
-          </div>
- */}
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function ChoiceField({
-  label,
-}: {
-  label: string;
-}) {
-  return (
-    <div className="field">
-      <label className="label">{label}</label>
-      <div className="control">
-        <label className="radio">
-          <input type="radio" name="answer" defaultChecked={true} /> 表示しない
-        </label>
-        <label className="radio">
-          <input type="radio" name="answer" /> あえて表示する
-        </label>
-      </div>
-    </div>
-  )
-}
-
-export function ColorField({
-  label,
-}: {
-  label: string;
-}) {
-  return (
-    <div className="field">
-      <label className="label">{label}</label>
-      <div className="control">
-        <div className="columns">
-          <div className="column" style={{display: "flex", alignItems: "center"}}>
-            <label className="checkbox" style={{ marginRight: "1rem" }}>
-              <input type="checkbox" /> 使う
-            </label>
-            <div className="color-picker" style={{ flex: 1 }}>
-              <input type="color" style={{width: "100%", padding: 0}} />
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function example(raw: string) {
-  const url = new URL(raw);
-  chrome.permissions.contains({ origins: [url.origin + "/*"] }, (granted) => {
-    console.log("granted", granted);
-    if (!granted) {
-      chrome.permissions.request({ origins: [url.origin + "/*"] }, (granted) => {
-        console.log("granted", granted);
-      });
-    }
-  });
-}
+import React from "react";
+import Mado from "../../models/Mado";
+import WindowService from "../../services/WindowService";
+import PermissionService from "../../services/PermissionService";
+import MadoLauncher from "../../services/MadoLauncher";
+import TabService from "../../services/TabService";
+import ScriptService from "../../services/ScriptService";
+import { ChoiceField } from "../form/ChoiceField";
+import { MatrixField } from "../form/MatrixField";
+import { InputField } from "../form/InputField";
+import { ColorField } from "../form/ColorField";
 
 export function CreateNewMadoModal() {
+  const [state, setState] = React.useState({ mado: Mado.new() });
+  const launcher = new MadoLauncher(new WindowService(), new TabService(), new ScriptService());
   return (
     <div className="modal is-active">
       <div className="modal-background"></div>
@@ -146,20 +22,43 @@ export function CreateNewMadoModal() {
           {/* <button className="delete" aria-label="close"></button> */}
         </header>
         <section className="modal-card-body">
-          <InputField label="窓のURL" type="url" icon="fa-link" help="" placeholder="https://www.youtube.com/watch?v=3c8ilTPmBGA" />
-          <InputField label="窓の名前" type="text" icon="fa-tag" help="" placeholder="作業用BGM" required={false} />
-          <MatrixField label="窓のサイズ" items={[{ label: "横幅", key: "width" }, { label: "高さ", key: "height" }]} />
-          <MatrixField label="窓内コンテンツの意図的ズレ" items={[{ label: "横方向", key: "x" }, { label: "縦方向", key: "y" }]} />
-          <ChoiceField label="アドレスバー表示" />
-          <InputField label="ズーム倍率" type="number" icon="fa-search" help="" placeholder="0.75" />
-          <ColorField label="窓の色（管理用）" />
+          <InputField label="窓のURL" type="url" icon="fa-link" help=""
+            placeholder="http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854"
+            onChange={ev => { state.mado.url = ev.target.value; setState({ mado: state.mado }) }}
+          />
+          <InputField label="窓の名前" type="text" icon="fa-tag" help=""
+            placeholder="艦これ（ながらプレイ用）" required={false}
+            onChange={ev => { state.mado.name = ev.target.value; setState({ mado: state.mado }) }}
+          />
+          <MatrixField label="窓のサイズ" items={[
+            { label: "横幅", key: "width",  icon: "fa-arrows-h", placeholder: 1200 },
+            { label: "高さ", key: "height", icon: "fa-arrows-v", placeholder:  720 },
+          ]} onChange={(ev, key: "width" | "height") => { state.mado.size[key] = parseInt(ev.target.value); setState({ mado: state.mado }) }} />
+          <MatrixField label="窓内コンテンツの意図的ズレ" items={[
+            { label: "右方向", key: "left", icon: "fa-long-arrow-right", placeholder:   0 },
+            { label: "下方向", key: "top",  icon: "fa-long-arrow-down",  placeholder: -76 },
+          ]} onChange={(ev, key: "left" | "top") => { state.mado.offset[key] = parseInt(ev.target.value); setState({ mado: state.mado }) }} />
+          <ChoiceField label="アドレスバー表示" onChange={(ev) => { state.mado.addressbar = ev.target.value == "1"; setState({ mado: state.mado }) }} />
+          <InputField label="ズーム倍率" type="number" icon="fa-search" help="" placeholder="0.5"
+            onChange={ev => { state.mado.zoom = parseFloat(ev.target.value); setState({ mado: state.mado }) }}
+          />
+          <ColorField label="窓の色（管理用）" onChange={ev => { state.mado.colorcode = ev.target.value; setState({ mado: state.mado }) }} />
           {/* <MatrixField label="窓を開く場所" /> */}
         </section>
         <footer className="modal-card-foot">
           <div className="buttons">
-            <button className="button is-success" onClick={() => example("https://www.youtube.com/watch?v=3c8ilTPmBGA")}>Save changes</button>
-            <button className="button">Cancel</button>
-            <button className="button is-info">試しに開く</button>
+            <button className="button is-success" disabled={!state.mado.hasValidURL()}
+              onClick={() => console.log("state", state)}
+            >これでよし</button>
+            <button className="button">やっぱりやめる</button>
+            <button className="button is-info" disabled={!state.mado.hasValidURL()}
+              onClick={async () => {
+                const yes = await (new PermissionService()).ensure(state.mado.url);
+                if (!yes) return;
+                const opened = await launcher.launch(state.mado);
+                console.log("opened", opened);
+              }}
+            >試しに開く</button>
           </div>
         </footer>
       </div>
