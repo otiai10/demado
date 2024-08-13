@@ -1,9 +1,12 @@
 import { useLoaderData } from "react-router-dom";
 import Mado from "../models/Mado";
 import { CreateNewMadoModal } from "../components/mado/CreateNewMadoModal";
+import React from "react";
 
 export function OptionsPage() {
   const { mados } = useLoaderData() as { mados: Mado[] };
+  const [showCreateModal, setShowCreateModal] = React.useState(false);
+  const refresh = () => window.location.reload(); // FIXME: loaderDataを再取得するためにページをリロードする
   return [
     <section className="section">
       <div className="container is-max-desktop">
@@ -43,21 +46,26 @@ export function OptionsPage() {
         <div className="level">
           <div className="level-left">
             <div className="level-item">
-              <button className="button is-primary">
-                <i className="fas fa-plus"></i>
+              <button className="button is-primary" onClick={() => setShowCreateModal(true)}>
+                <i className="fa fa-plus" />
                 新規追加
               </button>
             </div>
           </div>
           <div className="level-right">
             <div className="level-item">
-              <button className="button">すべて削除</button>
+              <button className="button"
+                onClick={async () => { await Mado.drop(); refresh(); }}
+              ><i className="fa fa-trash" />すべて削除</button>
             </div>
           </div>
         </div>
       </div>
     </section>,
-    <CreateNewMadoModal />
+    <CreateNewMadoModal
+      active={showCreateModal}
+      close={() => { setShowCreateModal(false); refresh(); }}
+    />
   ];
 }
 

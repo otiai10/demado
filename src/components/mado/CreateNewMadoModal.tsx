@@ -10,16 +10,18 @@ import { MatrixField } from "../form/MatrixField";
 import { InputField } from "../form/InputField";
 import { ColorField } from "../form/ColorField";
 
-export function CreateNewMadoModal() {
+export function CreateNewMadoModal({
+  active, close,
+}: { active: boolean, close: () => void }) {
   const [state, setState] = React.useState({ mado: Mado.new() });
   const launcher = new MadoLauncher(new WindowService(), new TabService(), new ScriptService());
   return (
-    <div className="modal is-active">
+    <div className={"modal " + (active ? "is-active" : "")}>
       <div className="modal-background"></div>
       <div className="modal-card">
         <header className="modal-card-head">
           <p className="modal-card-title">窓の新規登録</p>
-          {/* <button className="delete" aria-label="close"></button> */}
+          {/* <button className="delete" aria-label="close" onClick={close}>あああ</button> */}
         </header>
         <section className="modal-card-body">
           <InputField label="窓のURL" type="url" icon="fa-link" help=""
@@ -48,15 +50,19 @@ export function CreateNewMadoModal() {
         <footer className="modal-card-foot">
           <div className="buttons">
             <button className="button is-success" disabled={!state.mado.hasValidURL()}
-              onClick={() => console.log("state", state)}
+              onClick={async () => {
+                await state.mado.save();
+                setState({ mado: Mado.new() });
+                close();
+              }}
             >これでよし</button>
-            <button className="button">やっぱりやめる</button>
+            <button className="button" onClick={() => close()}>やっぱりやめる</button>
             <button className="button is-info" disabled={!state.mado.hasValidURL()}
               onClick={async () => {
                 const yes = await (new PermissionService()).ensure(state.mado.url);
                 if (!yes) return;
-                const opened = await launcher.launch(state.mado);
-                console.log("opened", opened);
+                await launcher.launch(state.mado);
+                // console.log("opened", opened);
               }}
             >試しに開く</button>
           </div>
