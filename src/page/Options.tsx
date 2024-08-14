@@ -8,11 +8,25 @@ import WindowService from "../services/WindowService";
 import TabService from "../services/TabService";
 import ScriptService from "../services/ScriptService";
 
+// @see https://stackoverflow.com/a/28962290
+function isBefore(a: HTMLElement, b: HTMLElement): boolean {
+  if (a.parentNode !== b.parentNode) return false;
+  for (let cur: ChildNode | null | undefined = a.previousSibling; cur; cur = cur?.previousSibling) {
+    if (cur === b) return true;
+  }
+  return false;
+}
+
 export function OptionsPage() {
   const { mados } = useLoaderData() as { mados: Mado[] };
   const [showCreateModal, setShowCreateModal] = React.useState(false);
   const refresh = () => window.location.reload(); // FIXME: loaderDataを再取得するためにページをリロードする
   const launcher = new MadoLauncher(new WindowService(), new TabService(), new ScriptService());
+  const [dragged, setDragged] = React.useState<HTMLElement | null>(null);
+  const reorder = async () => {
+    const ids = Array.from(document.querySelectorAll(".demado-card")).map(e => e.getAttribute("data-id")).filter(Boolean);
+    for (let index = 0; index < ids.length; index++) await mados.find(m => m._id === ids[index])?.update({ index });
+  }
   return [
     <section className="section">
       <div className="container is-max-desktop">
@@ -23,7 +37,18 @@ export function OptionsPage() {
     <section className="section">
       <div className="container is-max-desktop">
         <div className="grid">
-          {mados.length === 0 ? <EmptyMadoEntryView /> : mados.map((mado, i) => <MadoCard mado={mado} index={i} launcher={launcher} />)}
+          {mados.length === 0 ? <EmptyMadoEntryView /> : mados.map((mado, i) => <MadoCard
+            mado={mado} index={i} launcher={launcher}
+            onDragStart={ev => setDragged(ev.currentTarget)}
+            onDragEnd={() => { setDragged(null); reorder() }}
+            onDragOver={ev => {
+              if (isBefore(dragged!, ev.currentTarget)) {
+                ev.currentTarget.parentNode?.insertBefore(dragged!, ev.currentTarget);
+              } else {
+                ev.currentTarget.parentNode?.insertBefore(dragged!, ev.currentTarget.nextSibling);
+              }
+            }}
+          />)}
         </div>
       </div>
     </section>,

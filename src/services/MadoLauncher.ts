@@ -52,7 +52,7 @@ export default class MadoLauncher {
    */
   async exists(mado: Mado): Promise<{ win: chrome.windows.Window, tab: chrome.tabs.Tab, mado: Mado } | null> {
     const tabs = await this.tabs.query({ url: mado.url })
-    if (tabs.length === 0) return null;
+    if (!tabs || tabs.length === 0) return null;
     const results = tabs.map(async tab => {
       if ((await this.tabs.query({ windowId: tab.windowId })).length > 1) return null; // ウィンドウ内に他のタブがある場合はdemadoではない
       if (!(await this.identify(tab, mado))) return null; // demadoが生成したtabでない場合はdemadoではない

@@ -7,12 +7,27 @@ function BasicInformationTag({ name, value }: { name: string, value: string | nu
 
 export function MadoCard({
   mado, index, launcher,
-}: { mado: Mado, index: number, launcher: MadoLauncher }) {
+  onDragStart,
+  onDragEnd,
+  onDragOver,
+}: {
+  mado: Mado, index: number, launcher: MadoLauncher,
+  onDragStart?: (ev: React.DragEvent<HTMLDivElement>) => void,
+  onDragEnd?: (ev: React.DragEvent<HTMLDivElement>) => void,
+  onDragOver?: (ev: React.DragEvent<HTMLDivElement>) => void,
+ }) {
   return (
-    <div className="cell card demado-card" key={mado._id} style={{
-      borderColor: mado.colorcodeByIndex(index),
-      marginBottom: '8px', // FIXME: これはどこかで定義されているはず
-    }}>
+    <div className="cell card demado-card" key={mado._id}
+      data-id={mado._id}
+      style={{
+        borderColor: mado.colorcodeByIndex(index),
+        marginBottom: '8px', // FIXME: これはどこかで定義されているはず
+      }}
+      draggable={true}
+      onDragStart={onDragStart}
+      onDragEnd={onDragEnd}
+      onDragOver={onDragOver}
+    >
       <div className={"card-header"} style={{ backgroundColor: mado.colorcodeByIndex(index) }}>
         <p className="card-header-title level">
           <span>{mado.name || "_設定無し_"}</span>
