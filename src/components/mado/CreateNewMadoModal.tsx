@@ -47,6 +47,8 @@ export function CreateNewMadoModal({
           <div className="buttons">
             <button className="button is-success" disabled={!state.mado.hasValidURL()}
               onClick={async () => {
+                const yes = await (new PermissionService()).ensure(state.mado.url);
+                if (!yes) return;
                 await state.mado.save();
                 setState({ mado: Mado.new() });
                 close();
