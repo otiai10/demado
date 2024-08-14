@@ -67,9 +67,9 @@ body, #root {
 
 .demado-interactive-icon {
   cursor: pointer;
-  transition: color 0.2s;
-  color: var(--bulma-grey-lighter)
+  transition: opacity 0.2s;
+  opacity: 0.6;
 }
 .demado-interactive-icon:hover {
-  color: var(--bulma-black);
+  opacity: 1.0;
 }

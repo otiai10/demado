@@ -51,7 +51,11 @@ export default class MadoLauncher {
    * @returns 
    */
   async exists(mado: Mado): Promise<{ win: chrome.windows.Window, tab: chrome.tabs.Tab, mado: Mado } | null> {
-    const tabs = await this.tabs.query({ url: mado.url })
+    // {{{ chrome API で ドメインのみのURLではエラーが出るため、URLの最後にスラッシュを追加する
+    const u = new URL(mado.url);
+    const url = (u.pathname == "/" && !mado.url.endsWith("/")) ? mado.url + "/" : mado.url;
+    // }}}
+    const tabs = await this.tabs.query({ url })
     if (!tabs || tabs.length === 0) return null;
     const results = tabs.map(async tab => {
       if ((await this.tabs.query({ windowId: tab.windowId })).length > 1) return null; // ウィンドウ内に他のタブがある場合はdemadoではない
