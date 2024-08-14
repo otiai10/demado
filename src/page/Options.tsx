@@ -34,7 +34,7 @@ export function OptionsPage() {
         <p className="subtitle is-size-6">任意のウェブページを小窓化できます. 詳しくは<a className="link" href="https://github.com/otiai10/demado/wiki" target="_blank">ここ</a></p>
       </div>
     </section>,
-    <section className="section">
+    <section className="section demado-mado-card-section">
       <div className="container is-max-desktop">
         <div className="grid is-col-min-12">
           {mados.length === 0 ? <EmptyMadoEntryView /> : mados.map((mado, i) => <MadoCard
