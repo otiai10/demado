@@ -39,6 +39,7 @@ export function OptionsPage() {
         <div className="grid is-col-min-12">
           {mados.length === 0 ? <EmptyMadoEntryView /> : mados.map((mado, i) => <MadoCard
             mado={mado} index={i} launcher={launcher}
+            refresh={refresh}
             onDragStart={ev => setDragged(ev.currentTarget)}
             onDragEnd={() => { setDragged(null); reorder() }}
             onDragOver={ev => {

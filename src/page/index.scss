@@ -64,3 +64,12 @@ body, #root {
 .demado-short-card:hover:not(.demado-empty-state) {
   box-shadow: 0 0 4px 0 rgba(20, 20, 20, 0.8);
 }
+
+.demado-interactive-icon {
+  cursor: pointer;
+  transition: color 0.2s;
+  color: var(--bulma-grey-lighter)
+}
+.demado-interactive-icon:hover {
+  color: var(--bulma-black);
+}

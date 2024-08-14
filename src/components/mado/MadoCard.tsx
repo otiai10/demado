@@ -7,11 +7,13 @@ function BasicInformationTag({ name, value }: { name: string, value: string | nu
 
 export function MadoCard({
   mado, index, launcher,
+  refresh,
   onDragStart,
   onDragEnd,
   onDragOver,
 }: {
   mado: Mado, index: number, launcher: MadoLauncher,
+  refresh: () => void,
   onDragStart?: (ev: React.DragEvent<HTMLDivElement>) => void,
   onDragEnd?: (ev: React.DragEvent<HTMLDivElement>) => void,
   onDragOver?: (ev: React.DragEvent<HTMLDivElement>) => void,
@@ -50,6 +52,17 @@ export function MadoCard({
             ].map(({ name, value }) => <BasicInformationTag key={name} name={name} value={value} />)}
           </div>
           <div className="is-small">窓位置 x:{mado.position.x} y:{mado.position.y}</div>
+        </div>
+        <div className="columns is-mobile">
+          <div className="column is-narrow">
+            <i className="fa fa-trash demado-interactive-icon" title="削除" onClick={async () => {
+              if (!window.confirm("この窓設定を削除しますか？")) return;
+              await mado.delete(); refresh()
+            }} />
+          </div>
+          <div className="column is-narrow demado-interactive-icon">
+            <i className="fa fa-wrench" />
+          </div>
         </div>
       </div>
     </div>
