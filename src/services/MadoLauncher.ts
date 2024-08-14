@@ -73,4 +73,10 @@ export default class MadoLauncher {
     if (id == mado._id) return true;
     return false; // セッションストレージにIDがない場合はdemadoではない
   }
+
+  async mute(mado: Mado, muted: boolean = true): Promise<void> {
+    const exists = await this.exists(mado);
+    if (!exists) return;
+    await this.tabs.mute(exists.tab.id!, muted);
+  }
 }

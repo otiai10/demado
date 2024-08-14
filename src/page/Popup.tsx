@@ -5,16 +5,13 @@ import WindowService from "../services/WindowService";
 import TabService from "../services/TabService";
 import ScriptService from "../services/ScriptService";
 
-function MuteButton({ mado, /* launcher */ }: { mado: Mado, launcher: MadoLauncher }) {
+function MuteButton({ mado, launcher }: { mado: Mado, launcher: MadoLauncher }) {
   if (!mado.$existance) return null;
   const muted = mado.$existance.tab.mutedInfo?.muted;
   return <div className="icon"
     title={muted ? "ミュート解除" : "ミュートする"}
-    onClick={ev => {
-      console.log("fuga") /* launcher.mute(mado.$existance.tab.id!) */
-      ev.stopPropagation();
-      ev.preventDefault();
-    }}><i className={"fa " + (muted ? "fa-volume-off" : "fa-volume-up")} /></div>;
+    onClick={() => launcher.mute(mado, !muted)}
+  ><i className={"fa " + (muted ? "fa-volume-off" : "fa-volume-up")} /></div>;
 }
 
 function CameraButton({ mado, /* launcher */ }: { mado: Mado, launcher: MadoLauncher }) {

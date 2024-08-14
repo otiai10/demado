@@ -19,4 +19,11 @@ export default class TabService {
   query(queryInfo: chrome.tabs.QueryInfo): Promise<chrome.tabs.Tab[]> {
     return new Promise(resolve => this.mod.query(queryInfo, resolve));
   }
+
+  mute(tabId: number, muted: boolean = true): Promise<chrome.tabs.Tab | undefined> {
+    return new Promise(resolve => this.mod.update(tabId, { muted }, resolve));
+  }
+  unmute(tabId: number): Promise<chrome.tabs.Tab | undefined> {
+    return this.mute(tabId, false);
+  }
 }
