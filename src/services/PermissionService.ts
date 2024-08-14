@@ -15,6 +15,11 @@ export default class PermissionService {
     });
   }
 
+  public capture = {
+    grant: () => this.mod.request({ permissions: ["activeTab"], origins: ["<all_urls>"] }),
+    granted: () => this.mod.contains({ permissions: ["activeTab"], origins: ["<all_urls>"] }),
+  }
+
   request(url: string): Promise<boolean> {
     const urlObj = new URL(url);
     return this.mod.request({ origins: [urlObj.origin + "/*"] });

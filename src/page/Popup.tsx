@@ -4,6 +4,9 @@ import MadoLauncher from "../services/MadoLauncher";
 import WindowService from "../services/WindowService";
 import TabService from "../services/TabService";
 import ScriptService from "../services/ScriptService";
+import PermissionService from "../services/PermissionService";
+import React, { useEffect, useMemo } from "react";
+import CaptureService from "../services/CaptureService";
 
 function MuteButton({ mado, launcher }: { mado: Mado, launcher: MadoLauncher }) {
   if (!mado.$existance) return null;
@@ -14,9 +17,19 @@ function MuteButton({ mado, launcher }: { mado: Mado, launcher: MadoLauncher }) 
   ><i className={"fa " + (muted ? "fa-volume-off" : "fa-volume-up")} /></div>;
 }
 
-function CameraButton({ mado, /* launcher */ }: { mado: Mado, launcher: MadoLauncher }) {
+function CameraButton({ mado }: { mado: Mado }) {
+  const [granted, setGranted] = React.useState(false);
+  const perm = useMemo(() => new PermissionService(), []);
+  useEffect(() => { perm.capture.granted().then(setGranted) }, [perm, setGranted]);
   if (!mado.$existance) return null;
-  return <div className="icon"><i className="fa fa-camera" title="スクリーンショットを撮る" /></div>
+  const capture = new CaptureService();
+  return <div className="icon"
+    title={granted ? "スクリーンショットを撮る" : "スクショには許可が必要です"}
+    onClick={async () => {
+      if (!granted) setGranted(await perm.capture.grant());
+      else capture.capture(mado);
+    }}
+  ><i className={"fa " + (granted ? "fa-camera" : "fa-exclamation-circle")} /></div>
 }
 
 function ShortMadoCard({ mado, index, launcher }: { mado: Mado, index: number, launcher: MadoLauncher }) {
@@ -25,15 +38,13 @@ function ShortMadoCard({ mado, index, launcher }: { mado: Mado, index: number, l
       style={{
         borderColor: mado.colorcodeByIndex(index),
       }}
-      onClick={() => {
-        launcher.launch(mado).then(() => window.close());
-      }}
+      onClick={() => launcher.launch(mado)}
     >
       <div className="columns is-mobile">
         <div className="column">{mado.displayName()}</div>
         {mado.$existance ? <div className="column is-narrow">
           <MuteButton mado={mado} launcher={launcher} />
-          <CameraButton mado={mado} launcher={launcher} />
+          <CameraButton mado={mado} />
         </div> : null}
       </div>
 

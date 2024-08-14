@@ -4,21 +4,18 @@
   "description": "ブラゲーのランチャー",
   "version": "2.0.0",
   "permissions": [
-    "storage"
-  ],
-  "optional_permissions": [
     "activeTab",
+    "downloads",
     "scripting",
+    "storage",
     "tabs"
   ],
   "optional_host_permissions": [
-    "http://*/*",
-    "https://*/*"
+    "<all_urls>"
   ],
   "externally_connectable": {
     "matches": [
-      "http://*/*",
-      "https://*/*"
+      "<all_urls>"
     ]
   },
   "icons": {

@@ -9,7 +9,6 @@ export default class TabService {
     get: (tabId: number) => Promise<number>,
   } = {
       set: async (tabId: number, zoomFactor: number | string) => {
-        console.log("Setting zoom factor to", tabId, zoomFactor);
         await this.mod.setZoomSettings(tabId, { scope: "per-tab" });
         return await this.mod.setZoom(tabId, parseFloat(zoomFactor as string));
       },
@@ -25,5 +24,9 @@ export default class TabService {
   }
   unmute(tabId: number): Promise<chrome.tabs.Tab | undefined> {
     return this.mute(tabId, false);
+  }
+
+  capture(windowId: number, options: chrome.tabs.CaptureVisibleTabOptions = { quality: 1, format: "png" }): Promise<string> {
+    return this.mod.captureVisibleTab(windowId, options);
   }
 }
