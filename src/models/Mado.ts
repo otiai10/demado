@@ -111,4 +111,14 @@ export default class Mado extends Model {
     this.$existance = result;
     return this;
   }
+
+  public displayName(): string {
+    if (this.name) return this.name;
+    try {
+      const url = new URL(this.url);
+      return url.hostname;
+    } catch (e) {
+      return this._id!;
+    }
+  }
 }

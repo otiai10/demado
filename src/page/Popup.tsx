@@ -33,9 +33,7 @@ function ShortMadoCard({ mado, index, launcher }: { mado: Mado, index: number, l
       }}
     >
       <div className="columns is-mobile">
-        <div className="column">
-          {mado.name || "_設定無し_"}
-        </div>
+        <div className="column">{mado.displayName()}</div>
         {mado.$existance ? <div className="column is-narrow">
           <MuteButton mado={mado} launcher={launcher} />
           <CameraButton mado={mado} launcher={launcher} />

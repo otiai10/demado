@@ -32,7 +32,7 @@ export function MadoCard({
     >
       <div className={"card-header"} style={{ backgroundColor: mado.colorcodeByIndex(index) }}>
         <p className="card-header-title level">
-          <span>{mado.name || "_設定無し_"}</span>
+          <span>{mado.displayName()}</span>
           <div className="icon" onClick={async () => {
             await launcher.launch(mado);
           }}><i className="fa fa-window-maximize" /></div>
