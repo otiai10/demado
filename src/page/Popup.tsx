@@ -5,11 +5,6 @@ import WindowService from "../services/WindowService";
 import TabService from "../services/TabService";
 import ScriptService from "../services/ScriptService";
 
-function CameraButton({ mado, /* launcher */ }: { mado: Mado, launcher: MadoLauncher }) {
-  if (!mado.$existance) return null;
-  return <div className="icon"><i className="fa fa-camera" title="スクリーンショットを撮る" /></div>
-}
-
 function MuteButton({ mado, /* launcher */ }: { mado: Mado, launcher: MadoLauncher }) {
   if (!mado.$existance) return null;
   const muted = mado.$existance.tab.mutedInfo?.muted;
@@ -22,6 +17,11 @@ function MuteButton({ mado, /* launcher */ }: { mado: Mado, launcher: MadoLaunch
     }}><i className={"fa " + (muted ? "fa-volume-off" : "fa-volume-up")} /></div>;
 }
 
+function CameraButton({ mado, /* launcher */ }: { mado: Mado, launcher: MadoLauncher }) {
+  if (!mado.$existance) return null;
+  return <div className="icon"><i className="fa fa-camera" title="スクリーンショットを撮る" /></div>
+}
+
 function ShortMadoCard({ mado, index, launcher }: { mado: Mado, index: number, launcher: MadoLauncher }) {
   // const existance = await launcher.exists(mado);
   // console.log(existance);
@@ -31,7 +31,9 @@ function ShortMadoCard({ mado, index, launcher }: { mado: Mado, index: number, l
       style={{
         borderColor: mado.colorcodeByIndex(index),
       }}
-      onClick={() => launcher.launch(mado)}
+      onClick={() => {
+        launcher.launch(mado).then(() => window.close());
+      }}
     >
       <div className="columns is-mobile">
         <div className="column">

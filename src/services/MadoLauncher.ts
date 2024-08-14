@@ -18,9 +18,15 @@ export default class MadoLauncher {
   private sleepMsForLaunch = 1000;
 
   async launch(mado: Mado): Promise<chrome.windows.Window> {
+    // {{{ すでにlaunch済みなら、focusして終了
+    const exists = await this.exists(mado);
+    if (exists) {
+      this.windows.focus(exists.win.id!);
+      return exists.win;
+    } // }}}
+  
     const win = await this.windows.open(mado);
-    // TODO: Bazel対応
-    await sleep(this.sleepMsForLaunch);
+    await sleep(this.sleepMsForLaunch); // FIXME: onloadが終わるまで待つ
     const tab = win.tabs![0];
     await this.tabs.zoom.set(tab.id!, mado.zoom);
     const { outer, inner } = await this.scripting.execute<{ outer: framesize, inner: framesize }>(tab.id!, function (k, v) {
@@ -45,15 +51,19 @@ export default class MadoLauncher {
     const tabs = await this.tabs.query({ url: mado.url })
     if (tabs.length === 0) return null;
     const results = tabs.map(async tab => {
-      const siblings = await this.tabs.query({ windowId: tab.windowId })
-      if (siblings.length > 1) return null; // 他のタブがある場合はdemadoではない
+      if ((await this.tabs.query({ windowId: tab.windowId })).length > 1) return null; // ウィンドウ内に他のタブがある場合はdemadoではない
+      if (!(await this.identify(tab, mado))) return null; // demadoが生成したtabでない場合はdemadoではない
       const win = await this.windows.get(tab.windowId!, { populate: true });
-      const id = await this.scripting.execute(tab.id!, function (k) {
-        return sessionStorage.getItem(k);
-      }, [BROWSER_CONTEXT_SESSION_KEY]);
-      if (mado._id !== id) return null; // セッションストレージにIDがない場合はdemadoではない
       return { win, tab, mado };
     }).filter(Boolean);
     return results.length === 0 ? null : results[0];
+  }
+
+  private async identify(tab: chrome.tabs.Tab, mado: Mado): Promise<boolean> {
+    const id = await this.scripting.execute(tab.id!, function (k) {
+      return sessionStorage.getItem(k);
+    }, [BROWSER_CONTEXT_SESSION_KEY]);
+    if (id == mado._id) return true;
+    return false; // セッションストレージにIDがない場合はdemadoではない
   }
 }

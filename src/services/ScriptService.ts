@@ -4,6 +4,7 @@ export default class ScriptService {
     private readonly mod: typeof chrome.scripting = chrome.scripting,
   ) { }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   execute<T>(tabId: number, func: (...args: any[]) => T, args: any[] = [], injectImmediately = false) {
     return this.mod.executeScript({
       target: { tabId },
