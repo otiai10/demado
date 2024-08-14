@@ -36,7 +36,7 @@ export function OptionsPage() {
     </section>,
     <section className="section">
       <div className="container is-max-desktop">
-        <div className="grid">
+        <div className="grid is-col-min-12">
           {mados.length === 0 ? <EmptyMadoEntryView /> : mados.map((mado, i) => <MadoCard
             mado={mado} index={i} launcher={launcher}
             onDragStart={ev => setDragged(ev.currentTarget)}
