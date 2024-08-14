@@ -34,4 +34,23 @@ export default class MadoLauncher {
   considerBazel(outer: framesize, inner: framesize, mado: Mado): framesize {
     return { w: outer.w - (inner.w * mado.zoom), h: outer.h - (inner.h * mado.zoom) };
   }
+
+  /**
+   * 単一Windowの中に、単一のTabが存在する場合、これはdemadoによって生成されたものと判断する.
+   * 厳密に正しくはないが、しょうがないね.
+   * もっと厳密にやるなら、demadoが生成したページのコンテキストにscriptingでsessionStorageかなんかに、mado._idを埋め込むとかだろうか.
+   * @param mado 
+   * @returns 
+   */
+  async exists(mado: Mado): Promise<{ win: chrome.windows.Window, tab: chrome.tabs.Tab, mado: Mado } | null> {
+    const tabs = await this.tabs.query({ url: mado.url })
+    if (tabs.length === 0) return null;
+    const results = tabs.map(async tab => {
+      const siblings = await this.tabs.query({ windowId: tab.windowId })
+      if (siblings.length !== 1) return null;
+      const win = await this.windows.get(tab.windowId!, { populate: true });
+      return { win, tab, mado };
+    }).filter(Boolean);
+    return results.length === 0 ? null : results[0];
+  }
 }

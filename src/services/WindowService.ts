@@ -29,4 +29,8 @@ export default class WindowService {
       });
     });
   }
+
+  get(windowId: number, getInfo: chrome.windows.QueryOptions): Promise<chrome.windows.Window> {
+    return new Promise(resolve => this.mod.get(windowId, getInfo, resolve));
+  }
 }

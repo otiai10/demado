@@ -33,3 +33,15 @@ body, #root {
     border-style: dashed;
     text-align: center;
 }
+
+.demado-short-card {
+  border: 0.1rem solid;
+  border-radius: 0.4rem;
+  padding: 0.4rem;
+  margin-bottom: 0.4rem;
+  transition: box-shadow 0.1s;
+}
+.demado-short-card:hover {
+  cursor: pointer;
+  box-shadow: 0 0 4px 0 rgba(20, 20, 20, 0.8);
+}

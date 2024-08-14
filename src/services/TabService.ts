@@ -1,13 +1,13 @@
 
 export default class TabService {
   constructor(
-        private readonly mod: typeof chrome.tabs = chrome.tabs,
+    private readonly mod: typeof chrome.tabs = chrome.tabs,
   ) { }
 
   public zoom: {
-        set: (tabId: number, zoomFactor: number) => Promise<void>,
-        get: (tabId: number) => Promise<number>,
-    } = {
+    set: (tabId: number, zoomFactor: number) => Promise<void>,
+    get: (tabId: number) => Promise<number>,
+  } = {
       set: async (tabId: number, zoomFactor: number | string) => {
         console.log("Setting zoom factor to", tabId, zoomFactor);
         await this.mod.setZoomSettings(tabId, { scope: "per-tab" });
@@ -15,4 +15,8 @@ export default class TabService {
       },
       get: (tabId: number) => this.mod.getZoom(tabId),
     }
+
+  query(queryInfo: chrome.tabs.QueryInfo): Promise<chrome.tabs.Tab[]> {
+    return new Promise(resolve => this.mod.query(queryInfo, resolve));
+  }
 }

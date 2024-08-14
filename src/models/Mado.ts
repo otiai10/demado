@@ -1,6 +1,10 @@
 import { Model, Types } from 'jstorm/chrome/local';
 import { Schema } from 'jstorm/model';
 
+interface MadoExistanceChecker {
+  exists(mado: Mado): Promise<{ win: chrome.windows.Window, tab: chrome.tabs.Tab, mado: Mado } | null>;
+}
+
 const defaultColorSet = [
   '#00D1B2',
   '#4258FF',
@@ -82,6 +86,9 @@ export default class Mado extends Model {
   public index: number = 0;
   public colorcode: string = "";
 
+  // すでに窓がChromeウィンドウ的な文脈で存在するのか、check()によって確認された結果
+  public $existance: { win: chrome.windows.Window, tab: chrome.tabs.Tab } | null = null;
+
   private static colorcodeByIndex(index: number): string {
     return defaultColorSet[index % defaultColorSet.length];
   }
@@ -97,5 +104,11 @@ export default class Mado extends Model {
     } catch (e) {
       return false;
     }
+  }
+
+  public async check(checker: MadoExistanceChecker): Promise<Mado> {
+    const result = await checker.exists(this);
+    this.$existance = result;
+    return this;
   }
 }
