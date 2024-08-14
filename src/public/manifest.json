@@ -15,6 +15,12 @@
         "http://*/*",
         "https://*/*"
     ],
+    "externally_connectable": {
+        "matches": [
+          "http://*/*",
+          "https://*/*"
+        ]
+    },
     "icons": {
       "128": "icons/128.png"
     },

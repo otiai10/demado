@@ -34,6 +34,7 @@ export function MadoCard({
               { name: "アドレスバー", value: mado.addressbar ? "表示" : "非表示" },
             ].map(({ name, value }) => <BasicInformationTag key={name} name={name} value={value} />)}
           </div>
+          <div className="is-small">窓位置 x:{mado.position.x} y:{mado.position.y}</div>
         </div>
       </div>
     </div>

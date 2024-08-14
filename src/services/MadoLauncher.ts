@@ -4,15 +4,15 @@ import TabService from "./TabService";
 import WindowService from "./WindowService";
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-const BROWSER_CONTEXT_SESSION_KEY = "dmd_launcer_id";
+const BROWSER_CONTEXT_SESSION_KEY = `demado_${chrome.runtime.id}_id`;
 interface framesize { w: number; h: number; }
 
 export default class MadoLauncher {
 
   constructor(
-        private windows: WindowService,
-        private tabs: TabService,
-        private scripting: ScriptService,
+    private windows: WindowService,
+    private tabs: TabService,
+    private scripting: ScriptService,
   ) { }
 
   private sleepMsForLaunch = 1000;
@@ -24,15 +24,18 @@ export default class MadoLauncher {
       this.windows.focus(exists.win.id!);
       return exists.win;
     } // }}}
-  
+
     const win = await this.windows.open(mado);
     await sleep(this.sleepMsForLaunch); // FIXME: onloadが終わるまで待つ
     const tab = win.tabs![0];
     await this.tabs.zoom.set(tab.id!, mado.zoom);
-    const { outer, inner } = await this.scripting.execute<{ outer: framesize, inner: framesize }>(tab.id!, function (k, v) {
-      sessionStorage.setItem(k, v);
+    const { outer, inner } = await this.scripting.execute<{ outer: framesize, inner: framesize }>(tab.id!, function (ext, k, id) {
+      sessionStorage.setItem(k, id);
+      setInterval(() => chrome.runtime.sendMessage(ext, {
+        _act_: "/mado/position:track", id, position: { x: window.screenX, y: window.screenY, },
+      }), 10 * 1000);
       return { outer: { w: window.outerWidth, h: window.outerHeight }, inner: { w: window.innerWidth, h: window.innerHeight } };
-    }, [BROWSER_CONTEXT_SESSION_KEY, mado._id]);
+    }, [chrome.runtime.id, BROWSER_CONTEXT_SESSION_KEY, mado._id]);
     await this.windows.resizeBy(win.id!, this.considerBazel(outer, inner, mado));
     await this.scripting.offset(tab.id!, mado.offset);
     return win;
