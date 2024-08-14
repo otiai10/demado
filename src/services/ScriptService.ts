@@ -4,10 +4,10 @@ export default class ScriptService {
     private readonly mod: typeof chrome.scripting = chrome.scripting,
   ) { }
 
-  execute<T>(tabId: number, func: () => T, injectImmediately = false) {
+  execute<T>(tabId: number, func: (...args: any[]) => T, args: any[] = [], injectImmediately = false) {
     return this.mod.executeScript({
       target: { tabId },
-      func,
+      func, args,
       injectImmediately,
     }).then(res => res[0].result);
   }
