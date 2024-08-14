@@ -23,9 +23,6 @@ function CameraButton({ mado, /* launcher */ }: { mado: Mado, launcher: MadoLaun
 }
 
 function ShortMadoCard({ mado, index, launcher }: { mado: Mado, index: number, launcher: MadoLauncher }) {
-  // const existance = await launcher.exists(mado);
-  // console.log(existance);
-  console.log(mado.$existance);
   return (
     <div className="demado-short-card"
       style={{
@@ -49,12 +46,27 @@ function ShortMadoCard({ mado, index, launcher }: { mado: Mado, index: number, l
   )
 }
 
+function EmptyShortCard() {
+  return (
+    <div className="demado-short-card demado-empty-state"
+      onClick={() => window.open(chrome.runtime.getURL("index.html#options"))}
+    >
+      <div className="level is-mobile">
+        <div className="level-item">
+          <i className="fa fa-plus" />
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export function PopupPage() {
   const { mados } = useLoaderData() as { mados: Mado[] };
   const launcher = new MadoLauncher(new WindowService(), new TabService(), new ScriptService());
   return <div>
     <div className="p-2">
       {mados.map((mado, i) => <ShortMadoCard mado={mado} key={mado._id} index={i} launcher={launcher} />)}
+      <EmptyShortCard />
     </div>
   </div>;
 }

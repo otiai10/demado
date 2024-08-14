@@ -40,8 +40,22 @@ body, #root {
   padding: 0.4rem;
   margin-bottom: 0.4rem;
   transition: box-shadow 0.1s;
-}
-.demado-short-card:hover {
+
   cursor: pointer;
+
+  &.demado-empty-state {
+    box-shadow: none;
+    border: 1px solid var(--bulma-grey-lighter);
+    border-radius: 4px;
+    border-style: dashed;
+    text-align: center;
+  }
+
+  i {
+    color: var(--bulma-grey-lighter);
+  }
+}
+
+.demado-short-card:hover:not(.demado-empty-state) {
   box-shadow: 0 0 4px 0 rgba(20, 20, 20, 0.8);
 }
