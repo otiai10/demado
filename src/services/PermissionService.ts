@@ -1,16 +1,18 @@
 
 export default class PermissionService {
   constructor(
-        private readonly mod: typeof chrome.permissions = chrome.permissions,
+    private readonly mod: typeof chrome.permissions = chrome.permissions,
   ) { }
 
   contains(url: string): Promise<boolean> {
     const urlObj = new URL(url);
-    return this.mod.contains({ origins: [urlObj.origin + "/*"], permissions: [
-      "activeTab",
-      "tabs",
-      "scripting",
-    ] });
+    return this.mod.contains({
+      origins: [urlObj.origin + "/*"], permissions: [
+        "activeTab",
+        "scripting",
+        "tabs",
+      ]
+    });
   }
 
   request(url: string): Promise<boolean> {
