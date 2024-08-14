@@ -2,11 +2,17 @@ import { useLoaderData } from "react-router-dom";
 import Mado from "../models/Mado";
 import { CreateNewMadoModal } from "../components/mado/CreateNewMadoModal";
 import React from "react";
+import { MadoCard } from "../components/mado/MadoCard";
+import MadoLauncher from "../services/MadoLauncher";
+import WindowService from "../services/WindowService";
+import TabService from "../services/TabService";
+import ScriptService from "../services/ScriptService";
 
 export function OptionsPage() {
   const { mados } = useLoaderData() as { mados: Mado[] };
   const [showCreateModal, setShowCreateModal] = React.useState(false);
   const refresh = () => window.location.reload(); // FIXME: loaderDataを再取得するためにページをリロードする
+  const launcher = new MadoLauncher(new WindowService(), new TabService(), new ScriptService());
   return [
     <section className="section">
       <div className="container is-max-desktop">
@@ -17,27 +23,7 @@ export function OptionsPage() {
     <section className="section">
       <div className="container is-max-desktop">
         <div className="grid">
-          {mados.length === 0 ? <EmptyMadoEntryView /> : mados.map((mado, i) => (
-            <div className="cell card demado-card" key={mado._id}
-              style={{ borderColor: mado.colorcodeByIndex(i) }}
-            >
-              <div className={"card-header"}
-                style={{ backgroundColor: mado.colorcodeByIndex(i) }}
-              >
-                <p className="card-header-title">
-                  <span className="icon">
-                    <i className="fas fa-home"></i>
-                  </span>
-                  <span>{mado.name || "_設定無し_"}</span>
-                </p>
-              </div>
-              <div className="card-content">
-                <div className="content">
-                  <p style={{ wordBreak: 'break-all' }}>{mado.url}</p>
-                </div>
-              </div>
-            </div>
-          ))}
+          {mados.length === 0 ? <EmptyMadoEntryView /> : mados.map((mado, i) => <MadoCard mado={mado} index={i} launcher={launcher} />)}
         </div>
       </div>
     </section>,
@@ -63,6 +49,7 @@ export function OptionsPage() {
       </div>
     </section>,
     <CreateNewMadoModal
+      launcher={launcher}
       active={showCreateModal}
       close={() => { setShowCreateModal(false); refresh(); }}
     />

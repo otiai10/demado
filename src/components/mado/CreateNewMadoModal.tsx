@@ -1,20 +1,16 @@
 import React from "react";
 import Mado from "../../models/Mado";
-import WindowService from "../../services/WindowService";
 import PermissionService from "../../services/PermissionService";
-import MadoLauncher from "../../services/MadoLauncher";
-import TabService from "../../services/TabService";
-import ScriptService from "../../services/ScriptService";
+import type MadoLauncher from "../../services/MadoLauncher";
 import { ChoiceField } from "../form/ChoiceField";
 import { MatrixField } from "../form/MatrixField";
 import { InputField } from "../form/InputField";
 import { ColorField } from "../form/ColorField";
 
 export function CreateNewMadoModal({
-  active, close,
-}: { active: boolean, close: () => void }) {
+  active, close, launcher,
+}: { active: boolean, close: () => void, launcher: MadoLauncher }) {
   const [state, setState] = React.useState({ mado: Mado.new() });
-  const launcher = new MadoLauncher(new WindowService(), new TabService(), new ScriptService());
   return (
     <div className={"modal " + (active ? "is-active" : "")}>
       <div className="modal-background"></div>
