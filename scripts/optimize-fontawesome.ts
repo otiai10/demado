@@ -3,11 +3,13 @@
 import path from "path";
 import fs from "fs/promises";
 import { JSDOM } from "jsdom";
+import { convert as fontconv } from "fontconv";
 
 const PROJECT_ROOT = import.meta.url.replace("file://", "").split("/").slice(0, -2).join("/");
 const default_target_folder = "src";
 const default_scan_extensions = ["ts", "tsx", "js", "jsx"];
 const unicode_reference_file_path = path.join(PROJECT_ROOT, "node_modules", "font-awesome", "scss", "_variables.scss");
+const destination_fontfile_extensions = ["ttf", "woff", "woff2", "eot"];
 
 const __main__ = async () => {
 
@@ -77,9 +79,23 @@ const __main__ = async () => {
 
   // Save the file
   await fs.rm(svg_file_path, { force: true });
-  await fs.writeFile(svg_file_path, doc.serialize());
+  const content = doc.serialize();
+  await fs.writeFile(svg_file_path, content);
 
-  console.log("[DONE] Minimized fontawesome SVG file with icons:", glyphs.length);
+  console.log("  > Minimized fontawesome SVG file with icons:", glyphs.length);
+
+  // Convert SVG to TTF, WOFF, WOFF2, EOT
+  for (let i = 0; i < destination_fontfile_extensions.length; i++) {
+    const ext = "." + destination_fontfile_extensions[i];
+    const dest_content = await fontconv(content, ext, {});
+    const dest_file = svg_file_path.replace(".svg", ext);
+    await fs.rm(dest_file, { force: true });
+    await fs.writeFile(dest_file, dest_content);
+    console.log("  > Created font file:", path.basename(dest_file));
+  }
+
+  console.log("[DONE] Minimized fontawesome SVG file with icons actually used in the project");
+
 }
 
 __main__();
