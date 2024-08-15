@@ -55,7 +55,7 @@ export function MadoCard({
         </div>
         <div className="columns is-mobile">
           <div className="column is-narrow">
-            <i className="fa fa-trash demado-interactive-icon" title="削除" onClick={async () => {
+            <i className="fa fa-trash-o demado-interactive-icon" title="削除" onClick={async () => {
               if (!window.confirm(`この窓設定を削除しますか？\n\n${mado.displayName()}\nid: ${mado._id}`)) return;
               await mado.delete(); refresh()
             }} />

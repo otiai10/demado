@@ -39,7 +39,7 @@ export function MatrixField<Key extends string | number>({
                       onChange(ev, item.key);
                     }}
                   />
-                  <span className="icon is-small is-left"><i className={"fa " + (item.icon || "fa-arrows-h")}></i></span>
+                  <span className="icon is-small is-left"><i className={item.icon || "fa fa-arrows-h"}></i></span>
                 </div>
               </div>
             )

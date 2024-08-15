@@ -25,9 +25,6 @@ export function InputField({
         <span className="icon is-small is-left">
           <i className={"fa " + icon}></i>
         </span>
-        {/* <span className="icon is-small is-right">
-                  <i className="fa fa-check"></i>
-                </span> */}
       </div>
       <p className="help is-success">{help}</p>
     </div>

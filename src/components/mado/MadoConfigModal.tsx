@@ -26,27 +26,27 @@ export function MadoConfigModal({
           <span className="is-size-6 has-text-grey-light">{mado._id}</span>
         </header>
         <section className="modal-card-body">
-          <InputField label="窓のURL" type="url" icon="fa-link" help=""
+          <InputField label="窓のURL" type="url" icon="fa fa-link" help=""
             defaultValue={mado.url}
             placeholder="http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854"
             onChange={ev => { mado.url = ev.target.value; update(mado) }}
           />
-          <InputField label="窓の名前" type="text" icon="fa-tag" help=""
+          <InputField label="窓の名前" type="text" icon="fa fa-tag" help=""
             defaultValue={mado.name}
             placeholder="艦これ（ながらプレイ用）" required={false}
             onChange={ev => { mado.name = ev.target.value; update(mado) }}
           />
           <MatrixField label="窓のサイズ"
             items={[
-              { label: "横幅", key: "width", icon: "fa-arrows-h", placeholder: 1200, defaultValue: mado.size.width },
-              { label: "高さ", key: "height", icon: "fa-arrows-v", placeholder: 720, defaultValue: mado.size.height },
+              { label: "横幅", key: "width", icon: "fa fa-arrows-h", placeholder: 1200, defaultValue: mado.size.width },
+              { label: "高さ", key: "height", icon: "fa fa-arrows-v", placeholder: 720, defaultValue: mado.size.height },
             ]}
             onChange={(ev, key: "width" | "height") => { mado.size[key] = parseInt(ev.target.value); update(mado) }}
           />
           <MatrixField label="窓内コンテンツの意図的ズレ"
             items={[
-              { label: "右方向", key: "left", icon: "fa-long-arrow-right", placeholder: 0, defaultValue: mado.offset.left },
-              { label: "下方向", key: "top", icon: "fa-long-arrow-down", placeholder: -76, defaultValue: mado.offset.top },
+              { label: "右方向", key: "left", icon: "fa fa-long-arrow-right", placeholder: 0, defaultValue: mado.offset.left },
+              { label: "下方向", key: "top", icon: "fa fa-long-arrow-down", placeholder: -76, defaultValue: mado.offset.top },
             ]}
             onChange={(ev, key: "left" | "top") => { mado.offset[key] = parseInt(ev.target.value); update(mado) }}
           />
@@ -54,7 +54,7 @@ export function MadoConfigModal({
             defaultValue={mado.addressbar ? "1" : "0"}
             onChange={(ev) => { mado.addressbar = ev.target.value == "1"; update(mado) }}
           />
-          <InputField label="ズーム倍率" type="number" icon="fa-search" help="" placeholder="0.5"
+          <InputField label="ズーム倍率" type="number" icon="fa fa-search" help="" placeholder="0.5"
             defaultValue={mado.zoom}
             onChange={ev => { mado.zoom = parseFloat(ev.target.value); update(mado) }}
           />

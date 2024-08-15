@@ -69,7 +69,7 @@ export function OptionsPage() {
             <div className="level-item">
               <button className="button"
                 onClick={async () => { await Mado.drop(); refresh(); }}
-              ><i className="fa fa-trash" />すべて削除</button>
+              ><i className="fa fa-trash-o" />すべて削除</button>
             </div>
           </div>
         </div>

@@ -14,7 +14,7 @@ function MuteButton({ mado, launcher }: { mado: Mado, launcher: MadoLauncher }) 
   return <div className="icon"
     title={muted ? "ミュート解除" : "ミュートする"}
     onClick={() => launcher.mute(mado, !muted)}
-  ><i className={"fa " + (muted ? "fa-volume-off" : "fa-volume-up")} /></div>;
+  ><i className={muted ? "fa fa-volume-off" : "fa fa-volume-up"} /></div>;
 }
 
 function CameraButton({ mado }: { mado: Mado }) {
@@ -29,7 +29,7 @@ function CameraButton({ mado }: { mado: Mado }) {
       if (!granted) setGranted(await perm.capture.grant());
       else capture.capture(mado);
     }}
-  ><i className={"fa " + (granted ? "fa-camera" : "fa-exclamation-circle")} /></div>
+  ><i className={granted ? "fa fa-camera" : "fa fa-exclamation-circle"} /></div>
 }
 
 function ShortMadoCard({ mado, index, launcher }: { mado: Mado, index: number, launcher: MadoLauncher }) {
