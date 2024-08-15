@@ -19,7 +19,7 @@ export function MadoConfigModal({
   const cleanup = () => { setShowAdvanced(false); close(); };
   return (
     <div className={"modal " + (active ? "is-active" : "")}>
-      <div className="modal-background"></div>
+      <div className="modal-background" /* onClick={cleanup} // 背景黒領域で閉じるかどうか悩ましい */></div>
       <div className="modal-card">
         <header className="modal-card-head">
           <p className="modal-card-title">{mado._id ? "窓の設定変更" : "窓の新規登録"}</p>
