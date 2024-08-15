@@ -13,6 +13,13 @@ export default class ScriptService {
     }).then(res => res[0].result);
   }
 
+  style(tabId: number, css: string): Promise<void> {
+    return this.mod.insertCSS({
+      target: { tabId },
+      css,
+    });
+  }
+
   offset(tabId: number, offset: { left: number, top: number }): Promise<void> {
     return this.mod.insertCSS({
       target: { tabId },

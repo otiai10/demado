@@ -39,6 +39,7 @@ export default class MadoLauncher {
     }, [chrome.runtime.id, BROWSER_CONTEXT_SESSION_KEY, mado._id || BROWSER_CONTEXT_SESSION_VALUE_DRAFT]);
     await this.windows.resizeBy(win.id!, this.considerBazel(outer, inner, mado));
     await this.scripting.offset(tab.id!, mado.offset);
+    await this.scripting.style(tab.id!, mado.stylesheet);
     return win;
   }
 
@@ -58,13 +59,14 @@ export default class MadoLauncher {
     // }}}
     const tabs = await this.tabs.query({ url })
     if (!tabs || tabs.length === 0) return null;
-    const results = tabs.map(async tab => {
-      if ((await this.tabs.query({ windowId: tab.windowId })).length > 1) return null; // ウィンドウ内に他のタブがある場合はdemadoではない
-      if (!(await this.identify(tab, mado))) return null; // demadoが生成したtabでない場合はdemadoではない
+    for (let i = 0; i < tabs.length; i++) {
+      const tab = tabs[i];
+      if ((await this.tabs.query({ windowId: tab.windowId })).length > 1) continue; // ウィンドウ内に他のタブがある場合はdemadoではない
+      if (!(await this.identify(tab, mado))) continue; // セッションストレージに同一のMado IDがない場合は今開こうとしているmadoではない
       const win = await this.windows.get(tab.windowId!, { populate: true });
       return { win, tab, mado };
-    }).filter(Boolean);
-    return results.length === 0 ? null : results[0];
+    }
+    return null;
   }
 
   private async identify(tab: chrome.tabs.Tab, mado: Mado): Promise<boolean> {

@@ -1,3 +1,4 @@
+import React from "react";
 import Mado from "../../models/Mado";
 import PermissionService from "../../services/PermissionService";
 import type MadoLauncher from "../../services/MadoLauncher";
@@ -5,6 +6,7 @@ import { ChoiceField } from "../form/ChoiceField";
 import { MatrixField } from "../form/MatrixField";
 import { InputField } from "../form/InputField";
 import { ColorField } from "../form/ColorField";
+import { MadoAdvancedConfigs } from "./MadoAdvancedConfigs";
 
 export function MadoConfigModal({
   active, close, launcher,
@@ -13,6 +15,8 @@ export function MadoConfigModal({
   active: boolean, close: () => void, launcher: MadoLauncher,
   mado: Mado, update: (mado: Mado) => void,
 }) {
+  const [showAdvanced, setShowAdvanced] = React.useState(false);
+  const cleanup = () => { setShowAdvanced(false); close(); };
   return (
     <div className={"modal " + (active ? "is-active" : "")}>
       <div className="modal-background"></div>
@@ -58,6 +62,12 @@ export function MadoConfigModal({
             defaultValue={mado.colorcode}
             onChange={ev => { mado.colorcode = ev.target.value; update(mado) }}
           />
+
+          <MadoAdvancedConfigs
+            mado={mado} update={update}
+            active={showAdvanced} toggle={() => setShowAdvanced(!showAdvanced)}
+          />
+
         </section>
         <footer className="modal-card-foot">
           <div className="buttons">
@@ -66,11 +76,10 @@ export function MadoConfigModal({
                 const yes = await (new PermissionService()).ensure(mado.url);
                 if (!yes) return;
                 await mado.save();
-                close();
+                cleanup();
               }}
             >これでよし</button>
-            <button className="button"
-              onClick={() => close()}
+            <button className="button" onClick={() => cleanup()}
             >やっぱりやめる</button>
             <button className="button is-info" disabled={!mado.hasValidURL()}
               onClick={async () => {

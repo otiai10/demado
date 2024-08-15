@@ -58,7 +58,11 @@ export default class Mado extends Model {
       left: Types.number.isRequired,
       top:  Types.number.isRequired,
     }),
-    // 高度なDOM操作
+
+    // stylesheet
+    stylesheet: Types.string,
+
+    // 高度なDOM操作 (これ、stylesheetがあれば要らないんじゃね)
     advanced: Types.shape({
       remove: Types.arrayOf(Types.string),
     }),
@@ -81,6 +85,8 @@ export default class Mado extends Model {
 
   public zoom: number = 1.0;
   public offset = { left: 0, top: 0 };
+
+  public stylesheet: string = "";
   public advanced = { remove: [] };
 
   public index: number = 0;
