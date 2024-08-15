@@ -1,8 +1,9 @@
+import React from "react";
 import { useLoaderData } from "react-router-dom";
 import Mado from "../models/Mado";
-import { CreateNewMadoModal } from "../components/mado/CreateNewMadoModal";
-import React from "react";
 import { MadoCard } from "../components/mado/MadoCard";
+import { MadoConfigModal } from "../components/mado/MadoConfigModal";
+import { EmptyMadoEntryView } from "../components/mado/EmptyMadoEntryView";
 import MadoLauncher from "../services/MadoLauncher";
 import WindowService from "../services/WindowService";
 import TabService from "../services/TabService";
@@ -19,7 +20,7 @@ function isBefore(a: HTMLElement, b: HTMLElement): boolean {
 
 export function OptionsPage() {
   const { mados } = useLoaderData() as { mados: Mado[] };
-  const [showCreateModal, setShowCreateModal] = React.useState(false);
+  const [modal, setModal] = React.useState<{ target?: Mado | null, active: boolean }>({ target: null, active: false });
   const refresh = () => window.location.reload(); // FIXME: loaderDataを再取得するためにページをリロードする
   const launcher = new MadoLauncher(new WindowService(), new TabService(), new ScriptService());
   const [dragged, setDragged] = React.useState<HTMLElement | null>(null);
@@ -37,7 +38,7 @@ export function OptionsPage() {
     <section className="section demado-mado-card-section">
       <div className="container is-max-desktop">
         <div className="grid is-col-min-12">
-          {mados.length === 0 ? <EmptyMadoEntryView /> : mados.map((mado, i) => <MadoCard
+          {mados.length === 0 ? <EmptyMadoEntryView/> : mados.map((mado, i) => <MadoCard
             mado={mado} index={i} launcher={launcher}
             refresh={refresh}
             onDragStart={ev => setDragged(ev.currentTarget)}
@@ -58,9 +59,8 @@ export function OptionsPage() {
         <div className="level">
           <div className="level-left">
             <div className="level-item">
-              <button className="button is-primary" onClick={() => setShowCreateModal(true)}>
-                <i className="fa fa-plus" />
-                新規追加
+              <button className="button is-primary" onClick={() => setModal({ active: true })}>
+                <i className="fa fa-plus" /> 新規追加
               </button>
             </div>
           </div>
@@ -74,22 +74,12 @@ export function OptionsPage() {
         </div>
       </div>
     </section>,
-    <CreateNewMadoModal
+    <MadoConfigModal
       launcher={launcher}
-      active={showCreateModal}
-      close={() => { setShowCreateModal(false); refresh(); }}
-    />
+      active={modal.active}
+      close={() => { setModal({ active: false, target: null }); refresh(); }}
+      mado={modal.target || new Mado()}
+      update={(mado: Mado) => { setModal({ active: true, target: mado }) }}
+    />,
   ];
-}
-
-function EmptyMadoEntryView() {
-  return (
-    <div className="cell card demado-empty-state">
-      <div className="card-content">
-        <div className="content">
-          <p>まだ何も登録されていません</p>
-        </div>
-      </div>
-    </div>
-  );
 }

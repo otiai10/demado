@@ -5,6 +5,7 @@ import WindowService from "./WindowService";
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 const BROWSER_CONTEXT_SESSION_KEY = `demado_${chrome.runtime.id}_id`;
+const BROWSER_CONTEXT_SESSION_VALUE_DRAFT = "__DEMADO_DRAFT__";
 interface framesize { w: number; h: number; }
 
 export default class MadoLauncher {
@@ -35,7 +36,7 @@ export default class MadoLauncher {
         _act_: "/mado/position:track", id, position: { x: window.screenX, y: window.screenY, },
       }), 10 * 1000);
       return { outer: { w: window.outerWidth, h: window.outerHeight }, inner: { w: window.innerWidth, h: window.innerHeight } };
-    }, [chrome.runtime.id, BROWSER_CONTEXT_SESSION_KEY, mado._id]);
+    }, [chrome.runtime.id, BROWSER_CONTEXT_SESSION_KEY, mado._id || BROWSER_CONTEXT_SESSION_VALUE_DRAFT]);
     await this.windows.resizeBy(win.id!, this.considerBazel(outer, inner, mado));
     await this.scripting.offset(tab.id!, mado.offset);
     return win;
