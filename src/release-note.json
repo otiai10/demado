@@ -1,0 +1,62 @@
+{
+  "reference": {
+    "repo": "https://github.com/otiai10/demado"
+  },
+  "releases": [
+    {
+      "date": "2024-08-15",
+      "version": "2.0.5",
+      "message": "わりとぜんぶ機能実装したつもり。誰もベータ版のテスト参加しないし、もうリリースしちゃおうかと思います. がんばってmv3対応したので、多めにみてくださいませ",
+      "commits": [
+        {
+          "title": "release-note.json をもとにリリース情報を表示",
+          "hash": "6be056c149aafb268315cdc9b457b8d2b56b59ee"
+        },
+        {
+          "title": "リリースノートはMakefileで作る",
+          "hash": "85e0da39f5e64a1a265144e428bc09b62f61d7b6"
+        },
+        {
+          "title": "READMEをととのえた",
+          "hash": "2c585c0412e3ebb3f3cddb3eace2f367a48883d7"
+        },
+        {
+          "title": "v2.0.2",
+          "hash": "6f14ed2a170a31bd7fc5e73495371e36812a17c5"
+        },
+        {
+          "title": "FontAwesome最適化のスクリプトをいろとりどりにした",
+          "hash": "1f80d3e6e85d8543e7da3ac391f8eba24653d196"
+        },
+        {
+          "title": "cliではなくfontconvをライブラリとして利用するようにした",
+          "hash": "d7a69f3642b577afa0485fdc8e2ba0b271268989"
+        },
+        {
+          "title": "Font Awesome のファイルサイズを根性で小さくした",
+          "hash": "fbf460855b879c947501b98447a16ede354c237a"
+        },
+        {
+          "title": "新規作成・編集の背景黒領域についてのコメント追加",
+          "hash": "a573ca1bf25646dee94ff57af00829b5e55b722d"
+        },
+        {
+          "title": "色コード未指定でinput[type=color]表示したときの警告を解消",
+          "hash": "9c3659a5fab39035e7fc78f2605e9ce2877232f7"
+        },
+        {
+          "title": "高度な設定を追加",
+          "hash": "904d194d4467f9e3b47ed7140efad0d98681f2bf"
+        }
+      ]
+    },
+    {
+      "version": "v1.2.0",
+      "date": "2022-07-21"
+    },
+    {
+      "version": "1.0.16",
+      "date": "2017-05-07"
+    }
+  ]
+}
