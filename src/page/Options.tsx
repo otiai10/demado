@@ -1,5 +1,5 @@
 import React from "react";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import Mado from "../models/Mado";
 import MadoLauncher from "../services/MadoLauncher";
 import WindowService from "../services/WindowService";
@@ -24,13 +24,15 @@ function isBefore(a: HTMLElement, b: HTMLElement): boolean {
 export function OptionsPage() {
   const { mados } = useLoaderData() as { mados: Mado[] };
   const [modal, setModal] = React.useState<{ target?: Mado | null, active: boolean }>({ target: null, active: false });
-  const refresh = () => window.location.reload(); // FIXME: loaderDataを再取得するためにページをリロードする
+  const navigate = useNavigate();
+  const refresh = () => navigate("/options");
   const launcher = new MadoLauncher(new WindowService(), new TabService(), new ScriptService());
   const [dragged, setDragged] = React.useState<HTMLElement | null>(null);
   const [devinfo, setDevInfo] = React.useState(false);
   const reorder = async () => {
     const ids = Array.from(document.querySelectorAll(".demado-card")).map(e => e.getAttribute("data-id")).filter(Boolean);
     for (let index = 0; index < ids.length; index++) await mados.find(m => m._id === ids[index])?.update({ index });
+    refresh();
   }
   return [
     <section className="section">
@@ -99,6 +101,7 @@ export function OptionsPage() {
       close={() => { setModal({ active: false, target: null }); }}
       mado={modal.target || new Mado()}
       update={(mado: Mado) => { setModal({ active: true, target: mado }) }}
+      refresh={refresh}
     />,
   ];
 }

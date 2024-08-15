@@ -10,10 +10,11 @@ import { MadoAdvancedConfigs } from "./MadoAdvancedConfigs";
 
 export function MadoConfigModal({
   active, close, launcher,
-  mado, update,
+  mado, update, refresh,
 }: {
   active: boolean, close: () => void, launcher: MadoLauncher,
   mado: Mado, update: (mado: Mado) => void,
+  refresh: () => void,
 }) {
   const [showAdvanced, setShowAdvanced] = React.useState(false);
   const cleanup = () => { setShowAdvanced(false); close(); };
@@ -76,7 +77,7 @@ export function MadoConfigModal({
                 const yes = await (new PermissionService()).ensure(mado.url);
                 if (!yes) return;
                 await mado.save();
-                cleanup();
+                cleanup(); refresh();
               }}
             >これでよし</button>
             <button className="button" onClick={() => cleanup()}
