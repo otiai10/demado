@@ -22,7 +22,7 @@ export function ColorField({
             </label>
             {enabled ? <div className="color-picker" style={{ flex: 1 }}>
               <input type="color" style={{width: "100%", padding: 0}}
-                defaultValue={defaultValue}
+                defaultValue={defaultValue || "#808080"}
                 onChange={onChange}
               />
             </div> : null}
