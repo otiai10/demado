@@ -5,6 +5,40 @@ import fs from "fs/promises";
 import { JSDOM } from "jsdom";
 import { convert as fontconv } from "fontconv";
 
+// {{{ JUST FOR COLORIZING LOG: import { styleText as style } from "node:util";
+const color = {
+  Reset: "\x1b[0m",
+  Bright: "\x1b[1m",
+  // Dim: "\x1b[2m",
+  // Underscore: "\x1b[4m",
+  // Blink: "\x1b[5m",
+  // Reverse: "\x1b[7m",
+  // Hidden: "\x1b[8m",
+  // FgBlack: "\x1b[30m",
+  FgRed: "\x1b[31m",
+  FgGreen: "\x1b[32m",
+  FgYellow: "\x1b[33m",
+  // FgBlue: "\x1b[34m",
+  // FgMagenta: "\x1b[35m",
+  FgCyan: "\x1b[36m",
+  // FgWhite: "\x1b[37m",
+  // FgGray: "\x1b[90m",
+  // BgBlack: "\x1b[40m",
+  // BgRed: "\x1b[41m",
+  // BgGreen: "\x1b[42m",
+  // BgYellow: "\x1b[43m",
+  // BgBlue: "\x1b[44m",
+  // BgMagenta: "\x1b[45m",
+  // BgCyan: "\x1b[46m",
+  // BgWhite: "\x1b[47m",
+  // BgGray: "\x1b[100m",
+}
+/* eslint-disable */
+const info = (...args: any[]) => console.log(`${color.FgCyan}${args[0]}${color.Reset}`, ...args.slice(1));
+const warn = (...args: any[]) => console.log(`${color.Bright}${color.FgYellow}${args[0]}${color.Reset}`, ...args.slice(1));
+/* eslint-enable */
+// }}}
+
 const PROJECT_ROOT = import.meta.url.replace("file://", "").split("/").slice(0, -2).join("/");
 const default_target_folder = "src";
 const default_scan_extensions = ["ts", "tsx", "js", "jsx"];
@@ -13,7 +47,7 @@ const destination_fontfile_extensions = ["ttf", "woff", "woff2", "eot"];
 
 const __main__ = async () => {
 
-  console.log("[START] Minimizing fontawesome SVG file with icons actually used in the project");
+  info("[START]", `Minimizing fontawesome SVG file with icons actually used in the project`);
 
   // Create static UNICODE dictionary
   const dictionary: { [name: string]: string } = {};
@@ -24,7 +58,7 @@ const __main__ = async () => {
       dictionary[match.groups.name] = match.groups.unicode;
     }
   });
-  console.log("  > Extracted icons from FontAwesome as UNICODE dictionary:", Object.keys(dictionary).length);
+  info("  > ", "Extracted icons from FontAwesome as UNICODE dictionary:", Object.keys(dictionary).length);
 
   // Find all font-awesome icons in the project
   const target_folder_path = path.join(PROJECT_ROOT, default_target_folder);
@@ -49,7 +83,7 @@ const __main__ = async () => {
       }
     });
   }
-  console.log("  > Found icons used in the project:", Object.keys(summary).length);
+  info("  > ", "Found icons used in the project:", Object.keys(summary).length);
 
   // Open SVG file and remove all the unnecessary lines except for the keys in the summary
   const svg_file_path = path.join(PROJECT_ROOT, "dist", "assets", "fontawesome-webfont.svg");
@@ -61,16 +95,16 @@ const __main__ = async () => {
     if (node) {
       glyphs.push(node as SVGElement);
     } else {
-      console.log("  [!] GLYPH NOT FOUND:", unicode, glyph);
+      warn("  [!] ", "GLYPH NOT FOUND: ", unicode, glyph);
     }
   });
-  console.log("  > Glyphs to be saved:", glyphs.length);
+  info("  > ", "Glyphs to be saved:", glyphs.length);
 
   // Remove all glyphs
   const font: SVGElement = doc.window._document.querySelector("font");
   const allGlyphs = font.querySelectorAll("glyph");
   allGlyphs.forEach((g) => g.remove());
-  console.log("  > Removed glyphs:", allGlyphs.length);
+  info("  > ", "Removed glyphs:", allGlyphs.length);
   // Insert only necessary glyphs
   font.append(...glyphs);
 
@@ -82,7 +116,7 @@ const __main__ = async () => {
   const content = doc.serialize();
   await fs.writeFile(svg_file_path, content);
 
-  console.log("  > Minimized fontawesome SVG file with icons:", glyphs.length);
+  info("  > ", "Minimized fontawesome SVG file with icons:", glyphs.length);
 
   // Convert SVG to TTF, WOFF, WOFF2, EOT
   for (let i = 0; i < destination_fontfile_extensions.length; i++) {
@@ -91,11 +125,9 @@ const __main__ = async () => {
     const dest_file = svg_file_path.replace(".svg", ext);
     await fs.rm(dest_file, { force: true });
     await fs.writeFile(dest_file, dest_content);
-    console.log("  > Created font file:", path.basename(dest_file));
+    info("  > ", "Created font file:", path.basename(dest_file));
   }
-
-  console.log("[DONE] Minimized fontawesome SVG file with icons actually used in the project");
-
+  info("[DONE]", "Minimized fontawesome SVG file with icons actually used in the project\n");
 }
 
 __main__();
