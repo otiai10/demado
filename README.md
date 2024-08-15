@@ -1,5 +1,8 @@
 # demado
 
+[![Dependabot Updates](https://github.com/otiai10/demado/actions/workflows/dependabot/dependabot-updates/badge.svg)](https://github.com/otiai10/demado/actions/workflows/dependabot/dependabot-updates)
+[![Node.js CI](https://github.com/otiai10/demado/actions/workflows/node-ci.yaml/badge.svg)](https://github.com/otiai10/demado/actions/workflows/node-ci.yaml)
+
 ブラゲーのランチャー
 
 # 開発
