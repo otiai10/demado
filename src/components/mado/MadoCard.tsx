@@ -7,13 +7,13 @@ function BasicInformationTag({ name, value }: { name: string, value: string | nu
 
 export function MadoCard({
   mado, index, launcher,
-  refresh,
+  refresh, edit,
   onDragStart,
   onDragEnd,
   onDragOver,
 }: {
   mado: Mado, index: number, launcher: MadoLauncher,
-  refresh: () => void,
+  refresh: () => void, edit: () => void,
   onDragStart?: (ev: React.DragEvent<HTMLDivElement>) => void,
   onDragEnd?: (ev: React.DragEvent<HTMLDivElement>) => void,
   onDragOver?: (ev: React.DragEvent<HTMLDivElement>) => void,
@@ -60,7 +60,7 @@ export function MadoCard({
               await mado.delete(); refresh()
             }} />
           </div>
-          <div className="column is-narrow demado-interactive-icon">
+          <div className="column is-narrow demado-interactive-icon" title="編集" onClick={() => edit()}>
             <i className="fa fa-wrench" />
           </div>
         </div>

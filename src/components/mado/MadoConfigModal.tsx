@@ -18,32 +18,46 @@ export function MadoConfigModal({
       <div className="modal-background"></div>
       <div className="modal-card">
         <header className="modal-card-head">
-          <p className="modal-card-title">窓の新規登録</p>
-          {/* <button className="delete" aria-label="close" onClick={close}>あああ</button> */}
+          <p className="modal-card-title">{mado._id ? "窓の設定変更" : "窓の新規登録"}</p>
+          <span className="is-size-6 has-text-grey-light">{mado._id}</span>
         </header>
         <section className="modal-card-body">
           <InputField label="窓のURL" type="url" icon="fa-link" help=""
+            defaultValue={mado.url}
             placeholder="http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854"
             onChange={ev => { mado.url = ev.target.value; update(mado) }}
           />
           <InputField label="窓の名前" type="text" icon="fa-tag" help=""
+            defaultValue={mado.name}
             placeholder="艦これ（ながらプレイ用）" required={false}
             onChange={ev => { mado.name = ev.target.value; update(mado) }}
           />
-          <MatrixField label="窓のサイズ" items={[
-            { label: "横幅", key: "width",  icon: "fa-arrows-h", placeholder: 1200 },
-            { label: "高さ", key: "height", icon: "fa-arrows-v", placeholder:  720 },
-          ]} onChange={(ev, key: "width" | "height") => { mado.size[key] = parseInt(ev.target.value); update(mado) }} />
-          <MatrixField label="窓内コンテンツの意図的ズレ" items={[
-            { label: "右方向", key: "left", icon: "fa-long-arrow-right", placeholder:   0 },
-            { label: "下方向", key: "top",  icon: "fa-long-arrow-down",  placeholder: -76 },
-          ]} onChange={(ev, key: "left" | "top") => { mado.offset[key] = parseInt(ev.target.value); update(mado) }} />
-          <ChoiceField label="アドレスバー表示" onChange={(ev) => { mado.addressbar = ev.target.value == "1"; update(mado) }} />
+          <MatrixField label="窓のサイズ"
+            items={[
+              { label: "横幅", key: "width", icon: "fa-arrows-h", placeholder: 1200, defaultValue: mado.size.width },
+              { label: "高さ", key: "height", icon: "fa-arrows-v", placeholder: 720, defaultValue: mado.size.height },
+            ]}
+            onChange={(ev, key: "width" | "height") => { mado.size[key] = parseInt(ev.target.value); update(mado) }}
+          />
+          <MatrixField label="窓内コンテンツの意図的ズレ"
+            items={[
+              { label: "右方向", key: "left", icon: "fa-long-arrow-right", placeholder: 0, defaultValue: mado.offset.left },
+              { label: "下方向", key: "top", icon: "fa-long-arrow-down", placeholder: -76, defaultValue: mado.offset.top },
+            ]}
+            onChange={(ev, key: "left" | "top") => { mado.offset[key] = parseInt(ev.target.value); update(mado) }}
+          />
+          <ChoiceField label="アドレスバー表示"
+            defaultValue={mado.addressbar ? "1" : "0"}
+            onChange={(ev) => { mado.addressbar = ev.target.value == "1"; update(mado) }}
+          />
           <InputField label="ズーム倍率" type="number" icon="fa-search" help="" placeholder="0.5"
+            defaultValue={mado.zoom}
             onChange={ev => { mado.zoom = parseFloat(ev.target.value); update(mado) }}
           />
-          <ColorField label="窓の色（管理用）" onChange={ev => { mado.colorcode = ev.target.value; update(mado) }} />
-          {/* <MatrixField label="窓を開く場所" /> */}
+          <ColorField label="窓の色（管理用）"
+            defaultValue={mado.colorcode}
+            onChange={ev => { mado.colorcode = ev.target.value; update(mado) }}
+          />
         </section>
         <footer className="modal-card-foot">
           <div className="buttons">
@@ -55,7 +69,9 @@ export function MadoConfigModal({
                 close();
               }}
             >これでよし</button>
-            <button className="button" onClick={() => close()}>やっぱりやめる</button>
+            <button className="button"
+              onClick={() => close()}
+            >やっぱりやめる</button>
             <button className="button is-info" disabled={!mado.hasValidURL()}
               onClick={async () => {
                 const yes = await (new PermissionService()).ensure(mado.url);

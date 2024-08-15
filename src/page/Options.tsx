@@ -40,6 +40,7 @@ export function OptionsPage() {
         <div className="grid is-col-min-12">
           {mados.length === 0 ? <EmptyMadoEntryView/> : mados.map((mado, i) => <MadoCard
             mado={mado} index={i} launcher={launcher}
+            edit={() => setModal({ active: true, target: mado })}
             refresh={refresh}
             onDragStart={ev => setDragged(ev.currentTarget)}
             onDragEnd={() => { setDragged(null); reorder() }}
@@ -77,7 +78,7 @@ export function OptionsPage() {
     <MadoConfigModal
       launcher={launcher}
       active={modal.active}
-      close={() => { setModal({ active: false, target: null }); refresh(); }}
+      close={() => { setModal({ active: false, target: null }); }}
       mado={modal.target || new Mado()}
       update={(mado: Mado) => { setModal({ active: true, target: mado }) }}
     />,

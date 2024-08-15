@@ -6,12 +6,13 @@ interface Preference<Key> {
 
   icon?: string;
   placeholder?: number | string;
+  defaultValue?: number | string;
 
   min?: number;
   max?: number;
 }
 
-export function MatrixField<Key>({
+export function MatrixField<Key extends string | number>({
   label,
   items,
   onChange,
@@ -33,6 +34,7 @@ export function MatrixField<Key>({
                 <div className="control has-icons-left">
                   <input className="input" type="number" min={item.min} max={item.max}
                     placeholder={item.placeholder as string}
+                    defaultValue={item.defaultValue as string}
                     onChange={ev => {
                       onChange(ev, item.key);
                     }}

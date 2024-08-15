@@ -3,6 +3,7 @@ import { ChangeEvent } from "react";
 export function InputField({
   label, type, icon,
   placeholder = "",
+  defaultValue = "",
   help = "",
   required = true,
   onChange,
@@ -11,6 +12,7 @@ export function InputField({
   type: string;
   icon: string;
   placeholder?: string;
+  defaultValue?: string | number;
   help?: string;
   required?: boolean;
   onChange?: (ev: ChangeEvent<HTMLInputElement>) => void;
@@ -19,7 +21,7 @@ export function InputField({
     <div className="field">
       <label className="label">{label}</label>
       <div className="control has-icons-left has-icons-right">
-        <input className="input" type={type} placeholder={placeholder} required={required} onChange={onChange} />
+        <input className="input" type={type} placeholder={placeholder} defaultValue={defaultValue} required={required} onChange={onChange} />
         <span className="icon is-small is-left">
           <i className={"fa " + icon}></i>
         </span>
