@@ -2,6 +2,9 @@
 
 [![Dependabot Updates](https://github.com/otiai10/demado/actions/workflows/dependabot/dependabot-updates/badge.svg)](https://github.com/otiai10/demado/actions/workflows/dependabot/dependabot-updates)
 [![Node.js CI](https://github.com/otiai10/demado/actions/workflows/node-ci.yaml/badge.svg)](https://github.com/otiai10/demado/actions/workflows/node-ci.yaml)
+[![codecov](https://codecov.io/gh/otiai10/demado/graph/badge.svg?token=2vdGdzZZkq)](https://codecov.io/gh/otiai10/demado)
+[![Chrome Web Store](https://img.shields.io/chrome-web-store/stars/dfmhlfpfpbijchleocfbpcdjgnbpdigh.svg)](https://chrome.google.com/webstore/detail/demado/dfmhlfpfpbijchleocfbpcdjgnbpdigh)
+[![Chrome Web Store](https://img.shields.io/chrome-web-store/rating-count/dfmhlfpfpbijchleocfbpcdjgnbpdigh.svg)](https://chromewebstore.google.com/detail/demado/dfmhlfpfpbijchleocfbpcdjgnbpdigh)
 
 ブラゲーのランチャー
 
@@ -47,6 +50,10 @@ open -a "Google Chrome" --args \
 4. [release-note.json](./src/release-note.json)がドラフトされているので、編集する
 5. release-note.jsonのコミットを済ませる
 6. `make release` もしくは `make beta-release`
+
+# テスト
+
+![](https://codecov.io/gh/otiai10/demado/graphs/tree.svg?token=2vdGdzZZkq)
 
 # 不具合など報告
 
