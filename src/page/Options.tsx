@@ -1,13 +1,16 @@
 import React from "react";
 import { useLoaderData } from "react-router-dom";
 import Mado from "../models/Mado";
-import { MadoCard } from "../components/mado/MadoCard";
-import { MadoConfigModal } from "../components/mado/MadoConfigModal";
-import { EmptyMadoEntryView } from "../components/mado/EmptyMadoEntryView";
 import MadoLauncher from "../services/MadoLauncher";
 import WindowService from "../services/WindowService";
 import TabService from "../services/TabService";
 import ScriptService from "../services/ScriptService";
+import { MadoCard } from "../components/mado/MadoCard";
+import { MadoConfigModal } from "../components/mado/MadoConfigModal";
+import { EmptyMadoEntryView } from "../components/mado/EmptyMadoEntryView";
+import { CopyRight } from "../components/info/CopyRight";
+import { ReleaseNote } from "../components/info/ReleaseNote";
+import note from "../release-note.json";
 
 // @see https://stackoverflow.com/a/28962290
 function isBefore(a: HTMLElement, b: HTMLElement): boolean {
@@ -24,6 +27,7 @@ export function OptionsPage() {
   const refresh = () => window.location.reload(); // FIXME: loaderDataを再取得するためにページをリロードする
   const launcher = new MadoLauncher(new WindowService(), new TabService(), new ScriptService());
   const [dragged, setDragged] = React.useState<HTMLElement | null>(null);
+  const [devinfo, setDevInfo] = React.useState(false);
   const reorder = async () => {
     const ids = Array.from(document.querySelectorAll(".demado-card")).map(e => e.getAttribute("data-id")).filter(Boolean);
     for (let index = 0; index < ids.length; index++) await mados.find(m => m._id === ids[index])?.update({ index });
@@ -73,6 +77,20 @@ export function OptionsPage() {
             </div>
           </div>
         </div>
+      </div>
+    </section>,
+    <section className="section demado-foot">
+      <div className="container is-max-desktop">
+        <hr />
+        <div className="level">
+          <div className="level-item is-clickable" onClick={() => setDevInfo(!devinfo)}>
+            <span className={"icon is-large " + (devinfo ? "has-text-warning" : "")}>
+              <i className="fa-2x fa fa-github" />
+            </span>
+          </div>
+        </div>
+        {devinfo ? <ReleaseNote note={note} /> : null}
+        {devinfo ? <CopyRight repository={note.reference.repo} /> : null}
       </div>
     </section>,
     <MadoConfigModal
