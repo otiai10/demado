@@ -36,8 +36,14 @@ open -a "Google Chrome" --args \
 
 # リリース
 
-* `make release`
-* `make beta-release`
+今の所、以下を手動
+
+1. 編集のコミットを済ませる
+2. [package.json](./package.json)の`version`を更新
+3. `make draft` する
+4. [release-note.json](./src/public/release-note.json)がドラフトされているので、編集する
+5. release-note.jsonのコミットを済ませる
+6. `make release` もしくは `make beta-release`
 
 # 不具合など報告
 

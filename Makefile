@@ -18,3 +18,14 @@ release: clean
 	rm -rf dist/icons/beta
 	cp -r dist release/demado
 	zip -r release/demado.zip release/demado/*
+
+date := $(shell date '+%Y-%m-%d')
+vers := $(shell jq .version package.json)
+last := $(shell git describe --tags --abbrev=0)
+messages := $(shell git log $(last)..HEAD --no-merges --pretty="{\\\"title\\\": \\\"%s\\\", \\\"hash\\\":\\\"%H\\\"}" | grep -v 'bot' | head -10 | sed '$$!s/$$/,/')
+draft:
+	# 先に package.json のバージョンを変更してくださいね〜
+	jq ".version = \"$(vers)\"" src/public/manifest.json > src/public/manifest.json.tmp
+	mv src/public/manifest.json.tmp src/public/manifest.json
+	jq ".releases |= [{\"date\":\"$(date)\",\"version\":\"$(vers)\",\"messages\":[$(messages)]}] + ." src/public/release-note.json > src/public/release-note.json.tmp
+	mv src/public/release-note.json.tmp src/public/release-note.json
