@@ -51,9 +51,13 @@ open -a "Google Chrome" --args \
 5. release-note.jsonのコミットを済ませる
 6. `make release` もしくは `make beta-release`
 
-# テスト
+# テストとカバレッジ
 
-![](https://codecov.io/gh/otiai10/demado/graphs/tree.svg?token=2vdGdzZZkq)
+```sh
+pnpm test run -- --coverage
+```
+
+[![Coverage](https://codecov.io/gh/otiai10/demado/graphs/tree.svg?token=2vdGdzZZkq)](https://app.codecov.io/gh/otiai10/demado)
 
 # 不具合など報告
 
