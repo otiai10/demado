@@ -11,6 +11,7 @@ import { EmptyMadoEntryView } from "../components/mado/EmptyMadoEntryView";
 import { CopyRight } from "../components/info/CopyRight";
 import { ReleaseNote } from "../components/info/ReleaseNote";
 import note from "../release-note.json";
+import { IssueReport } from "../components/info/IssueReport";
 
 // @see https://stackoverflow.com/a/28962290
 function isBefore(a: HTMLElement, b: HTMLElement): boolean {
@@ -92,6 +93,7 @@ export function OptionsPage() {
           </div>
         </div>
         {devinfo ? <ReleaseNote note={note} /> : null}
+        {devinfo ? <IssueReport /> : null}
         {devinfo ? <CopyRight repository={note.reference.repo} /> : null}
       </div>
     </section>,
