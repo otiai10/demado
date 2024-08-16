@@ -37,7 +37,7 @@ const __webstore_publish__ = async (
   client_secret:    string = process.env.GOOGLEAPI_CLIENT_SECRET!,
   refresh_token:    string = process.env.GOOGLEAPI_REFRESH_TOKEN!,
   extension_id:     string = process.env.CHROMEWEBSTORE_EXTENSION_ID!,
-  trusted_testers: boolean = process.env.NODE_ENV !== "production",
+  trusted_testers: boolean = false, // process.env.NODE_ENV !== "production", // Betaもリンク知ってるひとに公開なので false でいい
 ) => {
   console.log("[INFO]", "START PUBLISHING...");
 
