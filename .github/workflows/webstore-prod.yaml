@@ -26,6 +26,8 @@ jobs:
       with:
         version: 9
     - run: pnpm install
+      env:
+        NODE_ENV: development
     - name: Check Release Note Version
       run: |
         TAG_NAME=`echo "${TAG_NAME}" | sed -E 's/^refs\/tags\/(v[0-9]+\.[0-9]+\.[0-9]+)$/\1/'`
@@ -51,6 +53,8 @@ jobs:
           exit 1
         fi
     - run: make release
+      env:
+        NODE_ENV: production
     - name: Publish to Webstore
       run: |
         npx -y tsx scripts/webstore-publish.ts ./release/demado.zip
