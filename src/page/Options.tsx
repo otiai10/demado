@@ -11,6 +11,8 @@ import { EmptyMadoEntryView } from "../components/mado/EmptyMadoEntryView";
 import { CopyRight } from "../components/info/CopyRight";
 import { ReleaseNote } from "../components/info/ReleaseNote";
 import note from "../release-note.json";
+import { IssueReport } from "../components/info/IssueReport";
+import { DevInfoAnchor } from "../components/info/DevInfoAnchor";
 
 // @see https://stackoverflow.com/a/28962290
 function isBefore(a: HTMLElement, b: HTMLElement): boolean {
@@ -84,14 +86,9 @@ export function OptionsPage() {
     <section className="section demado-foot">
       <div className="container is-max-desktop">
         <hr />
-        <div className="level">
-          <div className="level-item is-clickable" onClick={() => setDevInfo(!devinfo)}>
-            <span className={"icon is-large " + (devinfo ? "has-text-warning" : "")}>
-              <i className="fa-2x fa fa-github" />
-            </span>
-          </div>
-        </div>
+        <DevInfoAnchor active={devinfo} open={() => setDevInfo(!devinfo)} />
         {devinfo ? <ReleaseNote note={note} /> : null}
+        {devinfo ? <IssueReport /> : null}
         {devinfo ? <CopyRight repository={note.reference.repo} /> : null}
       </div>
     </section>,
