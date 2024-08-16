@@ -5,9 +5,21 @@
   "releases": [
     {
       "date": "2024-08-16",
-      "version": "v2.0.10",
+      "version": "v2.0.11",
       "message": "最低限の機能は実装できたと思うので、ベータ版で自分で挙動確認したら、公開版の方もリリースしちゃいますね。ベータ版への参加はいつでもウェルカムです",
       "commits": [
+        {
+          "title": "README更新: ベータ版へのリンクを追加",
+          "hash": "0c76b4d7a443d60996d9415485f213a1306ba21a"
+        },
+        {
+          "title": "Makefileをもっとかっこよくした",
+          "hash": "5b6f1182922b41ed1c6e830676a5b128a81236fd"
+        },
+        {
+          "title": "v2.0.10",
+          "hash": "97b651d7603c647a30dc76480df984b9bca550a2"
+        },
         {
           "title": "ベータ版もtrusted user onlyではないので、publish時にfalseを指定する",
           "hash": "bbac200eca0e93067f13c32cd9da382280f41aca"
@@ -75,10 +87,6 @@
         {
           "title": "Coverageを収集",
           "hash": "a27ecd80be06e3269d3afade647477c19530bd21"
-        },
-        {
-          "title": "README更新",
-          "hash": "b5975d441f810c9772e65e14c4777c7538e92ecc"
         }
       ]
     },
