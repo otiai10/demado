@@ -6,7 +6,10 @@ on:
 
 jobs:
   publish:
-    if: github.event.changes.title && startsWith(github.event.pull_request.title, '[v')
+    if: |
+      github.event.changes.title && startsWith(github.event.pull_request.title, '[v')
+    # github.event.pull_request.base.ref == 'master' &&
+    # github.event.pull_request.head.ref == 'develop' &&
     runs-on: ubuntu-latest
     env:
       NODE_ENV: beta
