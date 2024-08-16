@@ -110,3 +110,48 @@ body,
     border-bottom: var(--dmd-bb-color) var(--dmd-bb-size) solid;
   }
 }
+
+
+.demado-devinfo-anchor {
+  position: relative;
+  --hidden-balloon-basesize: 30px;
+  .demado-devinfo-hidden-balloon {
+    // Position
+    position: absolute;
+    left: calc(50% - var(--hidden-balloon-basesize) * 2);
+    top: calc(var(--hidden-balloon-basesize) * -1);
+    // Outline
+    width: calc(var(--hidden-balloon-basesize) * 4);
+    height: calc(var(--hidden-balloon-basesize) * 1);
+    border-radius: calc(var(--hidden-balloon-basesize) * 1/8);
+    // Inner
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bulma-background);
+
+    opacity: 0;
+    transition-property: opacity;
+    transition-delay: 0.6s;
+    transition-duration: 0.2s;
+
+    box-shadow: var(--bulma-card-shadow);
+  }
+  .demado-devinfo-hidden-balloon::after {
+    position: absolute;
+    content: " ";
+    width:  calc(var(--hidden-balloon-basesize) * 1/4);
+    height: calc(var(--hidden-balloon-basesize) * 1/4);
+    left:   calc(50% - var(--hidden-balloon-basesize) * 1/4);
+    top:    calc(var(--hidden-balloon-basesize) * 1);
+    border-top:   var(--bulma-background) calc(var(--hidden-balloon-basesize) * 1/4) solid;
+    border-right: transparent             calc(var(--hidden-balloon-basesize) * 1/4) solid;
+    border-left:  transparent             calc(var(--hidden-balloon-basesize) * 1/4) solid;
+  }
+
+  &:hover {
+    >.demado-devinfo-hidden-balloon {
+      opacity: 0.8;
+    }
+  }
+}
