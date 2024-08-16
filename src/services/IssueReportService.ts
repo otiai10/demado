@@ -26,6 +26,7 @@ class XTwitterIssueReport implements IssueReportPlatform {
   async report(issue: IssueEntry) {
     const url = new URL(XTwitterIssueReport.TWITTER_URL);
     url.searchParams.set("text", `${issue.title}\n${issue.body}\n${XTwitterIssueReport.MENTION}`);
+    url.searchParams.set("hashtags", "demado");
     await this.windows.create({ url: url.toString() });
     return null;
   }
