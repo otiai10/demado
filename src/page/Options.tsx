@@ -86,6 +86,17 @@ export function OptionsPage() {
     <section className="section demado-foot">
       <div className="container is-max-desktop">
         <hr />
+
+        {/* {{{ 一時的な措置 */}
+        <div className="level">
+          <div className="level-item">
+            <button className="button is-size-7 is-light" onClick={() => window.open("#/debug")}>
+              一次的な措置: 旧版での設定（localStorage）を確認する
+            </button>
+          </div>
+        </div>
+        {/* }}} */}
+
         <DevInfoAnchor active={devinfo} open={() => setDevInfo(!devinfo)} />
         {devinfo ? <ReleaseNote note={note} /> : null}
         {devinfo ? <IssueReport /> : null}
