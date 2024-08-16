@@ -1,0 +1,50 @@
+name: Webstore PROD Publish
+
+on:
+  push:
+    tags:
+    - 'v*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      NODE_ENV: production
+      WEBSTORE_CLIENT_ID:     ${{ secrets.WEBSTORE_CLIENT_ID }}
+      WEBSTORE_CLIENT_SECRET: ${{ secrets.WEBSTORE_CLIENT_SECRET }}
+      WEBSTORE_REFRESH_TOKEN: ${{ secrets.WEBSTORE_REFRESH_TOKEN }}
+      CHROMEWEBSTORE_EXTENSION_ID: dfmhlfpfpbijchleocfbpcdjgnbpdigh
+      TAG_NAME: ${{ github.ref }}
+    steps:
+    - uses: actions/checkout@v4
+    - name: Use Node.js 20.x
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20.x
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        version: 9
+    - run: pnpm install
+    - name: Check Release Note Version
+      run: |
+        RELEASENOTE_VERSION=`jq --raw-output ".releases[0].version" src/release-note.json`
+        if [ "$RELEASENOTE_VERSION" != "${TAG_NAME}" ]; then
+          echo "Release note version does not match tag name"
+          exit 1
+        fi
+        SEMVER=`echo "${TAG_NAME}" | sed -E 's/^v([0-9]+\.[0-9]+\.[0-9]+)$/\1/'`
+        MANIFEST_VERSION=`jq --raw-output ".version" src/public/manifest.json`
+        if [ "$MANIFEST_VERSION" != "${SEMVER}" ]; then
+          echo "Manifest version does not match tag name"
+          exit 1
+        fi
+        PACKAGE_VERSION=`jq --raw-output ".version" package.json`
+        if [ "$PACKAGE_VERSION" != "${SEMVER}" ]; then
+          echo "Package version does not match tag name"
+          exit 1
+        fi
+    - run: make release
+    - name: Publish to Webstore
+      run: |
+        npx -y tsx scripts/webstore-publish.ts ./release/demado.zip
