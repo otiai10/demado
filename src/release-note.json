@@ -5,9 +5,21 @@
   "releases": [
     {
       "date": "2024-08-16",
-      "version": "v2.0.9",
+      "version": "v2.0.10",
       "message": "最低限の機能は実装できたと思うので、ベータ版で自分で挙動確認したら、公開版の方もリリースしちゃいますね。ベータ版への参加はいつでもウェルカムです",
       "commits": [
+        {
+          "title": "ベータ版もtrusted user onlyではないので、publish時にfalseを指定する",
+          "hash": "bbac200eca0e93067f13c32cd9da382280f41aca"
+        },
+        {
+          "title": "GitHub Actions ワークフローちょっと読みやすくした",
+          "hash": "a805aec05fdc43f46642d548075a611391ab21e8"
+        },
+        {
+          "title": "v2.0.9",
+          "hash": "919aa01bb7a7991844b6c4170f482447989c9e2d"
+        },
         {
           "title": "自動デプロイワークフローで問題が起きたとき調査しやすくする",
           "hash": "8b7f444a15a237a2dca5b49697f8740f6aab3feb"
