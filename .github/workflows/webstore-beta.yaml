@@ -10,9 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       NODE_ENV: beta
-      WEBSTORE_CLIENT_ID:     ${{ secrets.WEBSTORE_CLIENT_ID }}
-      WEBSTORE_CLIENT_SECRET: ${{ secrets.WEBSTORE_CLIENT_SECRET }}
-      WEBSTORE_REFRESH_TOKEN: ${{ secrets.WEBSTORE_REFRESH_TOKEN }}
+      GOOGLEAPI_CLIENT_ID:     ${{ secrets.GOOGLEAPI_CLIENT_ID }}
+      GOOGLEAPI_CLIENT_SECRET: ${{ secrets.GOOGLEAPI_CLIENT_SECRET }}
+      GOOGLEAPI_REFRESH_TOKEN: ${{ secrets.GOOGLEAPI_REFRESH_TOKEN }}
       CHROMEWEBSTORE_EXTENSION_ID: cmgapdlnfeimachfnigblaopoichmijf
     steps:
     - uses: actions/checkout@v4
