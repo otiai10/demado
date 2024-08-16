@@ -28,20 +28,26 @@ jobs:
     - run: pnpm install
     - name: Check Release Note Version
       run: |
+        TAG_NAME=`echo "${TAG_NAME}" | sed -E 's/^refs\/tags\/(v[0-9]+\.[0-9]+\.[0-9]+)$/\1/'`
         RELEASENOTE_VERSION=`jq --raw-output ".releases[0].version" src/release-note.json`
         if [ "$RELEASENOTE_VERSION" != "${TAG_NAME}" ]; then
-          echo "Release note version does not match tag name"
+          echo "Release note version does not match tag name: ${RELEASENOTE_VERSION} != ${TAG_NAME}"
           exit 1
         fi
-        SEMVER=`echo "${TAG_NAME}" | sed -E 's/^v([0-9]+\.[0-9]+\.[0-9]+)$/\1/'`
+    - name: Check Manifest Version
+      run: |
+        TAG_NAME=`echo "${TAG_NAME}" | sed -E 's/^refs\/tags\/v([0-9]+\.[0-9]+\.[0-9]+)$/\1/'`
         MANIFEST_VERSION=`jq --raw-output ".version" src/public/manifest.json`
-        if [ "$MANIFEST_VERSION" != "${SEMVER}" ]; then
-          echo "Manifest version does not match tag name"
+        if [ "$MANIFEST_VERSION" != "${TAG_NAME}" ]; then
+          echo "Manifest version does not match tag name: ${MANIFEST_VERSION} != ${TAG_NAME}"
           exit 1
         fi
+    - name: Check Package Version
+      run: |
+        TAG_NAME=`echo "${TAG_NAME}" | sed -E 's/^refs\/tags\/v([0-9]+\.[0-9]+\.[0-9]+)$/\1/'`
         PACKAGE_VERSION=`jq --raw-output ".version" package.json`
-        if [ "$PACKAGE_VERSION" != "${SEMVER}" ]; then
-          echo "Package version does not match tag name"
+        if [ "$PACKAGE_VERSION" != "${TAG_NAME}" ]; then
+          echo "Package version does not match tag name: ${PACKAGE_VERSION} != ${TAG_NAME}"
           exit 1
         fi
     - run: make release
