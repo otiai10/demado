@@ -19,6 +19,10 @@ export default class WindowService {
     });
   }
 
+  close(windowId: number): Promise<void> {
+    return this.mod.remove(windowId);
+  }
+
   resizeBy(windowId: number, size: { w: number | string, h: number | string }): Promise<chrome.windows.Window> {
     return new Promise(resolve => {
       this.mod.get(windowId, { populate: true }, (win) => {

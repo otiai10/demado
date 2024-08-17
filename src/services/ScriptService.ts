@@ -13,6 +13,13 @@ export default class ScriptService {
     }).then(res => res[0].result);
   }
 
+  js(tabId: number, jsfiles: string | string[]): Promise<unknown> {
+    return this.mod.executeScript({
+      target: { tabId },
+      files: (typeof jsfiles === "string") ? [jsfiles] : jsfiles,
+    }).then(res => res[0].result);
+  }
+
   style(tabId: number, css: string): Promise<void> {
     return this.mod.insertCSS({
       target: { tabId },
@@ -28,9 +35,9 @@ export default class ScriptService {
           overflow: hidden !important;
         }
         body {
-          position: relative     !important;
-          left: ${offset.left}px !important;
-          top: ${offset.top}px   !important;
+          position: relative;
+          left: ${offset.left}px;
+          top: ${offset.top}px;
         }
       `,
     });

@@ -13,6 +13,7 @@ export default defineConfig({
       input: [ // Multiple entry points
         path.resolve(__dirname, 'src/index.html'),
         path.resolve(__dirname, 'src/background.ts'),
+        path.resolve(__dirname, 'src/dynamic-config.ts'),
       ],
       output: {
         entryFileNames: '[name].js', // Remove hash from output file names

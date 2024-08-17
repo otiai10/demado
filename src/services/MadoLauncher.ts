@@ -9,6 +9,12 @@ const BROWSER_CONTEXT_SESSION_KEY = `demado_${chrome.runtime.id}_id`;
 const BROWSER_CONTEXT_SESSION_VALUE_DRAFT = "__DEMADO_DRAFT__";
 interface framesize { w: number; h: number; }
 
+export enum LaunchMode {
+  DEFAULT = "default", // 通常の窓
+  PREVIEW = "preview", // 試しに開いてみるやつ
+  DYNAMIC = "dynamic", // 画面内設定の窓
+}
+
 export default class MadoLauncher {
 
   constructor(
@@ -33,13 +39,16 @@ export default class MadoLauncher {
     },
   }
 
-  async launch(mado: Mado): Promise<chrome.windows.Window> {
-    // {{{ すでにlaunch済みなら、focusして終了
+  async launch(mado: Mado, mode: LaunchMode = LaunchMode.DEFAULT): Promise<chrome.windows.Window> {
     const exists = await this.exists(mado);
-    if (exists) {
+    if (exists && mode == LaunchMode.DEFAULT) {
+      // すでにlaunch済みなら、focusして終了
       this.windows.focus(exists.win.id!);
       return exists.win;
-    } // }}}
+    }
+    if (exists && (mode == LaunchMode.PREVIEW || mode == LaunchMode.DYNAMIC)) {
+      this.windows.close(exists.win.id!);
+    }
 
     const win = await this.windows.open(mado);
     await sleep(this.sleepMsForLaunch); // FIXME: onloadが終わるまで待つ
@@ -55,6 +64,12 @@ export default class MadoLauncher {
     await this.windows.resizeBy(win.id!, this.considerBazel(outer, inner, mado));
     await this.scripting.offset(tab.id!, mado.offset);
     await this.scripting.style(tab.id!, mado.stylesheet);
+
+    // ダイナミックモード（窓内設定）の場合は、リッチなUIをページに挿入する
+    if (mode == LaunchMode.DYNAMIC) {
+      await this.scripting.js(tab.id!, "dynamic-config.js");
+    }
+
     return win;
   }
 
