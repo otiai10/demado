@@ -5,9 +5,33 @@
   "releases": [
     {
       "date": "2024-08-17",
-      "version": "v2.0.17",
+      "version": "v2.0.18",
       "message": "たいへんお騒がせしてすみません. Twitterでのご意見をいただき、目下優先度の高そうなものを実装しました. とくに、スクロールバーについては、高度な設定を使わなくても非表示にするようにしています. なお、修正や機能追加を先行リリースしテストしているベータ版はこちら https://chromewebstore.google.com/detail/cmgapdlnfeimachfnigblaopoichmijf から利用できます. ご意見、ご要望、不具合報告など、お気軽にお寄せください.",
       "commits": [
+        {
+          "title": "画面内設定の機能を追加",
+          "hash": "4967e6ce2d99ed32680d15cfdf2e5abd793f1b61"
+        },
+        {
+          "title": "画面内設定はいったん保存後に使えるようにした",
+          "hash": "9090c1b41f9bee645f43211ea2515e2472be72fa"
+        },
+        {
+          "title": "画面内設定のUIだけつくった",
+          "hash": "701e459f4f8f1b165971fe61a6a3b4015483945a"
+        },
+        {
+          "title": "branch protection の check に使いたいので、WorkflowのjobのIDちゃんと書いてみた",
+          "hash": "71b2ae2c53a5922be2ef98a2527b428059b47045"
+        },
+        {
+          "title": "v2.0.17",
+          "hash": "f443932ce120f725f57128b85297b34db2fcfb2a"
+        },
+        {
+          "title": "リリースノート自動生成のMakefileを改善",
+          "hash": "954a3130cf4ff9ad121365783dc652dcb00bac74"
+        },
         {
           "title": "ミュートのショートカットを実装",
           "hash": "4818234f835529bfa2d0dd9b79bb2d2d1caa3c47"
