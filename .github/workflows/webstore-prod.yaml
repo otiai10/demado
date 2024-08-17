@@ -6,7 +6,7 @@ on:
     - 'v*'
 
 jobs:
-  publish:
+  webstore_prod_publish:
     runs-on: ubuntu-latest
     env:
       NODE_ENV: production

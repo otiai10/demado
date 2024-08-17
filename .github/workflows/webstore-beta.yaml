@@ -5,7 +5,7 @@ on:
     types: [edited]
 
 jobs:
-  publish:
+  webstore_beta_publish:
     if: |
       github.event.changes.title && startsWith(github.event.pull_request.title, '[v')
     # github.event.pull_request.base.ref == 'master' &&
