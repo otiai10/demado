@@ -97,7 +97,7 @@ export function MadoConfigModal({
                 if (yes) await launcher.launch(mado, LaunchMode.PREVIEW);
               }}
             >試しに開く</button>
-          {!mado._id && <p className="help">※ 窓の新規登録は保存後に画面内設定を利用できます</p>}
+            {!mado._id && <p className="help">※ 窓の新規登録は保存後に画面内設定を利用できます</p>}
           </div>
         </footer>
       </div>

@@ -5,6 +5,19 @@ interface MadoExistanceChecker {
   exists(mado: Mado): Promise<{ win: chrome.windows.Window, tab: chrome.tabs.Tab, mado: Mado } | null>;
 }
 
+export interface MadoLikeParams extends MadoSize, MadoOffset, MadoZoom { }
+interface MadoSize {
+  width: number;
+  height: number;
+}
+interface MadoOffset {
+  left: number;
+  top: number;
+}
+interface MadoZoom {
+  zoom: number;
+}
+
 const defaultColorSet = [
   '#00D1B2',
   '#4258FF',

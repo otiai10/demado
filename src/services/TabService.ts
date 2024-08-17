@@ -29,4 +29,33 @@ export default class TabService {
   capture(windowId: number, options: chrome.tabs.CaptureVisibleTabOptions = { quality: 1, format: "png" }): Promise<string> {
     return this.mod.captureVisibleTab(windowId, options);
   }
+
+  public options = {
+    find: async () => {
+      const tabs = await this.mod.query({ url: chrome.runtime.getURL("index.html") });
+      const found: chrome.tabs.Tab[] = [];
+      for (let i = 0; i < tabs.length; i++) {
+        try {
+          const url = new URL(tabs[i].url!);
+          if (url.hash === "#options" || url.hash === "#/options") {
+            found.push(tabs[i]);
+          }
+        } catch (e) {
+          continue;
+        }
+      }
+      return found;
+    },
+    open: async (params: Record<string, unknown> = {}) => {
+      const url = new URL(chrome.runtime.getURL("index.html"));
+      url.search = new URLSearchParams(params as Record<string, string>).toString();
+      url.hash = "#options";
+      return await this.mod.create({ url: url.toString(), active: true });
+    },
+    reopen: async (params: Record<string, unknown> = {}) => {
+      const tabs = await this.options.find();
+      await this.mod.remove(tabs.map(tab => tab.id!));
+      return await this.options.open(params);
+    },
+  }
 }

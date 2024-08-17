@@ -24,8 +24,8 @@ function isBefore(a: HTMLElement, b: HTMLElement): boolean {
 }
 
 export function OptionsPage() {
-  const { mados } = useLoaderData() as { mados: Mado[] };
-  const [modal, setModal] = React.useState<{ target?: Mado | null, active: boolean }>({ target: null, active: false });
+  const { mados, spotlight } = useLoaderData() as { mados: Mado[], spotlight: Mado | null };
+  const [modal, setModal] = React.useState<{ target?: Mado | null, active: boolean }>({ target: spotlight, active: !!spotlight });
   const navigate = useNavigate();
   const refresh = () => navigate("/options");
   const launcher = new MadoLauncher(new WindowService(), new TabService(), new ScriptService());

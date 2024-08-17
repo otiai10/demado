@@ -62,7 +62,6 @@
   body.appendChild(offsetgroup);
   const [left, , leftinput] = __CREATE_FILED__("左右方向", 0);
   leftinput.addEventListener("change", (ev) => {
-    console.log(ev);
     const value = parseInt((ev.target as HTMLInputElement).value);
     document.body.style.left = `${value}px`;
   });
@@ -103,7 +102,21 @@
   commit.style.textAlign = "center";
   commit.textContent = "これでよし。設定画面に戻る";
   commit.addEventListener("click", () => {
-    console.log(chrome.runtime.sendMessage);
+    chrome.runtime.sendMessage({
+      action: "/mado/dynamic-config:result",
+      mado: sessionStorage.getItem(`demado_${chrome.runtime.id}_id`),
+      params: {
+        size: {
+          width: parseInt(widthinput.value),
+          height: parseInt(heightinput.value),
+        },
+        offset: {
+          left: parseInt(leftinput.value),
+          top: parseInt(topinput.value),
+        },
+        zoom: parseFloat(zoominput.value),
+      },
+    })
   });
   foot.appendChild(commit);
 
