@@ -58,6 +58,17 @@ export default class MadoLauncher {
     return win;
   }
 
+  // タブIDからMadoを逆引きする
+  async lookup(tabId: number): Promise<Mado | null> {
+    const id = await this.scripting.execute(tabId, function (k) {
+      return sessionStorage.getItem(k);
+    }, [BROWSER_CONTEXT_SESSION_KEY]);
+    if (!id) return null;
+    const mado = await Mado.find(id);
+    await mado?.check(this);
+    return mado;
+  }
+
   // どのくらいのサイズでリサイズするかを決める
   considerBazel(outer: framesize, inner: framesize, mado: Mado): framesize {
     return { w: outer.w - (inner.w * mado.zoom), h: outer.h - (inner.h * mado.zoom) };

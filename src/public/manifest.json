@@ -32,5 +32,11 @@
     "service_worker": "background.js",
     "type": "module"
   },
-  "options_page": "index.html#options"
+  "options_page": "index.html#options",
+  "commands": {
+    "/screenshot": {
+      "suggested_key": "Ctrl+Shift+S",
+      "description": "demadoが効いている現在アクティブな画面をスクショします"
+    }
+  }
 }
