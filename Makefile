@@ -39,7 +39,7 @@ last := $(shell git describe --tags --abbrev=0)
 commits_since_last_tag := $(shell git log $(last)..HEAD --no-merges --pretty="{\\\"title\\\": \\\"%s\\\", \\\"hash\\\":\\\"%H\\\"}" | grep -v 'bot' | head -30 | sed '$$!s/$$/,/')
 1st_commit_of_note := $(shell jq --raw-output ".releases[0].commits[-1].hash" src/release-note.json)
 1st_commit_of_logs := $(shell git log $(last)..HEAD --no-merges --reverse --pretty="%H" | head -1)
-last_message_of_note := $(shell jq ".releases[0].message" src/release-note.json)
+last_message_of_note := $(shell jq --raw-output ".releases[0].message" src/release-note.json)
 draft:
 	##################################################
 	# 先に package.json のバージョンを変更してください
