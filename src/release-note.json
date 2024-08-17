@@ -5,9 +5,25 @@
   "releases": [
     {
       "date": "2024-08-17",
-      "version": "v2.0.15",
-      "message": "たいへんお騒がせしてすみません. Twitterでのご意見をいただき、目下優先度の高そうなものを実装しました. とくに、スクロールバーについては、高度な設定を使わなくても非表示にするようにしています. なお、修正や機能追加を先行リリースしテストしているベータ版はこちら https://chromewebstore.google.com/detail/cmgapdlnfeimachfnigblaopoichmijf から利用できます. ご意見、ご要望、不具合報告など、お気軽にお寄せください. 今後も、よりよい拡張機能を目指していきます.",
+      "version": "v2.0.17",
+      "message": "たいへんお騒がせしてすみません. Twitterでのご意見をいただき、目下優先度の高そうなものを実装しました. とくに、スクロールバーについては、高度な設定を使わなくても非表示にするようにしています. なお、修正や機能追加を先行リリースしテストしているベータ版はこちら https://chromewebstore.google.com/detail/cmgapdlnfeimachfnigblaopoichmijf から利用できます. ご意見、ご要望、不具合報告など、お気軽にお寄せください.",
       "commits": [
+        {
+          "title": "ミュートのショートカットを実装",
+          "hash": "4818234f835529bfa2d0dd9b79bb2d2d1caa3c47"
+        },
+        {
+          "title": "スクショ撮るためのショートカットを実装. chrome://extensions/shortcuts で設定お願いします",
+          "hash": "2a1dda948dc99c37278151bf1cda814583295763"
+        },
+        {
+          "title": "まずはruntime.onMessageのリスナーをリファクタした",
+          "hash": "44607bd4bfdb4311657b31ae86c71c1c22043a08"
+        },
+        {
+          "title": "v2.0.15",
+          "hash": "af8dafae6cf00f48dbc01af32531130119ebe319"
+        },
         {
           "title": "ダッシュボードのサイズと位置を10秒ごとに記憶するようにした",
           "hash": "fe5610332d72669db99f45879deab790e24b1e84"
