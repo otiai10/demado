@@ -24,10 +24,13 @@ export default class ScriptService {
     return this.mod.insertCSS({
       target: { tabId },
       css: `
+        html {
+          overflow: hidden !important;
+        }
         body {
-          position: relative;
-          left: ${offset.left}px;
-          top: ${offset.top}px;
+          position: relative     !important;
+          left: ${offset.left}px !important;
+          top: ${offset.top}px   !important;
         }
       `,
     });
