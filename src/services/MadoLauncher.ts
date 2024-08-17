@@ -18,6 +18,12 @@ export default class MadoLauncher {
 
   private sleepMsForLaunch = 1000;
 
+  public dashboard = {
+    open: async () => {
+      await this.windows.create(chrome.runtime.getURL("index.html#dashboard"), { type: "popup", width: 300, height: 120 });
+    }
+  }
+
   async launch(mado: Mado): Promise<chrome.windows.Window> {
     // {{{ すでにlaunch済みなら、focusして終了
     const exists = await this.exists(mado);

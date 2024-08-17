@@ -45,7 +45,9 @@ body,
   border: 0.1rem solid;
   border-radius: 0.4rem;
   padding: 0.4rem;
-  margin-bottom: 0.4rem;
+  &:not(.demado-empty-state) {
+    margin-bottom: 0.4rem;
+  }
   transition: box-shadow 0.1s;
 
   cursor: pointer;
@@ -59,7 +61,12 @@ body,
   }
 
   i {
-    color: var(--bulma-grey-lighter);
+    color: var(--bulma-grey-light);
+  }
+  &:hover {
+    i {
+      color: var(--bulma-grey);
+    }
   }
 }
 
@@ -152,6 +159,28 @@ body,
   &:hover {
     >.demado-devinfo-hidden-balloon {
       opacity: 0.8;
+    }
+  }
+}
+
+.demado-flex {
+  display: flex;
+  align-items: center;
+  >.demado-short-card.demado-empty-state {
+    flex-grow: 1;
+  }
+  >.demado-dashboard-opener-container {
+    >.demado-dashboard-opener-button-wrapper {
+      padding: 0.4rem 0.8rem;
+    }
+    i {
+      transition: color 0.1s;
+      color: var(--bulma-grey-light);
+    }
+    &:hover {
+      i {
+        color: var(--bulma-grey);
+      }
     }
   }
 }
