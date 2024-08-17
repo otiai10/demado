@@ -37,6 +37,10 @@
     "/screenshot": {
       "suggested_key": "Ctrl+Shift+S",
       "description": "demadoが効いている現在アクティブな画面をスクショします"
+    },
+    "/mute": {
+      "suggested_key": "Ctrl+Shift+M",
+      "description": "demadoが効いている現在アクティブなタブの音をミュートします"
     }
   }
 }

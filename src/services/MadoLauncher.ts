@@ -60,13 +60,17 @@ export default class MadoLauncher {
 
   // タブIDからMadoを逆引きする
   async lookup(tabId: number): Promise<Mado | null> {
-    const id = await this.scripting.execute(tabId, function (k) {
-      return sessionStorage.getItem(k);
-    }, [BROWSER_CONTEXT_SESSION_KEY]);
-    if (!id) return null;
-    const mado = await Mado.find(id);
-    await mado?.check(this);
-    return mado;
+    try {
+      const id = await this.scripting.execute(tabId, function (k) {
+        return sessionStorage.getItem(k);
+      }, [BROWSER_CONTEXT_SESSION_KEY]);
+      if (!id) return null;
+      const mado = await Mado.find(id);
+      await mado?.check(this);
+      return mado;
+    } catch (e) {
+      return null;
+    }
   }
 
   // どのくらいのサイズでリサイズするかを決める
