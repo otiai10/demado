@@ -72,7 +72,7 @@ export function OpenDashboardButton({
 }) {
   return (
     <div className="demado-dashboard-opener-container is-clickable" title="ダッシュボードを開く"
-      onClick={() => launcher.dashboard.open()}
+      onClick={async () => { await launcher.dashboard.open(); window.close(); }}
     >
       <div className="demado-dashboard-opener-button-wrapper">
         <i className="fa fa-window-restore" />

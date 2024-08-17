@@ -1,3 +1,4 @@
+import Dashboard from "../models/Dashboard";
 import Mado from "../models/Mado";
 import ScriptService from "./ScriptService";
 import TabService from "./TabService";
@@ -20,8 +21,16 @@ export default class MadoLauncher {
 
   public dashboard = {
     open: async () => {
-      await this.windows.create(chrome.runtime.getURL("index.html#dashboard"), { type: "popup", width: 300, height: 120 });
-    }
+      const tabs = await this.tabs.query({ url: chrome.runtime.getURL("index.html") });
+      for (let i = 0; i < tabs.length; i++) {
+        if (tabs[i].url?.endsWith("#dashboard")) {
+          await this.windows.focus(tabs[i].windowId!);
+          return;
+        }
+      }
+      const dashboard = await Dashboard.user();
+      await this.windows.create(chrome.runtime.getURL("index.html#dashboard"), dashboard.toCreateData());
+    },
   }
 
   async launch(mado: Mado): Promise<chrome.windows.Window> {
