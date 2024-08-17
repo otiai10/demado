@@ -7,6 +7,7 @@ import { MatrixField } from "../form/MatrixField";
 import { InputField } from "../form/InputField";
 import { ColorField } from "../form/ColorField";
 import { MadoAdvancedConfigs } from "./MadoAdvancedConfigs";
+import { LaunchMode } from "../../services/MadoLauncher";
 
 export function MadoConfigModal({
   active, close, launcher,
@@ -82,12 +83,21 @@ export function MadoConfigModal({
             >これでよし</button>
             <button className="button" onClick={() => cleanup()}
             >やっぱりやめる</button>
+            <button className="button is-warning"
+              disabled={!mado.hasValidURL() || !mado._id}
+              title={mado._id ? "" : "画面内設定は保存後に利用できます"}
+              onClick={async () => {
+                const yes = await (new PermissionService()).ensure(mado.url);
+                if (yes) await launcher.launch(mado, LaunchMode.DYNAMIC);
+              }}
+            >画面内設定を開く</button>
             <button className="button is-info" disabled={!mado.hasValidURL()}
               onClick={async () => {
                 const yes = await (new PermissionService()).ensure(mado.url);
-                if (yes) await launcher.launch(mado);
+                if (yes) await launcher.launch(mado, LaunchMode.PREVIEW);
               }}
             >試しに開く</button>
+            {!mado._id && <p className="help">※ 窓の新規登録は保存後に画面内設定を利用できます</p>}
           </div>
         </footer>
       </div>

@@ -5,6 +5,77 @@
   "releases": [
     {
       "date": "2024-08-17",
+      "version": "v2.0.18",
+      "message": "たいへんお騒がせしてすみません. Twitterでのご意見をいただき、目下優先度の高そうなものを実装しました. とくに、スクロールバーについては、高度な設定を使わなくても非表示にするようにしています. なお、修正や機能追加を先行リリースしテストしているベータ版はこちら https://chromewebstore.google.com/detail/cmgapdlnfeimachfnigblaopoichmijf から利用できます. ご意見、ご要望、不具合報告など、お気軽にお寄せください.",
+      "commits": [
+        {
+          "title": "画面内設定の機能を追加",
+          "hash": "4967e6ce2d99ed32680d15cfdf2e5abd793f1b61"
+        },
+        {
+          "title": "画面内設定はいったん保存後に使えるようにした",
+          "hash": "9090c1b41f9bee645f43211ea2515e2472be72fa"
+        },
+        {
+          "title": "画面内設定のUIだけつくった",
+          "hash": "701e459f4f8f1b165971fe61a6a3b4015483945a"
+        },
+        {
+          "title": "branch protection の check に使いたいので、WorkflowのjobのIDちゃんと書いてみた",
+          "hash": "71b2ae2c53a5922be2ef98a2527b428059b47045"
+        },
+        {
+          "title": "v2.0.17",
+          "hash": "f443932ce120f725f57128b85297b34db2fcfb2a"
+        },
+        {
+          "title": "リリースノート自動生成のMakefileを改善",
+          "hash": "954a3130cf4ff9ad121365783dc652dcb00bac74"
+        },
+        {
+          "title": "ミュートのショートカットを実装",
+          "hash": "4818234f835529bfa2d0dd9b79bb2d2d1caa3c47"
+        },
+        {
+          "title": "スクショ撮るためのショートカットを実装. chrome://extensions/shortcuts で設定お願いします",
+          "hash": "2a1dda948dc99c37278151bf1cda814583295763"
+        },
+        {
+          "title": "まずはruntime.onMessageのリスナーをリファクタした",
+          "hash": "44607bd4bfdb4311657b31ae86c71c1c22043a08"
+        },
+        {
+          "title": "v2.0.15",
+          "hash": "af8dafae6cf00f48dbc01af32531130119ebe319"
+        },
+        {
+          "title": "ダッシュボードのサイズと位置を10秒ごとに記憶するようにした",
+          "hash": "fe5610332d72669db99f45879deab790e24b1e84"
+        },
+        {
+          "title": "最低限、ダッシュボード別窓化機能を実装した",
+          "hash": "49736de56b98e22ec30a02492decca60a0e9bf7f"
+        },
+        {
+          "title": "v2.0.14",
+          "hash": "0a590c65a18ebfaeee6eac732de0d0f2dc172716"
+        },
+        {
+          "title": "ズームを設定した場合、窓サイズが小数点になってしまい開かない問題を修正",
+          "hash": "74d114fd0767f910cd8834144c163564232daf5a"
+        },
+        {
+          "title": "スクロールバーをCSSから消す（旧版の方法を踏襲）",
+          "hash": "37548f5180e2396bf00068b2822c7e13a51feb6a"
+        },
+        {
+          "title": "旧版で設定されていたlocalStorageを確認できる（はず）の画面を設置",
+          "hash": "ac42ab109caa79cbd36df7b2c3bb5278b4464946"
+        }
+      ]
+    },
+    {
+      "date": "2024-08-17",
       "version": "v2.0.12",
       "message": "Chrome Manifest v3 対応で、大幅に改修する必要がありました. 時間がなかったので、最低限実装しています. 今後、さらに機能充実していきます. いったん、最低限の機能は実装できたと思うので、ベータ版で自分で挙動確認したら、公開版の方もリリースしちゃいます. ベータ版への参加はいつでもウェルカムです. むしろ、今回のようなケースでも、前もって、積極的に意見を伝えてくれると助かります.",
       "commits": [

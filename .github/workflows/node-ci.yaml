@@ -10,7 +10,7 @@ on:
       - main
 
 jobs:
-  build:
+  nodejs_ci_build:
     runs-on: ubuntu-latest
     strategy:
       matrix:

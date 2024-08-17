@@ -14,9 +14,13 @@ export default class WindowService {
       type: mado.addressbar ? "normal" : "popup",
       left: mado.position.x,
       top: mado.position.y,
-      width: mado.size.width * mado.zoom,
-      height: mado.size.height * mado.zoom,
+      width: Math.round(mado.size.width * mado.zoom),
+      height: Math.round(mado.size.height * mado.zoom),
     });
+  }
+
+  close(windowId: number): Promise<void> {
+    return this.mod.remove(windowId);
   }
 
   resizeBy(windowId: number, size: { w: number | string, h: number | string }): Promise<chrome.windows.Window> {

@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "demado",
   "description": "ブラゲーのランチャー",
-  "version": "2.0.12",
+  "version": "2.0.18",
   "permissions": [
     "activeTab",
     "downloads",
@@ -32,5 +32,15 @@
     "service_worker": "background.js",
     "type": "module"
   },
-  "options_page": "index.html#options"
+  "options_page": "index.html#options",
+  "commands": {
+    "/screenshot": {
+      "suggested_key": "Ctrl+Shift+S",
+      "description": "demadoが効いている現在アクティブな画面をスクショします"
+    },
+    "/mute": {
+      "suggested_key": "Ctrl+Shift+M",
+      "description": "demadoが効いている現在アクティブなタブの音をミュートします"
+    }
+  }
 }

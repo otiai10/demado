@@ -1,11 +1,16 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import './index.scss'
-
 import { RouterProvider, createHashRouter } from "react-router-dom";
+
+// Loaders
+import { mados } from '../loaders';
+
+// View
+import './index.scss'
 import { PopupPage } from './Popup.tsx';
 import { OptionsPage } from './Options.tsx';
-import { mados } from '../loaders';
+import { DashboardPage } from './Dashboard.tsx';
+import { DebugPage } from './DebugPage.tsx';
 
 const router = createHashRouter([
   {
@@ -18,6 +23,15 @@ const router = createHashRouter([
     element: <OptionsPage />,
     loader: mados,
   },
+  {
+    path: "/dashboard",
+    element: <DashboardPage />,
+    loader: mados,
+  },
+  {
+    path: "/debug",
+    element: <DebugPage />,
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

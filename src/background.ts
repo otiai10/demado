@@ -1,16 +1,6 @@
-import { Router } from "chromite";
-import Mado from "./models/Mado";
 
-const r = new Router<chrome.runtime.ExtensionMessageEvent>();
+import Messages from "./controllers/Messages";
+chrome.runtime.onMessage.addListener(Messages.listener());
 
-r.on("/mado/position:track", async (m) => {
-  const mado = await Mado.find(m.id);
-  await mado?.update({ position: m.position });
-});
-
-r.onNotFound(async (m, s) => {
-  console.log("not found", m, s);
-  return {};
-});
-
-chrome.runtime.onMessage.addListener(r.listener());
+import Commands from "./controllers/Commands";
+chrome.commands.onCommand.addListener(Commands.listener());

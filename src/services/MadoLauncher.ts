@@ -1,3 +1,4 @@
+import Dashboard from "../models/Dashboard";
 import Mado from "../models/Mado";
 import ScriptService from "./ScriptService";
 import TabService from "./TabService";
@@ -7,6 +8,12 @@ const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 const BROWSER_CONTEXT_SESSION_KEY = `demado_${chrome.runtime.id}_id`;
 const BROWSER_CONTEXT_SESSION_VALUE_DRAFT = "__DEMADO_DRAFT__";
 interface framesize { w: number; h: number; }
+
+export enum LaunchMode {
+  DEFAULT = "default", // 通常の窓
+  PREVIEW = "preview", // 試しに開いてみるやつ
+  DYNAMIC = "dynamic", // 画面内設定の窓
+}
 
 export default class MadoLauncher {
 
@@ -18,13 +25,30 @@ export default class MadoLauncher {
 
   private sleepMsForLaunch = 1000;
 
-  async launch(mado: Mado): Promise<chrome.windows.Window> {
-    // {{{ すでにlaunch済みなら、focusして終了
+  public dashboard = {
+    open: async () => {
+      const tabs = await this.tabs.query({ url: chrome.runtime.getURL("index.html") });
+      for (let i = 0; i < tabs.length; i++) {
+        if (tabs[i].url?.endsWith("#dashboard")) {
+          await this.windows.focus(tabs[i].windowId!);
+          return;
+        }
+      }
+      const dashboard = await Dashboard.user();
+      await this.windows.create(chrome.runtime.getURL("index.html#dashboard"), dashboard.toCreateData());
+    },
+  }
+
+  async launch(mado: Mado, mode: LaunchMode = LaunchMode.DEFAULT): Promise<chrome.windows.Window> {
     const exists = await this.exists(mado);
-    if (exists) {
+    if (exists && mode == LaunchMode.DEFAULT) {
+      // すでにlaunch済みなら、focusして終了
       this.windows.focus(exists.win.id!);
       return exists.win;
-    } // }}}
+    }
+    if (exists && (mode == LaunchMode.PREVIEW || mode == LaunchMode.DYNAMIC)) {
+      this.windows.close(exists.win.id!);
+    }
 
     const win = await this.windows.open(mado);
     await sleep(this.sleepMsForLaunch); // FIXME: onloadが終わるまで待つ
@@ -40,7 +64,28 @@ export default class MadoLauncher {
     await this.windows.resizeBy(win.id!, this.considerBazel(outer, inner, mado));
     await this.scripting.offset(tab.id!, mado.offset);
     await this.scripting.style(tab.id!, mado.stylesheet);
+
+    // ダイナミックモード（窓内設定）の場合は、リッチなUIをページに挿入する
+    if (mode == LaunchMode.DYNAMIC) {
+      await this.scripting.js(tab.id!, "dynamic-config.js");
+    }
+
     return win;
+  }
+
+  // タブIDからMadoを逆引きする
+  async lookup(tabId: number): Promise<Mado | null> {
+    try {
+      const id = await this.scripting.execute(tabId, function (k) {
+        return sessionStorage.getItem(k);
+      }, [BROWSER_CONTEXT_SESSION_KEY]);
+      if (!id) return null;
+      const mado = await Mado.find(id);
+      await mado?.check(this);
+      return mado;
+    } catch (e) {
+      return null;
+    }
   }
 
   // どのくらいのサイズでリサイズするかを決める
