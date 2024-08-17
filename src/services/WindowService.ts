@@ -14,8 +14,8 @@ export default class WindowService {
       type: mado.addressbar ? "normal" : "popup",
       left: mado.position.x,
       top: mado.position.y,
-      width: mado.size.width * mado.zoom,
-      height: mado.size.height * mado.zoom,
+      width: Math.round(mado.size.width * mado.zoom),
+      height: Math.round(mado.size.height * mado.zoom),
     });
   }
 
