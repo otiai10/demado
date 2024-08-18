@@ -7,9 +7,10 @@ import ScriptService from "../services/ScriptService";
 import { ShortMadoCard } from "../components/popup-control";
 import { useCallback, useEffect, useMemo } from "react";
 import Dashboard from "../models/Dashboard";
+import type GlobalConfig from "../models/GlobalConfig";
 
 export function DashboardPage() {
-  const { mados } = useLoaderData() as { mados: Mado[] };
+  const { mados, config } = useLoaderData() as { mados: Mado[], config: GlobalConfig };
   const launcher = useMemo(() => new MadoLauncher(new WindowService(), new TabService(), new ScriptService()), []);
   const navigate = useNavigate();
 
@@ -35,7 +36,9 @@ export function DashboardPage() {
 
   return <div>
     <div className="p-2">
-      {mados.map((mado, i) => <ShortMadoCard mado={mado} key={mado._id} index={i} refresh={() => navigate(0)} launcher={launcher} inpopup={false} />)}
+      {mados.map((mado, i) => <ShortMadoCard mado={mado} key={mado._id} index={i}
+        refresh={() => navigate(0)} launcher={launcher} inpopup={false} config={config}
+      />)}
     </div>
   </div>;
 }

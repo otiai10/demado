@@ -1,4 +1,5 @@
 import Mado from "../models/Mado";
+import GlobalConfig from "../models/GlobalConfig";
 import MadoLauncher from "../services/MadoLauncher";
 import ScriptService from "../services/ScriptService";
 import TabService from "../services/TabService";
@@ -12,5 +13,9 @@ export async function mados() {
   mados = await Promise.all(mados.map(async mado => {
     return await mado.check(launcher)
   }));
-  return { mados: mados.sort((p, n) => p.index < n.index ? -1 : 1), spotlight };
+  return {
+    mados: mados.sort((p, n) => p.index < n.index ? -1 : 1),
+    config: await GlobalConfig.user(),
+    spotlight,
+  };
 }
