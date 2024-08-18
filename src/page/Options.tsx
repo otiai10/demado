@@ -68,7 +68,7 @@ export function OptionsPage() {
         <div className="level">
           <div className="level-left">
             <div className="level-item">
-              <button className="button is-primary" onClick={() => setModal({ active: true })}>
+              <button className="button is-primary" onClick={() => setModal({ active: true, target: Mado.new() })}>
                 <i className="fa fa-plus" /> 新規追加
               </button>
             </div>
@@ -107,7 +107,7 @@ export function OptionsPage() {
       launcher={launcher}
       active={modal.active}
       close={() => { setModal({ active: false, target: null }); }}
-      mado={modal.target || new Mado()}
+      mado={modal.target}
       update={(mado: Mado) => { setModal({ active: true, target: mado }) }}
       refresh={refresh}
     />,

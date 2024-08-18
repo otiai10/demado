@@ -14,11 +14,12 @@ export function MadoConfigModal({
   mado, update, refresh,
 }: {
   active: boolean, close: () => void, launcher: MadoLauncher,
-  mado: Mado, update: (mado: Mado) => void,
+  mado?: Mado | null, update: (mado: Mado) => void,
   refresh: () => void,
 }) {
   const [showAdvanced, setShowAdvanced] = React.useState(false);
   const cleanup = () => { setShowAdvanced(false); close(); };
+  if (!mado) return null;
   return (
     <div className={"modal " + (active ? "is-active" : "")}>
       <div className="modal-background" /* onClick={cleanup} // 背景黒領域で閉じるかどうか悩ましい */></div>
