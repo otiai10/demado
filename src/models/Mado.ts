@@ -1,8 +1,9 @@
 import { Model, Types } from 'jstorm/chrome/local';
 import { Schema } from 'jstorm/model';
 
-interface MadoExistanceChecker {
-  exists(mado: Mado): Promise<{ win: chrome.windows.Window, tab: chrome.tabs.Tab, mado: Mado } | null>;
+interface MadoExistanceHydrator {
+  retrieve(mado: Mado): Promise<{ win: chrome.windows.Window, tab: chrome.tabs.Tab, mado: Mado } | null>;
+  permitted(mado: Mado): Promise<boolean>;
 }
 
 export interface MadoLikeParams extends MadoSize, MadoOffset, MadoZoom { }
@@ -16,6 +17,26 @@ interface MadoOffset {
 }
 interface MadoZoom {
   zoom: number;
+}
+
+export interface MadoPortableObject extends MadoBasicInfo, MadoAdvancedInfo, MadoColorable, MadoZoom {
+  size: MadoSize;
+  offset: MadoOffset;
+}
+
+interface MadoBasicInfo {
+  url: string;
+  name: string;
+  addressbar: boolean;
+}
+interface MadoColorable {
+  colorcode?: string;
+}
+interface MadoAdvancedInfo {
+  stylesheet?: string;
+  // advanced: {
+  //   remove: string[];
+  // };
 }
 
 const defaultColorSet = [
@@ -88,25 +109,25 @@ export default class Mado extends Model {
     colorcode: Types.string,
   }
 
-  public name: string = "";
-  // public descrption: string = "";
-  // public url: string = "https://www.youtube.com/embed/243vPl8HdVk?si=Q6klBm7LRVqR196I";
-  public url: string = "";
+  public name: string = "艦これ（ながらプレイ用）";
+  public url: string = "http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854";
   public size = { width: 1200, height: 720 };
-  public position = { x: 0, y: 0 };
+  public position = { x: 20, y: 100 };
   public addressbar: boolean = false;
 
-  public zoom: number = 1.0;
-  public offset = { left: 0, top: 0 };
+  public zoom: number = 0.5;
+  public offset = { left: 0, top: -76 };
 
-  public stylesheet: string = "";
+  public stylesheet: string = `#leftnavi #dmm-left-navi .dmm-ntgnavi {\n\tdisplay:none;\n}\n`;
   public advanced = { remove: [] };
 
   public index: number = 0;
   public colorcode: string = "";
 
-  // すでに窓がChromeウィンドウ的な文脈で存在するのか、check()によって確認された結果
+  // すでに窓がChromeウィンドウ的な文脈で存在するのか、hydrate()によって確認された結果
   public $existance: { win: chrome.windows.Window, tab: chrome.tabs.Tab } | null = null;
+  // このMadoがChrome拡張機能のパーミッションを持っているかどうか、hydrate()によって確認された結果
+  public $permitted: boolean = false;
 
   private static colorcodeByIndex(index: number): string {
     return defaultColorSet[index % defaultColorSet.length];
@@ -125,9 +146,16 @@ export default class Mado extends Model {
     }
   }
 
-  public async check(checker: MadoExistanceChecker): Promise<Mado> {
-    const result = await checker.exists(this);
-    this.$existance = result;
+  /**
+   * hydrate は、Madoの現実での状態を更新するためのメソッドです
+   * Mado自体は、所詮、設定の塊でしかないので、実際にウィンドウが存在するかどうかを確認するためには、
+   * このメソッドを使って、Madoの状態を更新する必要があります
+   * @param hydrator 実のところ、MadoLauncher
+   * @returns {Mado} このMadoインスタンス
+   */
+  public async hydrate(hydrator: MadoExistanceHydrator): Promise<Mado> {
+    this.$existance = await hydrator.retrieve(this);
+    this.$permitted = await hydrator.permitted(this);
     return this;
   }
 
@@ -138,6 +166,20 @@ export default class Mado extends Model {
       return url.hostname;
     } catch (e) {
       return this._id!;
+    }
+  }
+
+  public export(): MadoPortableObject {
+    return {
+      url: this.url,
+      name: this.name,
+      addressbar: this.addressbar,
+      size: this.size,
+      offset: this.offset,
+      zoom: this.zoom,
+      colorcode: this.colorcode || undefined,
+      stylesheet: this.stylesheet || undefined,
+      // advanced: this.advanced,
     }
   }
 }

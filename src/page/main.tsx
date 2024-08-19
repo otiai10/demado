@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { RouterProvider, createHashRouter } from "react-router-dom";
 
 // Loaders
-import { mados } from '../loaders';
+import { debugs, mados } from '../loaders';
 
 // View
 import './index.scss'
@@ -31,6 +31,7 @@ const router = createHashRouter([
   {
     path: "/debug",
     element: <DebugPage />,
+    loader: debugs,
   }
 ]);
 

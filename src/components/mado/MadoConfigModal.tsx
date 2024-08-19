@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import Mado from "../../models/Mado";
 import PermissionService from "../../services/PermissionService";
 import type MadoLauncher from "../../services/MadoLauncher";
@@ -17,7 +17,9 @@ export function MadoConfigModal({
   mado?: Mado | null, update: (mado: Mado) => void,
   refresh: () => void,
 }) {
-  const [showAdvanced, setShowAdvanced] = React.useState(false);
+  const [showAdvanced, setShowAdvanced] = React.useState(true);
+  const perm = useMemo(() => new PermissionService(), []);
+  const fallback = () => window.alert("許可がないため、操作できません");
   const cleanup = () => { setShowAdvanced(false); close(); };
   if (!mado) return null;
   return (
@@ -76,7 +78,7 @@ export function MadoConfigModal({
           <div className="buttons">
             <button className="button is-success" disabled={!mado.hasValidURL()}
               onClick={async () => {
-                const yes = await (new PermissionService()).ensure(mado.url);
+                const yes = await perm.ensure(mado.url, fallback);
                 if (!yes) return;
                 await mado.save();
                 cleanup(); refresh();
@@ -88,13 +90,13 @@ export function MadoConfigModal({
               disabled={!mado.hasValidURL() || !mado._id}
               title={mado._id ? "" : "画面内設定は保存後に利用できます"}
               onClick={async () => {
-                const yes = await (new PermissionService()).ensure(mado.url);
+                const yes = await perm.ensure(mado.url, fallback);
                 if (yes) await launcher.launch(mado, LaunchMode.DYNAMIC);
               }}
             >画面内設定を開く</button>
             <button className="button is-info" disabled={!mado.hasValidURL()}
               onClick={async () => {
-                const yes = await (new PermissionService()).ensure(mado.url);
+                const yes = await perm.ensure(mado.url, fallback);
                 if (yes) await launcher.launch(mado, LaunchMode.PREVIEW);
               }}
             >試しに開く</button>

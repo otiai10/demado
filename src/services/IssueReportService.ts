@@ -4,6 +4,7 @@ interface IssueEntry {
   body: string;
 }
 
+// つまるところ、window.* です
 interface InteractionProvider {
   confirm(message: string): boolean;
   prompt(message: string): string | null;
@@ -12,8 +13,8 @@ interface InteractionProvider {
 }
 
 abstract class IssueReportPlatform {
-  abstract report(issue: IssueEntry): Promise<{ error?: unknown, messae: string, } | null>;
   abstract build(title: string, label: string, version: string): Promise<IssueEntry>;
+  abstract report(issue: IssueEntry): Promise<{ error?: unknown, messae: string, } | null>;
 }
 
 class XTwitterIssueReport implements IssueReportPlatform {
@@ -23,6 +24,12 @@ class XTwitterIssueReport implements IssueReportPlatform {
   constructor(
     private readonly windows: typeof chrome.windows = chrome.windows,
   ) { }
+  async build(title: string, label: string, version: string) {
+    return {
+      title: `【${title}】`,
+      body: `バージョン: ${version}-${label}\n事象の詳細: ...\n再現頻度: ...\n再現方法: ...\nいつから起きているか: ... \nどう困っているか: ...\n`,
+    };
+  }
   async report(issue: IssueEntry) {
     const url = new URL(XTwitterIssueReport.TWITTER_URL);
     url.searchParams.set("text", `${issue.title}\n${issue.body}\n${XTwitterIssueReport.MENTION}`);
@@ -30,18 +37,41 @@ class XTwitterIssueReport implements IssueReportPlatform {
     await this.windows.create({ url: url.toString() });
     return null;
   }
-  async build(title: string, label: string, version: string) {
-    return {
-      title: `【${title}】`,
-      body: `バージョン: ${version}-${label}\n事象の詳細: ...\n再現頻度: ...\n再現方法: ...\nいつから起きているか: ... \nどう困っているか: ...\n`,
-    };
+}
+
+class GitHubIssueReport implements IssueReportPlatform {
+  constructor(
+    private readonly repo: string,
+    private readonly windows: typeof chrome.windows = chrome.windows,
+  ) { }
+  async build(title: string, label: string, version: string): Promise<IssueEntry> {
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { brands, platform } = ((window.navigator as any).userAgentData as { brands: { brand: string, version: string }[], platform: string });
+      const env = `- 拡張のバージョン: ${version} ${label}\n- OS: ${platform}\n- Chromeのバージョン: ${brands.map(b => `${b.brand} ${b.version}`).join(" / ")}`;
+      return { title, body: `# 環境\n${env}\n\n# 事象の詳細\n...\n\n# 再現頻度\n...\n\n# 再現方法\n...\n\n# いつから起きているか\n...\n\n# どう困っているか\n...\n\n# 開発者にひとこと\n ...\n` };
+    } catch (e) {
+      return { title, body: `# 環境\n- 拡張のバージョン: ${version} ${label}\n- OS: ...\n- Chromeのバージョン\n\n# 事象の詳細\n...\n\n# 再現頻度\n...\n\n# 再現方法\n...\n\n# いつから起きているか\n...\n\n# どう困っているか\n...\n\n# 開発者にひとこと\n ...\n` };
+    }
   }
+  async report(issue: IssueEntry) {
+    const url = new URL(`${this.repo}/issues/new`);
+    url.searchParams.set("title", issue.title);
+    url.searchParams.set("body", issue.body);
+    await this.windows.create({ url: url.toString() });
+    return null;
+  }
+}
+
+export const IssuePlatforms = {
+  XTwitter: XTwitterIssueReport,
+  GitHub: GitHubIssueReport,
 }
 
 export default class IssueReportService {
   constructor(
     private readonly repo: string = "https://github.com/otiai10/demado",
-    private readonly platform: IssueReportPlatform = new XTwitterIssueReport(),
+    private readonly platform: IssueReportPlatform = new GitHubIssueReport(repo),
     private readonly runtime: typeof chrome.runtime = chrome.runtime,
     private readonly interaction: InteractionProvider = window, 
   ) { }

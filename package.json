@@ -1,11 +1,11 @@
 {
   "name": "demado",
   "private": true,
-  "version": "2.0.22",
+  "version": "2.0.26",
   "type": "module",
   "engines": {
     "node": "^20.15.0",
-    "pnpm": "^9.6.0"
+    "pnpm": ">=9.4.0 <9.8.0"
   },
   "scripts": {
     "test": "vitest",

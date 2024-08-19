@@ -29,7 +29,6 @@ body,
 }
 
 .demado-card:hover {
-  cursor: pointer;
   box-shadow: 2px 10px 4px 0 rgba(0, 0, 0, 0.1) !important;
 }
 
@@ -120,16 +119,22 @@ body,
 
 
 .demado-devinfo-anchor {
+  width: 100%;
   position: relative;
-  --hidden-balloon-basesize: 30px;
+  --hidden-balloon-basesize: 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   .demado-devinfo-hidden-balloon {
+    max-width: 90%;
+    text-align: center;
     // Position
-    position: absolute;
+    margin-top: calc(var(--hidden-balloon-basesize) * -1);
+    // position: absolute;
     left: calc(50% - var(--hidden-balloon-basesize) * 2);
     top: calc(var(--hidden-balloon-basesize) * -1);
     // Outline
-    width: calc(var(--hidden-balloon-basesize) * 4);
-    height: calc(var(--hidden-balloon-basesize) * 1);
+    padding: calc(var(--hidden-balloon-basesize) * 1/4) calc(var(--hidden-balloon-basesize) * 1/2);
     border-radius: calc(var(--hidden-balloon-basesize) * 1/8);
     // Inner
     display: flex;
@@ -139,22 +144,24 @@ body,
 
     opacity: 0;
     transition-property: opacity;
-    transition-delay: 0.6s;
+    transition-delay: 0.1s;
     transition-duration: 0.2s;
 
     box-shadow: var(--bulma-card-shadow);
   }
+  /*
   .demado-devinfo-hidden-balloon::after {
     position: absolute;
     content: " ";
     width:  calc(var(--hidden-balloon-basesize) * 1/4);
     height: calc(var(--hidden-balloon-basesize) * 1/4);
     left:   calc(50% - var(--hidden-balloon-basesize) * 1/4);
-    top:    calc(var(--hidden-balloon-basesize) * 1);
+    top:    0; // calc(var(--hidden-balloon-basesize) * 0);
     border-top:   var(--bulma-background) calc(var(--hidden-balloon-basesize) * 1/4) solid;
     border-right: transparent             calc(var(--hidden-balloon-basesize) * 1/4) solid;
     border-left:  transparent             calc(var(--hidden-balloon-basesize) * 1/4) solid;
   }
+  */
 
   &:hover {
     >.demado-devinfo-hidden-balloon {
@@ -187,4 +194,21 @@ body,
 
 .demado-global-config {
   padding-top: 0;
+}
+
+.demado-export-view, .demado-import-view {
+  .demado-export-obj-preview-container {
+    position: relative;
+    .demado-export-action-container {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+    }
+  }
+}
+
+.demado-global-action-buttons {
+  .button.is-text {
+    text-decoration: none;
+  }
 }

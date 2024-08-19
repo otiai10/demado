@@ -1,4 +1,32 @@
 
+export interface ReleaseNoteObject {
+  reference: { repo: string };
+  announce?: Announce;
+  releases: {
+    date: string;
+    version: string;
+    message?: string;
+    commits?: { title: string; hash: string; }[];
+  }[];
+}
+
+export interface Announce {
+  message: string;
+  effective?: {
+    since: AnnounceSinceType;
+    until: AnnounceUntilType;
+  };
+}
+
+type AnnounceSinceType =
+  0 | // 最初から
+  string; // その他も日時文字列
+
+type AnnounceUntilType =
+  "READ" | // 読むまで
+  "PERSIST" | // このannouncementがある限りずっと
+  string; // その他の日時文字列
+
 function ReleaseEntry({
   date,
   version,
@@ -36,18 +64,7 @@ function CommitEntry({
   )
 }
 
-export function ReleaseNote({
-  note,
-}: {
-  note: {
-    reference: { repo: string };
-    releases: {
-      date: string;
-      version: string;
-      commits?: { title: string; hash: string; }[];
-    }[];
-  };
-}) {
+export function ReleaseNote({ note, }: { note: ReleaseNoteObject; }) {
   return (
     <div className="demado-release-note">
       {note.releases.map(release => <ReleaseEntry {...release} base={note.reference.repo} />)}

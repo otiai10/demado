@@ -11,11 +11,19 @@ export async function mados() {
   const launcher = new MadoLauncher(new WindowService(), new TabService(), new ScriptService());
   let mados = await Mado.list();
   mados = await Promise.all(mados.map(async mado => {
-    return await mado.check(launcher)
+    return await mado.hydrate(launcher)
   }));
   return {
     mados: mados.sort((p, n) => p.index < n.index ? -1 : 1),
     config: await GlobalConfig.user(),
     spotlight,
+  };
+}
+
+export async function debugs() {
+  const expids = (location.search.match(/export=([^&]+)/)?.[1] || "").split(",");
+  const exportargets = (await Promise.all(expids.map(async id => await Mado.find(id)))).filter(Boolean);
+  return {
+    exports: exportargets,
   };
 }
