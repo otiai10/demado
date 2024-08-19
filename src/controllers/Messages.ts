@@ -1,6 +1,7 @@
 import { Router } from "chromite";
 import Mado, { MadoLikeParams } from "../models/Mado";
 import TabService from "../services/TabService";
+import GlobalConfig from "../models/GlobalConfig";
 
 const r = new Router<chrome.runtime.ExtensionMessageEvent>();
 
@@ -17,9 +18,14 @@ r.on("/mado/dynamic-config:result", async (m: { mado: string; params: MadoLikePa
   await tabservice.options.reopen({ mado: mado._id! });
 });
 
+r.on("/global-config:get", async () => {
+  const config = await GlobalConfig.user();
+  return { config };
+});
+
 r.onNotFound(async (m, s) => {
   console.log("not found", m, s);
-  return {};
+  return { status: 404, message: `not found for path: ${m._act_}` };
 });
 
 export default r;

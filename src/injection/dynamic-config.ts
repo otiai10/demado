@@ -116,6 +116,8 @@
         },
         zoom: parseFloat(zoominput.value),
       },
+    }, () => {
+      window.close();
     })
   });
   foot.appendChild(commit);

@@ -39,7 +39,10 @@ export default class MadoLauncher {
     },
   }
 
-  async launch(mado: Mado, mode: LaunchMode = LaunchMode.DEFAULT): Promise<chrome.windows.Window> {
+  async launch(
+    mado: Mado,
+    mode: LaunchMode = LaunchMode.DEFAULT,
+  ): Promise<chrome.windows.Window> {
     const exists = await this.exists(mado);
     if (exists && mode == LaunchMode.DEFAULT) {
       // すでにlaunch済みなら、focusして終了
@@ -54,6 +57,9 @@ export default class MadoLauncher {
     await sleep(this.sleepMsForLaunch); // FIXME: onloadが終わるまで待つ
     const tab = win.tabs![0];
     await this.tabs.zoom.set(tab.id!, mado.zoom);
+    await this.scripting.offset(tab.id!, mado.offset);
+    await this.scripting.style(tab.id!, mado.stylesheet);
+
     const { outer, inner } = await this.scripting.execute<{ outer: framesize, inner: framesize }>(tab.id!, function (ext, k, id) {
       sessionStorage.setItem(k, id);
       setInterval(() => chrome.runtime.sendMessage(ext, {
@@ -62,13 +68,9 @@ export default class MadoLauncher {
       return { outer: { w: window.outerWidth, h: window.outerHeight }, inner: { w: window.innerWidth, h: window.innerHeight } };
     }, [chrome.runtime.id, BROWSER_CONTEXT_SESSION_KEY, mado._id || BROWSER_CONTEXT_SESSION_VALUE_DRAFT]);
     await this.windows.resizeBy(win.id!, this.considerBazel(outer, inner, mado));
-    await this.scripting.offset(tab.id!, mado.offset);
-    await this.scripting.style(tab.id!, mado.stylesheet);
 
-    // ダイナミックモード（窓内設定）の場合は、リッチなUIをページに挿入する
-    if (mode == LaunchMode.DYNAMIC) {
-      await this.scripting.js(tab.id!, "dynamic-config.js");
-    }
+    await this.scripting.js(tab.id!, "content-script.js");
+    if (mode == LaunchMode.DYNAMIC) await this.scripting.js(tab.id!, "dynamic-config.js");
 
     return win;
   }

@@ -1,6 +1,7 @@
 import React from "react";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import Mado from "../models/Mado";
+import GlobalConfig from "../models/GlobalConfig";
 import MadoLauncher from "../services/MadoLauncher";
 import WindowService from "../services/WindowService";
 import TabService from "../services/TabService";
@@ -10,9 +11,9 @@ import { MadoConfigModal } from "../components/mado/MadoConfigModal";
 import { EmptyMadoEntryView } from "../components/mado/EmptyMadoEntryView";
 import { CopyRight } from "../components/info/CopyRight";
 import { ReleaseNote } from "../components/info/ReleaseNote";
-import note from "../release-note.json";
 import { IssueReport } from "../components/info/IssueReport";
 import { DevInfoAnchor } from "../components/info/DevInfoAnchor";
+import note from "../release-note.json";
 
 // @see https://stackoverflow.com/a/28962290
 function isBefore(a: HTMLElement, b: HTMLElement): boolean {
@@ -24,7 +25,7 @@ function isBefore(a: HTMLElement, b: HTMLElement): boolean {
 }
 
 export function OptionsPage() {
-  const { mados, spotlight } = useLoaderData() as { mados: Mado[], spotlight: Mado | null };
+  const { mados, spotlight, config } = useLoaderData() as { mados: Mado[], spotlight: Mado | null, config: GlobalConfig };
   const [modal, setModal] = React.useState<{ target?: Mado | null, active: boolean }>({ target: spotlight, active: !!spotlight });
   const navigate = useNavigate();
   const refresh = () => navigate("/options");
@@ -68,7 +69,7 @@ export function OptionsPage() {
         <div className="level">
           <div className="level-left">
             <div className="level-item">
-              <button className="button is-primary" onClick={() => setModal({ active: true })}>
+              <button className="button is-primary" onClick={() => setModal({ active: true, target: Mado.new() })}>
                 <i className="fa fa-plus" /> 新規追加
               </button>
             </div>
@@ -80,6 +81,20 @@ export function OptionsPage() {
               ><i className="fa fa-trash-o" />すべて削除</button>
             </div>
           </div>
+        </div>
+      </div>
+    </section>,
+    <section className="section demado-global-config">
+      <div className="container is-max-desktop">
+        <hr />
+        <p className="title is-4 mb-4">共通の設定</p>
+        <div>
+          <label className="checkbox">
+            <input className="mr-2" type="checkbox" checked={config.alertOnClose} onChange={async (ev) => {
+              await config.update({ alertOnClose: ev.target.checked }); refresh();
+            }} />
+            <span>ブラウザを閉じ際に確認のアラートを表示する</span>
+          </label>
         </div>
       </div>
     </section>,
@@ -107,7 +122,7 @@ export function OptionsPage() {
       launcher={launcher}
       active={modal.active}
       close={() => { setModal({ active: false, target: null }); }}
-      mado={modal.target || new Mado()}
+      mado={modal.target}
       update={(mado: Mado) => { setModal({ active: true, target: mado }) }}
       refresh={refresh}
     />,

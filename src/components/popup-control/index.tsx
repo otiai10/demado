@@ -3,6 +3,7 @@ import Mado from "../../models/Mado";
 import MadoLauncher from "../../services/MadoLauncher";
 import PermissionService from "../../services/PermissionService";
 import CaptureService from "../../services/CaptureService";
+import type GlobalConfig from "../../models/GlobalConfig";
 
 export function MuteButton({ mado, launcher, refresh }: { mado: Mado, launcher: MadoLauncher, refresh: () => void }) {
   if (!mado.$existance) return null;
@@ -32,7 +33,8 @@ export function ShortMadoCard({
   mado, index, launcher, refresh,
   inpopup = true,
 }: {
-  mado: Mado, index: number, launcher: MadoLauncher, refresh: () => void,
+  mado: Mado, index: number, launcher: MadoLauncher, config: GlobalConfig,
+  refresh: () => void,
   inpopup?: boolean,
 }) {
   return (

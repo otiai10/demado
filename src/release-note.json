@@ -4,6 +4,25 @@
   },
   "releases": [
     {
+      "date": "2024-08-18",
+      "version": "v2.0.22",
+      "message": "",
+      "commits": [
+        {
+          "title": "画面閉じるときの警告を出す設定を追加",
+          "hash": "ce3c76c5912a8d4841a60276c05fa19b4e7853ba"
+        },
+        {
+          "title": "窓を座標-32000pxで開こうとするWindowsのバグに対応",
+          "hash": "221f48a8d2b2090ef6c1786657bb4bc9a3c05d58"
+        },
+        {
+          "title": "編集画面において既存設定が正しく表示されないバグを修正",
+          "hash": "2b7f9fbb8fb961b69022f53139ea291649ea52bc"
+        }
+      ]
+    },
+    {
       "date": "2024-08-17",
       "version": "v2.0.18",
       "message": "たいへんお騒がせしてすみません. Twitterでのご意見をいただき、目下優先度の高そうなものを実装しました. とくに、スクロールバーについては、高度な設定を使わなくても非表示にするようにしています. なお、修正や機能追加を先行リリースしテストしているベータ版はこちら https://chromewebstore.google.com/detail/cmgapdlnfeimachfnigblaopoichmijf から利用できます. ご意見、ご要望、不具合報告など、お気軽にお寄せください.",
