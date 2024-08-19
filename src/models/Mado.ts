@@ -109,18 +109,16 @@ export default class Mado extends Model {
     colorcode: Types.string,
   }
 
-  public name: string = "";
-  // public descrption: string = "";
-  // public url: string = "https://www.youtube.com/embed/243vPl8HdVk?si=Q6klBm7LRVqR196I";
-  public url: string = "";
+  public name: string = "艦これ（ながらプレイ用）";
+  public url: string = "http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854";
   public size = { width: 1200, height: 720 };
-  public position = { x: 0, y: 0 };
+  public position = { x: 20, y: 100 };
   public addressbar: boolean = false;
 
-  public zoom: number = 1.0;
-  public offset = { left: 0, top: 0 };
+  public zoom: number = 0.5;
+  public offset = { left: 0, top: -76 };
 
-  public stylesheet: string = "";
+  public stylesheet: string = `#leftnavi #dmm-left-navi .dmm-ntgnavi {\n\tdisplay:none;\n}\n`;
   public advanced = { remove: [] };
 
   public index: number = 0;

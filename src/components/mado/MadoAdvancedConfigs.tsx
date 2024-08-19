@@ -1,7 +1,7 @@
 import Mado from "../../models/Mado";
 
 const stylesheetPlaceholder = `/* 例: 特定の要素を非表示にする */
-#leftnavi, #dmm-left-navi {
+#leftnavi #dmm-left-navi .dmm-ntgnavi {
   display: none;
 }
 `;

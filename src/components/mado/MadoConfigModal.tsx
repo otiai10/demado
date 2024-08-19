@@ -17,7 +17,7 @@ export function MadoConfigModal({
   mado?: Mado | null, update: (mado: Mado) => void,
   refresh: () => void,
 }) {
-  const [showAdvanced, setShowAdvanced] = React.useState(false);
+  const [showAdvanced, setShowAdvanced] = React.useState(true);
   const perm = useMemo(() => new PermissionService(), []);
   const fallback = () => window.alert("許可がないため、操作できません");
   const cleanup = () => { setShowAdvanced(false); close(); };
