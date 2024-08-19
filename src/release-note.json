@@ -5,9 +5,21 @@
   "releases": [
     {
       "date": "2024-08-19",
-      "version": "v2.0.23",
+      "version": "v2.0.24",
       "message": "",
       "commits": [
+        {
+          "title": "設定のエクスポートとインポートの機能を実装した",
+          "hash": "6913ea8dd03f3fc857601739565ce8fccd0e3852"
+        },
+        {
+          "title": "設定画面のUIを微修正した",
+          "hash": "cca867f741828e5e7625641d74c419b3e0cd3adf"
+        },
+        {
+          "title": "v2.0.23",
+          "hash": "7af2f77f8335c0da2581302d964a92b42bdfe1f0"
+        },
         {
           "title": "必要な権限を許可していない窓がある場合にそれを警告するUIを作成",
           "hash": "f694ad6794a245fe755efb9767608c211777d2cd"
