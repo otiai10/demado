@@ -2,7 +2,6 @@ import GlobalConfig from "../../models/GlobalConfig";
 import { Announce } from "./ReleaseNote";
 
 function isAnnounceEffective(announce: Announce | undefined, config: GlobalConfig, latestversion: string): boolean {
-  console.log(config.readDevInfoVersion, latestversion, config.hasReadDevInfo(latestversion));
   if (!announce) return false;
   if (announce.effective?.since) {
     const since = new Date(announce.effective?.since || 0);
