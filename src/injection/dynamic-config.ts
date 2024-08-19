@@ -87,12 +87,9 @@ import type { MadoPortableObject } from "../models/Mado";
   const [zoom, , zoominput] = __CREATE_FILED__("ズーム", c.zoom || 1);
   zoominput.step = "0.05";
   zoominput.min = "0.1";
-  zoominput.addEventListener("change", (ev) => {
+  zoominput.addEventListener("change", async (ev) => {
     const value = parseFloat((ev.target as HTMLInputElement).value);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (document.body.style as any).zoom = `${value}`;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (overlay.style as any).zoom = `${1 / value}`;
+    chrome.runtime.sendMessage({ _act_: "/mado/dynamic-config/zoom:set", value });
   });
   zoomgroup.appendChild((() => { const x = document.createElement("div"); x.style.flex = "1"; return x; })());
   zoomgroup.appendChild(zoom);
