@@ -10,7 +10,7 @@ import { MadoCard } from "../components/mado/MadoCard";
 import { MadoConfigModal } from "../components/mado/MadoConfigModal";
 import { EmptyMadoEntryView } from "../components/mado/EmptyMadoEntryView";
 import { CopyRight } from "../components/info/CopyRight";
-import { ReleaseNote } from "../components/info/ReleaseNote";
+import { ReleaseNote, ReleaseNoteObject } from "../components/info/ReleaseNote";
 import { IssueReport } from "../components/info/IssueReport";
 import { DevInfoAnchor } from "../components/info/DevInfoAnchor";
 import note from "../release-note.json";
@@ -25,6 +25,7 @@ function isBefore(a: HTMLElement, b: HTMLElement): boolean {
 }
 
 export function OptionsPage() {
+  const releasenote = note as unknown as ReleaseNoteObject;
   const { mados, spotlight, config } = useLoaderData() as { mados: Mado[], spotlight: Mado | null, config: GlobalConfig };
   const [modal, setModal] = React.useState<{ target?: Mado | null, active: boolean }>({ target: spotlight, active: !!spotlight });
   const navigate = useNavigate();
@@ -107,7 +108,15 @@ export function OptionsPage() {
       <div className="container is-max-desktop">
         <hr />
 
-        <DevInfoAnchor active={devinfo} open={() => setDevInfo(!devinfo)} />
+        <DevInfoAnchor active={devinfo}
+          open={() => {
+            setDevInfo(!devinfo);
+            config.update({ readDevInfoVersion: releasenote.releases[0].version });
+          }}
+          announce={releasenote.announce}
+          config={config}
+          version={releasenote.releases[0].version}
+        />
 
         {/* {{{ 一時的な措置 */}
         <div className="level">
@@ -119,9 +128,9 @@ export function OptionsPage() {
         </div>
         {/* }}} */}
 
-        {devinfo ? <ReleaseNote note={note} /> : null}
+        {devinfo ? <ReleaseNote note={releasenote} /> : null}
         {devinfo ? <IssueReport /> : null}
-        {devinfo ? <CopyRight repository={note.reference.repo} /> : null}
+        {devinfo ? <CopyRight repository={releasenote.reference.repo} /> : null}
       </div>
     </section>,
     <MadoConfigModal

@@ -2,6 +2,13 @@
   "reference": {
     "repo": "https://github.com/otiai10/demado"
   },
+  "announce": {
+    "message": "大事なおしらせがあったときのテスト文言（これ別に削除忘れじゃなくて本番に出してどんなもんかなという確認なだけです）たぶん一回クリックすれば消えると思う",
+    "effective": {
+      "since": 0,
+      "until": "READ"
+    }
+  },
   "releases": [
     {
       "date": "2024-08-19",
