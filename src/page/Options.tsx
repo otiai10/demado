@@ -102,6 +102,8 @@ export function OptionsPage() {
       <div className="container is-max-desktop">
         <hr />
 
+        <DevInfoAnchor active={devinfo} open={() => setDevInfo(!devinfo)} />
+
         {/* {{{ 一時的な措置 */}
         <div className="level">
           <div className="level-item">
@@ -112,7 +114,6 @@ export function OptionsPage() {
         </div>
         {/* }}} */}
 
-        <DevInfoAnchor active={devinfo} open={() => setDevInfo(!devinfo)} />
         {devinfo ? <ReleaseNote note={note} /> : null}
         {devinfo ? <IssueReport /> : null}
         {devinfo ? <CopyRight repository={note.reference.repo} /> : null}
