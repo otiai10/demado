@@ -1,5 +1,6 @@
 import Dashboard from "../models/Dashboard";
 import Mado from "../models/Mado";
+import PermissionService from "./PermissionService";
 import ScriptService from "./ScriptService";
 import TabService from "./TabService";
 import WindowService from "./WindowService";
@@ -18,9 +19,10 @@ export enum LaunchMode {
 export default class MadoLauncher {
 
   constructor(
-    private windows: WindowService,
-    private tabs: TabService,
-    private scripting: ScriptService,
+    private windows: WindowService = new WindowService(),
+    private tabs: TabService = new TabService(),
+    private scripting: ScriptService = new ScriptService(),
+    private permission: PermissionService = new PermissionService(),
   ) { }
 
   private sleepMsForLaunch = 1000;
@@ -130,5 +132,9 @@ export default class MadoLauncher {
     const existance = await this.retrieve(mado);
     if (!existance) return;
     await this.tabs.mute(existance.tab.id!, muted);
+  }
+
+  async permitted(mado: Mado): Promise<boolean> {
+    return (await this.permission.contains(mado.url) !== null);
   }
 }

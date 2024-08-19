@@ -37,10 +37,16 @@ export function ShortMadoCard({
   refresh: () => void,
   inpopup?: boolean,
 }) {
+  const perm = useMemo(() => new PermissionService(), []);
+  const fallback = () => window.alert("許可がないため、操作できません");
   return (
     <div className="demado-short-card"
       style={{ borderColor: mado.colorcodeByIndex(index) }}
-      onClick={async () => { await launcher.launch(mado); refresh(); if (inpopup) window.close(); }}
+      onClick={async () => {
+        const yes = await perm.ensure(mado.url, fallback);
+        if (!yes) return;
+        await launcher.launch(mado); refresh(); if (inpopup) window.close();
+      }}
     >
       <div className="columns is-mobile">
         <div className="column">{mado.displayName()}</div>

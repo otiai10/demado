@@ -4,7 +4,7 @@ export default class PermissionService {
     private readonly mod: typeof chrome.permissions = chrome.permissions,
   ) { }
 
-  private async contains(url: string): Promise<chrome.permissions.Permissions | null> {
+  async contains(url: string): Promise<chrome.permissions.Permissions | null> {
     const urlObj = new URL(url);
     const perm = {
       origins: [urlObj.origin + "/*"],
