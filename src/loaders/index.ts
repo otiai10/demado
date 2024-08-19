@@ -19,3 +19,11 @@ export async function mados() {
     spotlight,
   };
 }
+
+export async function debugs() {
+  const expids = (location.search.match(/export=([^&]+)/)?.[1] || "").split(",");
+  const exportargets = (await Promise.all(expids.map(async id => await Mado.find(id)))).filter(Boolean);
+  return {
+    exports: exportargets,
+  };
+}

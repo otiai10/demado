@@ -64,21 +64,26 @@ export function OptionsPage() {
         </div>
       </div>
     </section>,
-    <section className="section">
+    <section className="section demado-global-action-buttons">
       <div className="container is-max-desktop">
         <div className="level">
           <div className="level-left">
             <div className="level-item">
               <button className="button is-primary" onClick={() => setModal({ active: true, target: Mado.new() })}>
-                <i className="fa fa-plus" /> 新規追加
+                <i className="mr-2 fa fa-plus" /> 新規追加
               </button>
             </div>
           </div>
           <div className="level-right">
-            <div className="level-item">
-              <button className="button"
-                onClick={async () => { await Mado.drop(); refresh(); }}
-              ><i className="fa fa-trash-o" />すべて削除</button>
+            <div className="level-item buttons">
+              {mados.length > 1 ? <button className="button is-text"
+                onClick={async () => { if (window.confirm(`${mados.length}件の設定をすべて削除しますか？`)) {
+                  await Mado.drop(); refresh()
+                }}}
+              ><i className="mr-2 fa fa-trash-o" />すべて削除</button> : null}
+              {mados.length > 1 ? <button className="button is-text"
+                onClick={() => window.open(`?export=${mados.map(m => m._id).join(",")}#debug`)}
+              ><i className="mr-2 fa fa-paper-plane" />すべてエクスポート</button> : null}
             </div>
           </div>
         </div>
@@ -108,7 +113,7 @@ export function OptionsPage() {
         <div className="level">
           <div className="level-item">
             <button className="button is-size-7 is-light" onClick={() => window.open("#/debug")}>
-              一次的な措置: 旧版での設定（localStorage）を確認する
+              デバッグページを開く
             </button>
           </div>
         </div>

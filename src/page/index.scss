@@ -187,3 +187,20 @@ body,
 .demado-global-config {
   padding-top: 0;
 }
+
+.demado-export-view, .demado-import-view {
+  .demado-export-obj-preview-container {
+    position: relative;
+    .demado-export-action-container {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+    }
+  }
+}
+
+.demado-global-action-buttons {
+  .button.is-text {
+    text-decoration: none;
+  }
+}

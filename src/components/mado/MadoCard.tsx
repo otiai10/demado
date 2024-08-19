@@ -80,11 +80,16 @@ export function MadoCard({
           <div className="is-small">窓位置 x:{mado.position.x} y:{mado.position.y}</div>
         </div>
         <div className="columns is-mobile">
-          <div className="column is-narrow">
-            <i className="fa fa-trash-o demado-interactive-icon" title="削除" onClick={async () => {
+          <div className="column is-narrow demado-interactive-icon">
+            <i className="fa fa-trash-o" title="削除" onClick={async () => {
               if (!window.confirm(`この窓設定を削除しますか？\n\n${mado.displayName()}\nid: ${mado._id}`)) return;
               await mado.delete(); refresh()
             }} />
+          </div>
+          <div className="column is-narrow demado-interactive-icon" title="エクスポート" onClick={() => {
+            window.open(`?export=${mado._id}#debug`);
+          }}>
+            <i className="fa fa-paper-plane" />
           </div>
           <div className="column is-narrow demado-interactive-icon" title="編集" onClick={() => edit()}>
             <i className="fa fa-wrench" />

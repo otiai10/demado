@@ -19,6 +19,26 @@ interface MadoZoom {
   zoom: number;
 }
 
+export interface MadoPortableObject extends MadoBasicInfo, MadoAdvancedInfo, MadoColorable, MadoZoom {
+  size: MadoSize;
+  offset: MadoOffset;
+}
+
+interface MadoBasicInfo {
+  url: string;
+  name: string;
+  addressbar: boolean;
+}
+interface MadoColorable {
+  colorcode?: string;
+}
+interface MadoAdvancedInfo {
+  stylesheet?: string;
+  // advanced: {
+  //   remove: string[];
+  // };
+}
+
 const defaultColorSet = [
   '#00D1B2',
   '#4258FF',
@@ -148,6 +168,20 @@ export default class Mado extends Model {
       return url.hostname;
     } catch (e) {
       return this._id!;
+    }
+  }
+
+  public export(): MadoPortableObject {
+    return {
+      url: this.url,
+      name: this.name,
+      addressbar: this.addressbar,
+      size: this.size,
+      offset: this.offset,
+      zoom: this.zoom,
+      colorcode: this.colorcode || undefined,
+      stylesheet: this.stylesheet || undefined,
+      // advanced: this.advanced,
     }
   }
 }
