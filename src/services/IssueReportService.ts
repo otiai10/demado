@@ -45,10 +45,14 @@ class GitHubIssueReport implements IssueReportPlatform {
     private readonly windows: typeof chrome.windows = chrome.windows,
   ) { }
   async build(title: string, label: string, version: string): Promise<IssueEntry> {
-    return {
-      title: title,
-      body: `# バージョン\n${version} ${label}\n\n# 事象の詳細\n...\n\n# 再現頻度\n...\n\n# 再現方法\n...\n\n# いつから起きているか\n...\n\n# どう困っているか\n...\n\n# 開発者にひとこと\n ...\n`,
-    };
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { brands, platform } = ((window.navigator as any).userAgentData as { brands: { brand: string, version: string }[], platform: string });
+      const env = `- 拡張のバージョン: ${version} ${label}\n- OS: ${platform}\n- Chromeのバージョン: ${brands.map(b => `${b.brand} ${b.version}`).join(" / ")}`;
+      return { title, body: `# 環境\n${env}\n\n# 事象の詳細\n...\n\n# 再現頻度\n...\n\n# 再現方法\n...\n\n# いつから起きているか\n...\n\n# どう困っているか\n...\n\n# 開発者にひとこと\n ...\n` };
+    } catch (e) {
+      return { title, body: `# 環境\n- 拡張のバージョン: ${version} ${label}\n- OS: ...\n- Chromeのバージョン\n\n# 事象の詳細\n...\n\n# 再現頻度\n...\n\n# 再現方法\n...\n\n# いつから起きているか\n...\n\n# どう困っているか\n...\n\n# 開発者にひとこと\n ...\n` };
+    }
   }
   async report(issue: IssueEntry) {
     const url = new URL(`${this.repo}/issues/new`);
