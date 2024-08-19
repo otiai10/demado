@@ -1,8 +1,8 @@
 import { Model, Types } from 'jstorm/chrome/local';
 import { Schema } from 'jstorm/model';
 
-interface MadoExistanceChecker {
-  exists(mado: Mado): Promise<{ win: chrome.windows.Window, tab: chrome.tabs.Tab, mado: Mado } | null>;
+interface MadoExistanceRetriever {
+  retrieve(mado: Mado): Promise<{ win: chrome.windows.Window, tab: chrome.tabs.Tab, mado: Mado } | null>;
 }
 
 export interface MadoLikeParams extends MadoSize, MadoOffset, MadoZoom { }
@@ -125,9 +125,16 @@ export default class Mado extends Model {
     }
   }
 
-  public async check(checker: MadoExistanceChecker): Promise<Mado> {
-    const result = await checker.exists(this);
-    this.$existance = result;
+  /**
+   * hydrate は、Madoの現実での状態を更新するためのメソッドです
+   * Mado自体は、所詮、設定の塊でしかないので、実際にウィンドウが存在するかどうかを確認するためには、
+   * このメソッドを使って、Madoの状態を更新する必要があります
+   * @param retriever 実のところ、MadoLauncher
+   * @returns {Mado} このMadoインスタンス
+   */
+  public async hydrate(retriever: MadoExistanceRetriever): Promise<Mado> {
+    const existance = await retriever.retrieve(this);
+    this.$existance = existance;
     return this;
   }
 

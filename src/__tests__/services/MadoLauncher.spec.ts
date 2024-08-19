@@ -63,9 +63,9 @@ describe('MadoLauncher', () => {
     const mado = Mado.new({url: 'https://otiai10.com'});
     tabService.query = vi.fn().mockResolvedValue([{ id: 1, url: 'chrome-extension://id/index.html' }]);
     madoLauncher['identify'] = vi.fn().mockResolvedValue(true);
-    const result = await madoLauncher.exists(mado);
-    expect(result).not.toBeNull();
-    expect(result?.tab.id).toBe(1);
+    const existance = await madoLauncher.retrieve(mado);
+    expect(existance).not.toBeNull();
+    expect(existance?.tab.id).toBe(1);
   });
 
   it('should mute a Mado', async () => {

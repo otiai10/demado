@@ -43,7 +43,7 @@ export default class MadoLauncher {
     mado: Mado,
     mode: LaunchMode = LaunchMode.DEFAULT,
   ): Promise<chrome.windows.Window> {
-    const exists = await this.exists(mado);
+    const exists = await this.retrieve(mado);
     if (exists && mode == LaunchMode.DEFAULT) {
       // すでにlaunch済みなら、focusして終了
       this.windows.focus(exists.win.id!);
@@ -83,7 +83,7 @@ export default class MadoLauncher {
       }, [BROWSER_CONTEXT_SESSION_KEY]);
       if (!id) return null;
       const mado = await Mado.find(id);
-      await mado?.check(this);
+      await mado?.hydrate(this);
       return mado;
     } catch (e) {
       return null;
@@ -96,10 +96,12 @@ export default class MadoLauncher {
   }
 
   /**
+   * retrieve は、指定されたMadoが既に開かれているかどうかを確認し、
+   * 開かれている場合はそのウィンドウとタブを返します
    * @param mado 
    * @returns 
    */
-  async exists(mado: Mado): Promise<{ win: chrome.windows.Window, tab: chrome.tabs.Tab, mado: Mado } | null> {
+  async retrieve(mado: Mado): Promise<{ win: chrome.windows.Window, tab: chrome.tabs.Tab, mado: Mado } | null> {
     // {{{ chrome API で ドメインのみのURLではエラーが出るため、URLの最後にスラッシュを追加する
     const u = new URL(mado.url);
     const url = (u.pathname == "/" && !mado.url.endsWith("/")) ? mado.url + "/" : mado.url;
@@ -125,8 +127,8 @@ export default class MadoLauncher {
   }
 
   async mute(mado: Mado, muted: boolean = true): Promise<void> {
-    const exists = await this.exists(mado);
-    if (!exists) return;
-    await this.tabs.mute(exists.tab.id!, muted);
+    const existance = await this.retrieve(mado);
+    if (!existance) return;
+    await this.tabs.mute(existance.tab.id!, muted);
   }
 }
