@@ -1,8 +1,15 @@
 /// <reference types="chrome" />
 
+/**
+ * アセットサイズが大きくなるので、importはtypeあるいは最低限のconstのみにする
+ */
+import type { MadoPortableObject } from "../models/Mado";
+
 (async () => {
 
   const SPACING = 6;
+
+  const c = JSON.parse(sessionStorage.getItem("demado_default_config_value") || "{}") as MadoPortableObject;
 
   console.log("[IFNO] Dynamic Config is running");
   const overlay = document.createElement("div");
@@ -51,22 +58,22 @@
   // {{{ サイズ
   const sizegroup = __CREATE_GROUP__();
   body.appendChild(sizegroup);
-  const [width, , widthinput] = __CREATE_FILED__("横幅", window.innerWidth);
+  const [width, , widthinput] = __CREATE_FILED__("横幅", c.size?.width || window.innerWidth);
   sizegroup.appendChild(width);
-  const [height, , heightinput] = __CREATE_FILED__("高さ", window.innerHeight);
+  const [height, , heightinput] = __CREATE_FILED__("高さ", c.size?.height || window.innerHeight);
   sizegroup.appendChild(height);
   // }}}
 
   // {{ オフセット
   const offsetgroup = __CREATE_GROUP__();
   body.appendChild(offsetgroup);
-  const [left, , leftinput] = __CREATE_FILED__("左右方向", 0);
+  const [left, , leftinput] = __CREATE_FILED__("左右方向", c.offset?.left || 0);
   leftinput.addEventListener("change", (ev) => {
     const value = parseInt((ev.target as HTMLInputElement).value);
     document.body.style.left = `${value}px`;
   });
   offsetgroup.appendChild(left);
-  const [top, , topinput] = __CREATE_FILED__("上下方向", 0);
+  const [top, , topinput] = __CREATE_FILED__("上下方向", c.offset?.top || 0);
   topinput.addEventListener("change", (ev) => {
     const value = parseInt((ev.target as HTMLInputElement).value);
     document.body.style.top = `${value}px`;
@@ -77,7 +84,7 @@
   // {{{ ズーム
   const zoomgroup = __CREATE_GROUP__();
   body.appendChild(zoomgroup);
-  const [zoom, , zoominput] = __CREATE_FILED__("ズーム", 1);
+  const [zoom, , zoominput] = __CREATE_FILED__("ズーム", c.zoom || 1);
   zoominput.step = "0.05";
   zoominput.min = "0.1";
   zoominput.addEventListener("change", (ev) => {
