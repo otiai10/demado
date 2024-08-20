@@ -10,6 +10,22 @@ body,
 
 @import 'bulma';
 
+@keyframes shake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  2% { transform: translate(-1px, -2px) rotate(-1deg); }
+  5% { transform: translate(-3px, 0px) rotate(1deg); }
+  8% { transform: translate(3px, 2px) rotate(0deg); }
+  10% { transform: translate(1px, -1px) rotate(1deg); }
+  12% { transform: translate(-1px, 2px) rotate(-1deg); }
+  15% { transform: translate(-3px, 1px) rotate(0deg); }
+  18% { transform: translate(3px, 1px) rotate(-1deg); }
+  20% { transform: translate(-1px, -1px) rotate(1deg); }
+  22% { transform: translate(1px, 2px) rotate(0deg); }
+  25% { transform: translate(1px, -2px) rotate(-1deg); }
+  28% { transform: translate(0, 0) rotate(0); }
+  100% { transform: translate(0, 0) rotate(0); }
+}
+
 // Custom
 .demado-mado-card-section {
   padding-top: 0;
@@ -65,6 +81,14 @@ body,
   &:hover {
     i {
       color: var(--bulma-grey);
+    }
+  }
+
+  .is-shaking {
+    animation: shake 2s infinite;
+    i {
+      color: var(--bulma-warning);
+      text-shadow: 0 0 8px var(--bulma-warning);
     }
   }
 }
@@ -167,6 +191,10 @@ body,
     >.demado-devinfo-hidden-balloon {
       opacity: 0.8;
     }
+  }
+
+  &.is-shaking {
+    animation: shake 2s infinite;
   }
 }
 

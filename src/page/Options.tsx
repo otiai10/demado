@@ -85,6 +85,9 @@ export function OptionsPage() {
               {mados.length > 1 ? <button className="button is-text"
                 onClick={() => window.open(`?export=${mados.map(m => m._id).join(",")}#debug`)}
               ><i className="mr-2 fa fa-paper-plane" />すべてエクスポート</button> : null}
+              <button className="button is-text"
+                onClick={() => window.open("https://github.com/otiai10/demado/discussions/108")}
+              ><i className="mr-2 fa fa-book" />レシピ集</button>
             </div>
           </div>
         </div>

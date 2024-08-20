@@ -50,14 +50,31 @@ open -a "Google Chrome" --args \
 
 # リリース
 
-今の所、以下を手動
+前提
 
-1. 編集のコミットを済ませる
+* 開発はすべて`develop`で行う. `main`は完全にbackup branchとしての役割しかない
+* `develop`->`main`のpull-requestでBEATAのリリースを、`tag`のpushでPRODのリリースを行う
+
+準備
+
+1. `develop`にすべての変更がcommitされpushされる
 2. [package.json](./package.json)の`version`を更新
 3. `make draft` する
 4. [release-note.json](./src/release-note.json)がドラフトされているので、編集する
-5. release-note.jsonのコミットを済ませる
-6. `make release` もしくは `make beta-release`
+5. この編集で生まれた`package.json`,`manifest.json`,`release-note.json`のdiffを、2で変更したバージョン名としてコミットする
+6. GitHubにpushし、準備完了
+
+BETAリリース
+
+1. `develop`->`main`へのpull-requestを作成する
+2. **適当なタイミングで**pull-requestのタイトルを `[vX.X.X] xxxxx` の形式にrenameする（上記 準備[2]と同様のバージョン名がのぞましい）
+3. このrenameをトリガーに、`vX.X.X` がBETA版にリリースされる
+
+PRODリリース
+
+1. `develop`に`vX.X.X`という`tag`をつける（上記 準備[2]と同様のバージョン名がのぞましい）
+2. このtagのpushをトリガーに、`vX.X.X`が公開版にリリースされる
+
 
 # テストとカバレッジ
 

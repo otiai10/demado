@@ -72,7 +72,14 @@ export default class MadoLauncher {
     await this.windows.resizeBy(win.id!, this.considerBazel(outer, inner, mado));
 
     await this.scripting.js(tab.id!, "content-script.js");
-    if (mode == LaunchMode.DYNAMIC) await this.scripting.js(tab.id!, "dynamic-config.js");
+    if (mode == LaunchMode.DYNAMIC) {
+      // 何らかの方法で現在の設定値をページに継承しなければならない
+      await this.scripting.execute(tab.id!, function (portablestr) {
+        // FIXME: ここのkeyはどこかに定義しないとdynamic-confg.jsとの整合性があぶない
+        sessionStorage.setItem("demado_default_config_value", portablestr);
+      }, [JSON.stringify(mado.export())]);
+      await this.scripting.js(tab.id!, "dynamic-config.js");
+    }
 
     return win;
   }

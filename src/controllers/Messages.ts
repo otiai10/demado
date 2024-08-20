@@ -18,6 +18,11 @@ r.on("/mado/dynamic-config:result", async (m: { mado: string; params: MadoLikePa
   await tabservice.options.reopen({ mado: mado._id! });
 });
 
+r.on("/mado/dynamic-config/zoom:set", async (m: { value: number }, sender) => {
+  const tabservice = new TabService();
+  tabservice.zoom.set(sender.tab!.id!, m.value);
+});
+
 r.on("/global-config:get", async () => {
   const config = await GlobalConfig.user();
   return { config };
