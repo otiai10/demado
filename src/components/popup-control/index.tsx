@@ -4,6 +4,7 @@ import MadoLauncher from "../../services/MadoLauncher";
 import PermissionService from "../../services/PermissionService";
 import CaptureService from "../../services/CaptureService";
 import type GlobalConfig from "../../models/GlobalConfig";
+import { ReleaseNoteObject } from "../info/ReleaseNote";
 
 export function MuteButton({ mado, launcher, refresh }: { mado: Mado, launcher: MadoLauncher, refresh: () => void }) {
   if (!mado.$existance) return null;
@@ -59,14 +60,20 @@ export function ShortMadoCard({
   )
 }
 
-export function EmptyShortCard() {
+export function EmptyShortCard({
+  releasenote, config,
+}: {
+  releasenote: ReleaseNoteObject,
+  config: GlobalConfig,
+}) {
+  const an = config.isAnnounceEffective(releasenote.announce, releasenote.releases[0].version);
   return (
     <div className="demado-short-card demado-empty-state"
       onClick={() => window.open(chrome.runtime.getURL("index.html#options"))}
     >
       <div className="level is-mobile">
-        <div className="level-item">
-          <i className="fa fa-plus" />
+        <div className={"level-item " + (an ? "has-text-warning is-shaking" : "has-text-")}>
+          {an ? <i className="fa fa-bell-o" /> : <i className="fa fa-plus" />}
         </div>
       </div>
     </div>
