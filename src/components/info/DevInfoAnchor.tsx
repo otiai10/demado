@@ -31,8 +31,8 @@ export function DevInfoAnchor({
     return (
       <div className="level">
         <div className="level-item is-clickable demado-devinfo-anchor" onClick={open}>
-          <div className={"is-size-7 demado-devinfo-hidden-balloon has-text-info"}>{announce!.message}</div>
-          <span className={"icon is-large has-text-info"}><i className="fa-2x fa fa-github" /></span>
+          <div className={"is-size-7 demado-devinfo-hidden-balloon has-text-warning"}>{announce!.message}</div>
+          <span className={"icon is-large has-text-warning"}><i className="fa-2x fa fa-github" /></span>
         </div>
       </div>
     );
