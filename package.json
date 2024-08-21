@@ -1,7 +1,7 @@
 {
   "name": "demado",
   "private": true,
-  "version": "2.0.31",
+  "version": "2.0.34",
   "type": "module",
   "engines": {
     "node": "^20.15.0",

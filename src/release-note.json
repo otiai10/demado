@@ -2,14 +2,38 @@
   "reference": {
     "repo": "https://github.com/otiai10/demado"
   },
-  "announce": {
-    "message": "花騎士など一部のゲームでスクショやミュートのアイコンが表示されない不具合について大事なおしらせがあります",
-    "effective": {
-      "since": 0,
-      "until": "READ"
-    }
-  },
   "releases": [
+    {
+      "date": "2024-08-21",
+      "version": "v2.0.34",
+      "message": "",
+      "commits": [
+        {
+          "title": "窓が開かれた時ログイン処理をはさんだ場合でも最終的に修飾が効くようにした",
+          "hash": "ca7e1491e91d8c3f964339cf0b671b1d3c52ceb1"
+        },
+        {
+          "title": "demadoで作成したウィンドウの中でリロードしても大丈夫なようにしました",
+          "hash": "ce6f70dffb7be7b2c9c424d5e27f7fc73e4f85ef"
+        },
+        {
+          "title": "デバッグログのフォーマットをやや修正",
+          "hash": "da699f29c69377b023766df9b1a6f1a4deba3d6d"
+        },
+        {
+          "title": "CSSが効かない問題の検証のためウィンドウを開くときの処理の順番などを大きくリファクタした",
+          "hash": "3640f5ab5705b4a93f36c5a3d30cfe98c3dda2cb"
+        },
+        {
+          "title": "窓設定で暗い色を使っている場合に黒フォントだとみにくかったのでみやすくした",
+          "hash": "b1a1b62a91b80daa8d1e2c45d225437c8a061bb4"
+        },
+        {
+          "title": "デフォルトのスタイルシートを修正（#leftnavi, #dmm-left-navi, .dmm-ntgnavi）",
+          "hash": "1591bdc35108366c979551cc541a9dc85194b5e9"
+        }
+      ]
+    },
     {
       "date": "2024-08-21",
       "version": "v2.0.31",
