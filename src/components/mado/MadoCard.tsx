@@ -46,11 +46,14 @@ export function MadoCard({
   onDragEnd?: (ev: React.DragEvent<HTMLDivElement>) => void,
   onDragOver?: (ev: React.DragEvent<HTMLDivElement>) => void,
  }) {
+  const bgcolor = mado.colorcodeByIndex(index);
+  const [r, g, b] = bgcolor.replace(/^#/, "").match(/[a-zA-Z0-9]{2}/g)!.map(hex => parseInt(hex, 16));
+  const textcolor = (r * 0.299 + g * 0.587 + b * 0.114) > 186 ? "has-text-dark" : "has-text-light";
   return (
     <div className="cell card demado-card" key={mado._id}
       data-id={mado._id}
       style={{
-        borderColor: mado.colorcodeByIndex(index),
+        borderColor: bgcolor,
         marginBottom: '8px', // FIXME: これはどこかで定義されているはず
       }}
       draggable={true}
@@ -58,9 +61,9 @@ export function MadoCard({
       onDragEnd={onDragEnd}
       onDragOver={onDragOver}
     >
-      <div className={"card-header"} style={{ backgroundColor: mado.colorcodeByIndex(index) }}>
+      <div className={"card-header"} style={{ backgroundColor: bgcolor }}>
         <p className="card-header-title level">
-          <span>{mado.displayName()}</span>
+          <span className={textcolor}>{mado.displayName()}</span>
           {mado.$permitted ? <PreviewLaunchIcon mado={mado} launcher={launcher} /> : <PermissionAlertIcon mado={mado} />}
         </p>
       </div>
