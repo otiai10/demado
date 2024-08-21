@@ -118,7 +118,7 @@ export default class Mado extends Model {
   public zoom: number = 0.5;
   public offset = { left: 0, top: -76 };
 
-  public stylesheet: string = `#leftnavi, #dmm-left-navi {\n\tdisplay:none;\n}\n`;
+  public stylesheet: string = `#leftnavi, #dmm-left-navi, .dmm-ntgnavi {\n\tdisplay:none;\n}\n`;
   public advanced = { remove: [] };
 
   public index: number = 0;
