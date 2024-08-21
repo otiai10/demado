@@ -50,11 +50,11 @@ describe('MadoLauncher', () => {
   it('should launch a Mado', async () => {
     const mado = Mado.new({ url: 'https://otiai10.com' });
     windowService.open = vi.fn().mockResolvedValue({ id: 1, tabs: [{ id: 123 }] });
-    tabService.zoom = { set: vi.fn().mockResolvedValue(undefined) } as unknown as TabService['zoom'];
     scriptService.execute = vi.fn().mockResolvedValue({ outer: {}, inner: {} });
+    chrome.storage.local.get = vi.fn().mockResolvedValue({});
+    chrome.storage.local.set = vi.fn().mockResolvedValue(undefined);
     const win = await madoLauncher.launch(mado);
     expect(windowService.open).toHaveBeenCalled();
-    expect(tabService.zoom.set).toHaveBeenCalled();
     expect(scriptService.execute).toHaveBeenCalled();
     expect(win.id).toBe(1);
   });
