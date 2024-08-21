@@ -5,9 +5,17 @@
   "releases": [
     {
       "date": "2024-08-21",
-      "version": "v2.0.34",
+      "version": "v2.0.35",
       "message": "",
       "commits": [
+        {
+          "title": "テストがこけてたので修正",
+          "hash": "d9d540a6574f3cc28a7b5848fb0113b2a64d9d47"
+        },
+        {
+          "title": "v2.0.34",
+          "hash": "101176e167a834dc7e0c72dd80448df571391408"
+        },
         {
           "title": "窓が開かれた時ログイン処理をはさんだ場合でも最終的に修飾が効くようにした",
           "hash": "ca7e1491e91d8c3f964339cf0b671b1d3c52ceb1"
