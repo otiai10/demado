@@ -8,7 +8,8 @@
     "downloads",
     "scripting",
     "storage",
-    "tabs"
+    "tabs",
+    "webNavigation"
   ],
   "optional_host_permissions": [
     "<all_urls>"

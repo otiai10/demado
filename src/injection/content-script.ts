@@ -29,12 +29,6 @@ import { type MadoPortableObject } from "../models/Mado";
     document.head.appendChild(style);
   }
   if (mado.zoom !== 1) {
-    await chrome.runtime.sendMessage(chrome.runtime.id, {
-      _act_: "/mado/resize", zoom: mado.zoom, frame: {
-        outer: { w: window.outerWidth, h: window.outerHeight },
-        inner: { w: window.innerWidth, h: window.innerHeight },
-      },
-    })
     await chrome.runtime.sendMessage(chrome.runtime.id, { _act_: "/mado/zoom:set", value: mado.zoom });
   }
 

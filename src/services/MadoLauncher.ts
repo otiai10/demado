@@ -63,6 +63,16 @@ export default class MadoLauncher {
       sessionStorage.setItem(`demado_${ext}_mode`, mode);
     }, [chrome.runtime.id, mado._id, mode]);
 
+    // ここではウィンドウを新規作成しているので、Bazelを考慮したresizeが必要
+    await this.scripting.execute(tab.id!, function (ext) {
+      chrome.runtime.sendMessage(ext, {
+        _act_: "/mado/resize", frame: {
+          outer: { w: window.outerWidth, h: window.outerHeight },
+          inner: { w: window.innerWidth, h: window.innerHeight },
+        },
+      })
+    }, [chrome.runtime.id]);
+
     // 次に、セッションストレージに保存されたIDなどを使っていろいろする
     await this.scripting.js(tab.id!, "content-script.js");
 
@@ -76,6 +86,16 @@ export default class MadoLauncher {
     }
 
     return win;
+  }
+
+  /**
+   * リロードなどの理由で、sessionStorageにはIDがあるが、修飾などがリセットされている場合に、
+   * そのウィンドウを再度demadoとして扱うようにする
+   * @param {chrome.tabs.Tab} tab
+   */
+  async reactivate(tab: chrome.tabs.Tab): Promise<void> {
+    // ここでは既存のウィンドウを再利用するので、Bazelを考慮したresizeがいらない
+    await this.scripting.js(tab.id!, "content-script.js");
   }
 
   // タブIDからMadoを逆引きする
