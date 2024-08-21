@@ -7,3 +7,4 @@ chrome.commands.onCommand.addListener(Commands.listener());
 
 import { onNavigationCommited } from "./controllers/Web";
 chrome.webNavigation.onCommitted.addListener(onNavigationCommited);
+// chrome.webNavigation.onBeforeNavigate.addListener(onNavigationBeforeNavigate);

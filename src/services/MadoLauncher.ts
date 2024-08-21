@@ -1,5 +1,6 @@
 import Dashboard from "../models/Dashboard";
 import Mado from "../models/Mado";
+import LaunchHistory from "../models/LaunchHistory";
 import PermissionService from "./PermissionService";
 import ScriptService from "./ScriptService";
 import TabService from "./TabService";
@@ -55,23 +56,14 @@ export default class MadoLauncher {
 
     const win = await this.windows.open(mado);
     const tab = win.tabs![0];
+    await LaunchHistory.create({ _id: tab.id, mado, mode });
     await sleep(this.sleepMsForLaunch); // FIXME: onloadが終わるまで待つ
 
     // まず自分のIDをセッションストレージに保存してもらう
-    await this.scripting.execute(tab.id!, function (ext, id, mode) {
-      sessionStorage.setItem(`demado_${ext}_id`, id);
-      sessionStorage.setItem(`demado_${ext}_mode`, mode);
-    }, [chrome.runtime.id, mado._id, mode]);
+    await this.anchor(tab, mado, mode);
 
     // ここではウィンドウを新規作成しているので、Bazelを考慮したresizeが必要
-    await this.scripting.execute(tab.id!, function (ext) {
-      chrome.runtime.sendMessage(ext, {
-        _act_: "/mado/resize", frame: {
-          outer: { w: window.outerWidth, h: window.outerHeight },
-          inner: { w: window.innerWidth, h: window.innerHeight },
-        },
-      })
-    }, [chrome.runtime.id]);
+    await this.resize(tab);
 
     // 次に、セッションストレージに保存されたIDなどを使っていろいろする
     await this.scripting.js(tab.id!, "content-script.js");
@@ -89,6 +81,35 @@ export default class MadoLauncher {
   }
 
   /**
+   * ベゼルのぶんだけウィンドウをリサイズする
+   * 実際は、リサイズしてくれとbackgroundにリクエストをしろとscriptinjectしている
+   * @param {chrome.tabs.Tab} tab
+   */
+  async resize(tab: chrome.tabs.Tab): Promise<void> {
+    await this.scripting.execute(tab.id!, function (ext) {
+      chrome.runtime.sendMessage(ext, {
+        _act_: "/mado/resize", frame: {
+          outer: { w: window.outerWidth, h: window.outerHeight },
+          inner: { w: window.innerWidth, h: window.innerHeight },
+        },
+      })
+    }, [chrome.runtime.id]);
+  }
+
+  /**
+   * このタブをdemadoとして開こうとした目印としてsessionStorageを埋め込むメソッド
+   * @param {chrome.tabs.Tab} tab
+   * @param {Mado} mado
+   * @param {LaunchMode} mode
+   */
+  async anchor(tab: chrome.tabs.Tab, mado: Mado, mode: LaunchMode = LaunchMode.DEFAULT): Promise<void> {
+    await this.scripting.execute(tab.id!, function (ext, id, mode) {
+      sessionStorage.setItem(`demado_${ext}_id`, id);
+      sessionStorage.setItem(`demado_${ext}_mode`, mode);
+    }, [chrome.runtime.id, mado._id, mode]);
+  }
+
+  /**
    * リロードなどの理由で、sessionStorageにはIDがあるが、修飾などがリセットされている場合に、
    * そのウィンドウを再度demadoとして扱うようにする
    * @param {chrome.tabs.Tab} tab
@@ -98,7 +119,12 @@ export default class MadoLauncher {
     await this.scripting.js(tab.id!, "content-script.js");
   }
 
-  // タブIDからMadoを逆引きする
+  /**
+   * あたえられたタブIDから、そのタブがdemadoとして開かれているかどうかを調べ
+   * hydrateして返す
+   * @param {number} tabId
+   * @returns {Promise<Mado | null>}
+   */
   async lookup(tabId: number): Promise<Mado | null> {
     try {
       const id = await this.scripting.execute(tabId, function (k) {
@@ -137,6 +163,13 @@ export default class MadoLauncher {
     return null;
   }
 
+  /**
+   * あたえられたタブとMadoが同一の目印（=sessionStorageに保存されたID）を持っているかどうかを調べる
+   * 同一であれば、このタブはまさにこのMadoと同一の存在であるといえる
+   * @param {chrome.tabs.Tab} tab
+   * @param {Mado} mado
+   * @returns {Promise<boolean>}
+   */
   private async identify(tab: chrome.tabs.Tab, mado: Mado): Promise<boolean> {
     const id = await this.scripting.execute(tab.id!, function (k) {
       return sessionStorage.getItem(k);
