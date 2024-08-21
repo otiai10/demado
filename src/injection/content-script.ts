@@ -15,7 +15,7 @@ import { type MadoPortableObject } from "../models/Mado";
   const id = sessionStorage.getItem(`demado_${chrome.runtime.id}_id`);
   const mode = sessionStorage.getItem(`demado_${chrome.runtime.id}_mode`);
   const { mado }: { mado: MadoPortableObject } = await chrome.runtime.sendMessage(chrome.runtime.id, { _act_: "/mado:get", id });
-  console.log("(demado) %c[INFO]", "color:blue;", id, mado, mode);
+  console.log("(demado) %c[INFO]", "color:white;background-color:blue;", id, mado, mode);
 
   if (mado.offset) {
     document.documentElement.style.overflow = "hidden";
