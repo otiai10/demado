@@ -2,6 +2,7 @@ import { Router } from "chromite";
 import Mado, { MadoLikeParams } from "../models/Mado";
 import TabService from "../services/TabService";
 import GlobalConfig from "../models/GlobalConfig";
+import WindowService from "../services/WindowService";
 
 const r = new Router<chrome.runtime.ExtensionMessageEvent>();
 
@@ -26,6 +27,27 @@ r.on("/mado/dynamic-config/zoom:set", async (m: { value: number }, sender) => {
 r.on("/global-config:get", async () => {
   const config = await GlobalConfig.user();
   return { config };
+});
+
+r.on("/mado:get", async (m: { id: string }) => {
+  const mado = await Mado.find(m.id);
+  return { mado };
+});
+
+r.on("/mado/resize", async (m: { zoom: number, frame: { outer: { w: number, h: number }, inner: { w: number, h: number } } }, sender) => {
+  const tabs = new TabService();
+  const zoom = await tabs.zoom.get(sender.tab!.id!);
+  const wins = new WindowService();
+  const diff = {
+    w: m.frame.outer.w - (m.frame.inner.w * zoom),
+    h: m.frame.outer.h - (m.frame.inner.h * zoom),
+  };
+  return await wins.resizeBy(sender.tab!.windowId, diff);
+});
+
+r.on("/mado/zoom:set", async (m: { value: number }, sender) => {
+  const tabservice = new TabService();
+  tabservice.zoom.set(sender.tab!.id!, m.value);
 });
 
 r.onNotFound(async (m, s) => {

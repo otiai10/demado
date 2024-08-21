@@ -7,8 +7,6 @@ import WindowService from "./WindowService";
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 const BROWSER_CONTEXT_SESSION_KEY = `demado_${chrome.runtime.id}_id`;
-const BROWSER_CONTEXT_SESSION_VALUE_DRAFT = "__DEMADO_DRAFT__";
-interface framesize { w: number; h: number; }
 
 export enum LaunchMode {
   DEFAULT = "default", // 通常の窓
@@ -56,22 +54,18 @@ export default class MadoLauncher {
     }
 
     const win = await this.windows.open(mado);
-    await sleep(this.sleepMsForLaunch); // FIXME: onloadが終わるまで待つ
     const tab = win.tabs![0];
-    await this.tabs.zoom.set(tab.id!, mado.zoom);
-    await this.scripting.offset(tab.id!, mado.offset);
-    await this.scripting.style(tab.id!, mado.stylesheet);
+    await sleep(this.sleepMsForLaunch); // FIXME: onloadが終わるまで待つ
 
-    const { outer, inner } = await this.scripting.execute<{ outer: framesize, inner: framesize }>(tab.id!, function (ext, k, id) {
-      sessionStorage.setItem(k, id);
-      setInterval(() => chrome.runtime.sendMessage(ext, {
-        _act_: "/mado/position:track", id, position: { x: window.screenX, y: window.screenY, },
-      }), 10 * 1000);
-      return { outer: { w: window.outerWidth, h: window.outerHeight }, inner: { w: window.innerWidth, h: window.innerHeight } };
-    }, [chrome.runtime.id, BROWSER_CONTEXT_SESSION_KEY, mado._id || BROWSER_CONTEXT_SESSION_VALUE_DRAFT]);
-    await this.windows.resizeBy(win.id!, this.considerBazel(outer, inner, mado));
+    // まず自分のIDをセッションストレージに保存してもらう
+    await this.scripting.execute(tab.id!, function (ext, id, mode) {
+      sessionStorage.setItem(`demado_${ext}_id`, id);
+      sessionStorage.setItem(`demado_${ext}_mode`, mode);
+    }, [chrome.runtime.id, mado._id, mode]);
 
+    // 次に、セッションストレージに保存されたIDなどを使っていろいろする
     await this.scripting.js(tab.id!, "content-script.js");
+
     if (mode == LaunchMode.DYNAMIC) {
       // 何らかの方法で現在の設定値をページに継承しなければならない
       await this.scripting.execute(tab.id!, function (portablestr) {
@@ -99,10 +93,6 @@ export default class MadoLauncher {
     }
   }
 
-  // どのくらいのサイズでリサイズするかを決める
-  considerBazel(outer: framesize, inner: framesize, mado: Mado): framesize {
-    return { w: outer.w - (inner.w * mado.zoom), h: outer.h - (inner.h * mado.zoom) };
-  }
 
   /**
    * retrieve は、指定されたMadoが既に開かれているかどうかを確認し、
