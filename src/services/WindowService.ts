@@ -6,31 +6,25 @@ export default class WindowService {
   ) { }
 
   create(url: string, options: chrome.windows.CreateData): Promise<chrome.windows.Window> {
-    return this.mod.create({ url, ...options });
-  }
-
-  async open(mado: Mado): Promise<chrome.windows.Window> {
     // -32000問題の対策
     // https://qiita.com/7of9/items/390ff8c1914e5ff6c68c
     // https://stackoverflow.com/questions/1478765/location-coordinates-on-computer-showing-x-32000-y-32000
     // 正常系でマイナスのこともあるようなので、いったんtryして、失敗したらゼロにfallbackする
     try {
-      return await this.create(mado.url, {
-        type: mado.addressbar ? "normal" : "popup",
-        left: mado.position.x,
-        top: mado.position.y,
-        width: Math.round(mado.size.width * mado.zoom),
-        height: Math.round(mado.size.height * mado.zoom),
-      });
+      return this.mod.create({ url, ...options });
     } catch (e) {
-      console.log("[WARN] Failed to create window with position:", e, mado.position);
-      return await this.create(mado.url, {
-        type: mado.addressbar ? "normal" : "popup",
-        left: 0, top: 0,
-        width: Math.round(mado.size.width * mado.zoom),
-        height: Math.round(mado.size.height * mado.zoom),
-      });
+      return this.mod.create({ url, ...options, left: 0, top: 0 });
     }
+  }
+
+  async open(mado: Mado): Promise<chrome.windows.Window> {
+    return await this.create(mado.url, {
+      type: mado.addressbar ? "normal" : "popup",
+      left: mado.position.x,
+      top: mado.position.y,
+      width: Math.round(mado.size.width * mado.zoom),
+      height: Math.round(mado.size.height * mado.zoom),
+    });
   }
 
   close(windowId: number): Promise<void> {
