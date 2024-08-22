@@ -62,7 +62,7 @@ export function MadoCard({
       onDragOver={onDragOver}
     >
       <div className={"card-header"} style={{ backgroundColor: bgcolor }}>
-        <p className="card-header-title level">
+        <p className={"card-header-title level " + textcolor}>
           <span className={textcolor}>{mado.displayName()}</span>
           {mado.$permitted ? <PreviewLaunchIcon mado={mado} launcher={launcher} /> : <PermissionAlertIcon mado={mado} />}
         </p>
