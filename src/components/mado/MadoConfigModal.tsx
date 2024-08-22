@@ -64,7 +64,7 @@ export function MadoConfigModal({
             onChange={ev => { mado.zoom = parseFloat(ev.target.value); update(mado) }}
           />
           <ColorField label="窓の色（管理用）"
-            defaultValue={mado.colorcode}
+            value={mado.colorcode}
             onChange={ev => { mado.colorcode = ev.target.value; update(mado) }}
           />
 
