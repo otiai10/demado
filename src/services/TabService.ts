@@ -58,4 +58,8 @@ export default class TabService {
       return await this.options.open(params);
     },
   }
+
+  public async get(tabId: number): Promise<chrome.tabs.Tab | undefined> {
+    return new Promise(resolve => this.mod.get(tabId, resolve));
+  }
 }
