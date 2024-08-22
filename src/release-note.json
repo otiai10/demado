@@ -4,6 +4,25 @@
   },
   "releases": [
     {
+      "date": "2024-08-22",
+      "version": "v2.0.37",
+      "message": "",
+      "commits": [
+        {
+          "title": "窓の色に合わせて名前と同様に右側のアイコンも色を変える",
+          "hash": "37bdf991cd84f5a6134630d127a07b17ff46585f"
+        },
+        {
+          "title": "窓の色設定がデフォルト値にfallbackしないバグを修正",
+          "hash": "e7d60d365911ca5e9de352e594dba844ff2f7774"
+        },
+        {
+          "title": "「試しにひらく」の時に設定値が小窓に伝わっていない問題を修正",
+          "hash": "3b6fe4e9e0e3cc9ed1ac6cc2ea6d98152d231477"
+        }
+      ]
+    },
+    {
       "date": "2024-08-21",
       "version": "v2.0.35",
       "message": "",
