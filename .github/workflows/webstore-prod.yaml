@@ -1,22 +1,21 @@
 name: Webstore PROD Publish
 
 on:
-  push:
-    tags:
-    - 'v*'
+  pull_request:
+    types: [closed]
+    branches:
+      - main
 
 jobs:
   webstore_prod_publish:
     runs-on: ubuntu-latest
-    env:
-      NODE_ENV: production
-      GOOGLEAPI_CLIENT_ID:     ${{ secrets.GOOGLEAPI_CLIENT_ID }}
-      GOOGLEAPI_CLIENT_SECRET: ${{ secrets.GOOGLEAPI_CLIENT_SECRET }}
-      GOOGLEAPI_REFRESH_TOKEN: ${{ secrets.GOOGLEAPI_REFRESH_TOKEN }}
-      CHROMEWEBSTORE_EXTENSION_ID: dfmhlfpfpbijchleocfbpcdjgnbpdigh
-      TAG_NAME: ${{ github.ref }}
+    if: github.event_name == 'pull_request' && github.event.pull_request.merged && github.event.pull_request.base.ref == 'main' && github.event.pull_request.head.ref == 'develop'
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout to ${{ github.event.pull_request.head.ref }}
+      uses: actions/checkout@v4
+      with:
+        ref: develop
+        fetch-depth: 0
     - name: Use Node.js 20.x
       uses: actions/setup-node@v4
       with:
@@ -24,37 +23,69 @@ jobs:
     - name: Setup pnpm
       uses: pnpm/action-setup@v4
       with:
-        version: 9
+          version: 9
     - run: pnpm install
       env:
         NODE_ENV: development
-    - name: Check Release Note Version
+    - name: リリース適正を判断
       run: |
-        TAG_NAME=`echo "${TAG_NAME}" | sed -E 's/^refs\/tags\/(v[0-9]+\.[0-9]+\.[0-9]+)$/\1/'`
+        VERSION=`echo "${{ github.event.pull_request.title }}" | sed -E 's/^\[?v([0-9]+\.[0-9]+\.[0-9]+)\]?.*/\1/'`
+        echo "[DEBUG]" "github.event.pull_request.title:" ${{ github.event.pull_request.title }}
+        echo "[INFO]" "VERSION:" ${VERSION}
+        if [ -z "${VERSION}" ]; then
+          echo "[ERROR]" "PRタイトルにバージョンが含まれていません"
+          exit 1
+        fi
         RELEASENOTE_VERSION=`jq --raw-output ".releases[0].version" src/release-note.json`
-        if [ "$RELEASENOTE_VERSION" != "${TAG_NAME}" ]; then
-          echo "Release note version does not match tag name: ${RELEASENOTE_VERSION} != ${TAG_NAME}"
+        echo "[INFO]" "リリースノートのバージョンを確認: ${RELEASENOTE_VERSION}"
+        # v-prefixがあるの注意
+        if [ "$RELEASENOTE_VERSION" != "v${VERSION}" ]; then
+          echo "[ERROR]" "リリースノートのバージョンがPRタイトルのバージョンと一致しません: ${RELEASENOTE_VERSION} != ${VERSION}"
           exit 1
         fi
-    - name: Check Manifest Version
-      run: |
-        TAG_NAME=`echo "${TAG_NAME}" | sed -E 's/^refs\/tags\/v([0-9]+\.[0-9]+\.[0-9]+)$/\1/'`
         MANIFEST_VERSION=`jq --raw-output ".version" src/public/manifest.json`
-        if [ "$MANIFEST_VERSION" != "${TAG_NAME}" ]; then
-          echo "Manifest version does not match tag name: ${MANIFEST_VERSION} != ${TAG_NAME}"
+        echo "[INFO]" "マニフェストのバージョンを確認: ${MANIFEST_VERSION}"
+        if [ "$MANIFEST_VERSION" != "${VERSION}" ]; then
+          echo "[ERROR]" "マニフェストのバージョンがPRタイトルのバージョンと一致しません: ${MANIFEST_VERSION} != ${VERSION}"
           exit 1
         fi
-    - name: Check Package Version
-      run: |
-        TAG_NAME=`echo "${TAG_NAME}" | sed -E 's/^refs\/tags\/v([0-9]+\.[0-9]+\.[0-9]+)$/\1/'`
         PACKAGE_VERSION=`jq --raw-output ".version" package.json`
-        if [ "$PACKAGE_VERSION" != "${TAG_NAME}" ]; then
-          echo "Package version does not match tag name: ${PACKAGE_VERSION} != ${TAG_NAME}"
+        echo "[INFO]" "パッケージのバージョンを確認: ${PACKAGE_VERSION}"
+        if [ "$PACKAGE_VERSION" != "${VERSION}" ]; then
+          echo "[ERROR]" "パッケージのバージョンがPRタイトルのバージョンと一致しません: ${PACKAGE_VERSION} != ${VERSION}"
           exit 1
         fi
-    - run: make release
+        echo "[INFO]" "リリース適正を判断しました. このバージョンのソースコードでプロダクションリリースすべきです."
+    - name: developに対してリリースバージョンのタグづけ
+      env:
+        GIT_CI_USER_NAME: Ayanel CI
+        GIT_CI_USER_EMAIL: otiai10+ayanel-ci@gmail.com
+      run: |
+        VERSION=`jq --raw-output ".releases[0].version" src/release-note.json`
+        echo "[INFO]" "VERSION:" ${VERSION}
+        git config --global user.name "${GIT_CI_USER_NAME}"
+        git config --global user.email ${GIT_CI_USER_EMAIL}
+        COMMITS=`jq --raw-output '.releases[0].commits | map("- " + .hash + " " + .title) | .[]' src/release-note.json`
+        echo "[INFO]" "COMMITS:\n" ${COMMITS}
+        if [ -n "${DRY_RUN}" ]; then
+          echo "[DEBUG]" "DRY_RUN=${DRY_RUN} が指定されているため、タグのpushをスキップします"
+          exit 0
+        fi
+        git tag -a v${VERSION} -m "Release v${VERSION}\n\n${COMMITS}" 
+        git push origin v${VERSION}
+    - name: リリースビルド
+      run: make release
       env:
         NODE_ENV: production
-    - name: Publish to Webstore
+    - name: ウェブストアに公開申請提出
+      env:
+        GOOGLEAPI_CLIENT_ID:     ${{ secrets.GOOGLEAPI_CLIENT_ID }}
+        GOOGLEAPI_CLIENT_SECRET: ${{ secrets.GOOGLEAPI_CLIENT_SECRET }}
+        GOOGLEAPI_REFRESH_TOKEN: ${{ secrets.GOOGLEAPI_REFRESH_TOKEN }}
+        CHROMEWEBSTORE_EXTENSION_ID: dfmhlfpfpbijchleocfbpcdjgnbpdigh
       run: |
+        if [ -n "${DRY_RUN}" ]; then
+          echo "[DEBUG]" "DRY_RUN=${DRY_RUN} が指定されているため、ウェブストアへの公開をスキップします"
+          exit 0
+        fi
         npx -y tsx scripts/webstore-publish.ts ./release/demado.zip

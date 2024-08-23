@@ -103,10 +103,11 @@ export default class MadoLauncher {
    * @param {LaunchMode} mode
    */
   async anchor(tab: chrome.tabs.Tab, mado: Mado, mode: LaunchMode = LaunchMode.DEFAULT): Promise<void> {
-    await this.scripting.execute(tab.id!, function (ext, id, mode) {
-      sessionStorage.setItem(`demado_${ext}_id`, id);
+    await this.scripting.execute(tab.id!, function (ext, mado, po, mode) {
+      sessionStorage.setItem(`demado_${ext}_id`, mado._id);
+      sessionStorage.setItem(`demado_${ext}_madojson`, JSON.stringify(po));
       sessionStorage.setItem(`demado_${ext}_mode`, mode);
-    }, [chrome.runtime.id, mado._id, mode]);
+    }, [chrome.runtime.id, mado, mado.export(), mode]);
   }
 
   /**

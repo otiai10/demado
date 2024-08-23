@@ -2,15 +2,16 @@ import React, { ChangeEvent, useEffect } from "react";
 
 export function ColorField({
   label,
-  defaultValue,
+  value,
   onChange,
 }: {
   label: string;
-  defaultValue?: string;
+  value: string;
   onChange: (ev: ChangeEvent<HTMLInputElement>) => void;
 }) {
-  const [enabled, setEnabled] = React.useState(!!defaultValue);
-  useEffect(() => setEnabled(!!defaultValue), [defaultValue]); // XXX: useStateの初期値にdefaultValueが効かないので、useEffectで初期化する
+  const [enabled, setEnabled] = React.useState(!!value);
+  useEffect(() => setEnabled(!!value), [value]); // XXX: useStateの初期値にdefaultValueが効かないので、useEffectで初期化する
+  const fallbackvalue = "#808080"
   return (
     <div className="field">
       <label className="label">{label}</label>
@@ -18,11 +19,20 @@ export function ColorField({
         <div className="columns">
           <div className="column" style={{display: "flex", alignItems: "center"}}>
             <label className="checkbox" style={{ marginRight: "1rem" }}>
-              <input type="checkbox" checked={enabled} onChange={ev => setEnabled(ev.target.checked)} /> 使う
+              <input type="checkbox" checked={enabled} onChange={ev => {
+                setEnabled(ev.target.checked)
+                if (ev.target.checked) {
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  if (value === "") onChange({ target: { value: fallbackvalue } } as any)
+                } else {
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  onChange({ target: { value: "" } } as any)
+                }
+              }} /> 使う
             </label>
             {enabled ? <div className="color-picker" style={{ flex: 1 }}>
               <input type="color" style={{width: "100%", padding: 0}}
-                defaultValue={defaultValue || "#808080"}
+                value={value}
                 onChange={onChange}
               />
             </div> : null}
