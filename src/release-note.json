@@ -4,6 +4,21 @@
   },
   "releases": [
     {
+      "date": "2024-08-23",
+      "version": "v2.0.40",
+      "message": "",
+      "commits": [
+        {
+          "title": "リリースノートの自動生成Makefileを改善した",
+          "hash": "11de110b15d3daa5dd271c92f5c09d323ef34ce6"
+        },
+        {
+          "title": "公開版への自動リリースをmerge起因にしたので、cliでの操作が要らなくなった",
+          "hash": "bd1bd0ede227eef5cd7ae97862549b77c3d61d99"
+        }
+      ]
+    },
+    {
       "date": "2024-08-22",
       "version": "v2.0.37",
       "message": "",
