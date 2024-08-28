@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "bulma": "^1.0.0",
-    "chromite": "^0.0.7",
+    "chromite": "^0.1.8",
     "font-awesome": "^4.7.0",
     "jstorm": "^0.17.0",
     "react": "^18.2.0",
