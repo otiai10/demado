@@ -1,10 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import MadoLauncher from '../../services/MadoLauncher';
-import WindowService from '../../services/WindowService';
-import TabService from '../../services/TabService';
-import ScriptService from '../../services/ScriptService';
-import Mado from '../../models/Mado';
-import Dashboard from '../../models/Dashboard';
+import MadoLauncher from '../../src/services/MadoLauncher';
+import WindowService from '../../src/services/WindowService';
+import TabService from '../../src/services/TabService';
+import ScriptService from '../../src/services/ScriptService';
+import Mado from '../../src/models/Mado';
+import Dashboard from '../../src/models/Dashboard';
 
 vi.mock('../../services/WindowService');
 vi.mock('../../services/TabService');
@@ -51,6 +51,8 @@ describe('MadoLauncher', () => {
     const mado = Mado.new({ url: 'https://otiai10.com' });
     windowService.open = vi.fn().mockResolvedValue({ id: 1, tabs: [{ id: 123 }] });
     scriptService.execute = vi.fn().mockResolvedValue({ outer: {}, inner: {} });
+    scriptService.js = vi.fn().mockResolvedValue(undefined);
+    tabService.query = vi.fn().mockResolvedValue([{ id: 1, url: 'chrome-extension://id/index.html' }]);
     chrome.storage.local.get = vi.fn().mockResolvedValue({});
     chrome.storage.local.set = vi.fn().mockResolvedValue(undefined);
     const win = await madoLauncher.launch(mado);
@@ -62,6 +64,7 @@ describe('MadoLauncher', () => {
   it('should check if a Mado exists', async () => {
     const mado = Mado.new({url: 'https://otiai10.com'});
     tabService.query = vi.fn().mockResolvedValue([{ id: 1, url: 'chrome-extension://id/index.html' }]);
+    windowService.get = vi.fn().mockResolvedValue({ id: 1 });
     madoLauncher['identify'] = vi.fn().mockResolvedValue(true);
     const existance = await madoLauncher.retrieve(mado);
     expect(existance).not.toBeNull();
@@ -72,6 +75,8 @@ describe('MadoLauncher', () => {
     const mado = Mado.new({url: 'https://otiai10.com'});
     tabService.mute = vi.fn().mockResolvedValue(undefined);
     tabService.query = vi.fn().mockResolvedValue([{ id: 1, url: 'https://otiai10.com' }]);
+    windowService.get = vi.fn().mockResolvedValue({ id: 1 });
+    scriptService.execute = vi.fn().mockResolvedValue(undefined);
     await madoLauncher.mute(mado, true);
     expect(tabService.mute).toHaveBeenCalled();
   });

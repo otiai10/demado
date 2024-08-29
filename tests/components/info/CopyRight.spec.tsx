@@ -1,8 +1,9 @@
+import React from 'react';
 import { test, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/vitest'
 
-import { CopyRight } from '../../../components/info/CopyRight';
+import { CopyRight } from '../../../src/components/info/CopyRight';
 
 test('hoge', () => {
   const repository = 'https://github.com/otiai10/demado';
