@@ -32,11 +32,11 @@ const __main__ = async () => {
 };
 
 const __webstore_publish__ = async (
-  zip_file_path:    string,
-  client_id:        string = process.env.GOOGLEAPI_CLIENT_ID!,
-  client_secret:    string = process.env.GOOGLEAPI_CLIENT_SECRET!,
-  refresh_token:    string = process.env.GOOGLEAPI_REFRESH_TOKEN!,
-  extension_id:     string = process.env.CHROMEWEBSTORE_EXTENSION_ID!,
+  zip_file_path:   string,
+  client_id:       string = process.env.GOOGLEAPI_CLIENT_ID!,
+  client_secret:   string = process.env.GOOGLEAPI_CLIENT_SECRET!,
+  refresh_token:   string = process.env.GOOGLEAPI_REFRESH_TOKEN!,
+  extension_id:    string = process.env.CHROMEWEBSTORE_EXTENSION_ID!,
   trusted_testers: boolean = false, // process.env.NODE_ENV !== "production", // Betaもリンク知ってるひとに公開なので false でいい
 ) => {
   console.log("[INFO]", "START PUBLISHING...");
