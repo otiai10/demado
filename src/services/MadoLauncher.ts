@@ -24,7 +24,7 @@ export default class MadoLauncher {
     private permission: PermissionService = new PermissionService(),
   ) { }
 
-  private sleepMsForLaunch = 100;
+  private sleepMsForLaunch = 2 * 1000;
 
   public dashboard = {
     open: async () => {
@@ -57,7 +57,13 @@ export default class MadoLauncher {
     const win = await this.windows.open(mado);
     const tab = win.tabs![0];
     await LaunchHistory.create({ _id: tab.id, mado, mode });
-    await sleep(this.sleepMsForLaunch); // FIXME: onloadが終わるまで待つ
+
+    // FIXME: onloadが終わるまで待つ
+    // 花騎士などの一部ゲームでは、なんらかの理由で、windows.createが完了しても、
+    // JSがreadyではなく、scriptingが失敗（sessionStorageがsetできない）することがある.
+    // おそらくinjectionは可能なので、向こう側にonloadでmessageを送ってもらって、
+    // それをトリガーとして改めて下記の処理をおこなうべきかもしれない.
+    await sleep(this.sleepMsForLaunch);
 
     // まず自分のIDをセッションストレージに保存してもらう
     await this.anchor(tab, mado, mode);

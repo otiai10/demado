@@ -47,7 +47,7 @@ r.on("/mado/resize", async (m: { zoom: number, frame: { outer: { w: number, h: n
 
 r.on("/mado/zoom:set", async (m: { value: number }, sender) => {
   const tabservice = new TabService();
-  tabservice.zoom.set(sender.tab!.id!, m.value);
+  tabservice.zoom.set(sender.tab!.id!, m.value || 1);
 });
 
 r.onNotFound(async (m, s) => {
