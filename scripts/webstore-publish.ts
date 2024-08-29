@@ -45,9 +45,9 @@ const __webstore_publish__ = async (
   const refreshResponse = await refreshAccessToken(client_id, client_secret, refresh_token);
   const authbody = (await refreshResponse.json()) as OAuthResponse;
   const { access_token, token_type, scope, expires_in } = authbody;
-  if (!refreshResponse.ok) throw new Error(`http response of REFRESH is NOT OK: ${refreshResponse.statusText}`);
+  if (!refreshResponse.ok) throw new Error(`http response of REFRESH is NOT OK: ${refreshResponse.statusText}\n${JSON.stringify(authbody)}`,);
   console.log("[INFO]", "ACCESS TOKEN REFRESHED:", token_type, scope, expires_in);
-  if (!access_token) throw new Error(`couldn't retrieve access_token from this refresh_token: ${JSON.stringify(authbody)}`);
+  if (!access_token) throw new Error(`couldn't retrieve access_token from this refresh_token`);
 
   // (2) アクセストークンを使ってzipファイルをアップロード
   const uploadResponse = await uploadPackageFile(access_token, zip_file_path, extension_id);
