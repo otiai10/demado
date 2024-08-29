@@ -24,7 +24,7 @@ export default class MadoLauncher {
     private permission: PermissionService = new PermissionService(),
   ) { }
 
-  private sleepMsForLaunch = 1000;
+  private sleepMsForLaunch = 100;
 
   public dashboard = {
     open: async () => {
