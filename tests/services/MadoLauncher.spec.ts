@@ -55,6 +55,7 @@ describe('MadoLauncher', () => {
     tabService.query = vi.fn().mockResolvedValue([{ id: 1, url: 'chrome-extension://id/index.html' }]);
     chrome.storage.local.get = vi.fn().mockResolvedValue({});
     chrome.storage.local.set = vi.fn().mockResolvedValue(undefined);
+    chrome.tabs.sendMessage = vi.fn().mockResolvedValue(undefined);
     const win = await madoLauncher.launch(mado);
     expect(windowService.open).toHaveBeenCalled();
     expect(scriptService.execute).toHaveBeenCalled();
