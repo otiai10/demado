@@ -24,7 +24,7 @@ export default class MadoLauncher {
     private permission: PermissionService = new PermissionService(),
   ) { }
 
-  private sleepMsForLaunch = 2 * 1000;
+  private sleepMsForLaunch = 1000; // XXX: これが不要な設計にしたい. LaunchHistoryを使うべきか
 
   public dashboard = {
     open: async () => {
@@ -58,21 +58,13 @@ export default class MadoLauncher {
     const tab = win.tabs![0];
     await LaunchHistory.create({ _id: tab.id, mado, mode });
 
-    // FIXME: onloadが終わるまで待つ
-    // 花騎士などの一部ゲームでは、なんらかの理由で、windows.createが完了しても、
-    // JSがreadyではなく、scriptingが失敗（sessionStorageがsetできない）することがある.
-    // おそらくinjectionは可能なので、向こう側にonloadでmessageを送ってもらって、
-    // それをトリガーとして改めて下記の処理をおこなうべきかもしれない.
     await sleep(this.sleepMsForLaunch);
+    await this.scripting.js(tab.id!, "content-script.js");
 
-    // まず自分のIDをセッションストレージに保存してもらう
-    await this.anchor(tab, mado, mode);
+    chrome.tabs.sendMessage(tab.id!, { _act_: "/injected:__init__", id: mado._id, mado: mado.export(), mode });
 
     // ここではウィンドウを新規作成しているので、Bazelを考慮したresizeが必要
     await this.resize(tab);
-
-    // 次に、セッションストレージに保存されたIDなどを使っていろいろする
-    await this.scripting.js(tab.id!, "content-script.js");
 
     if (mode == LaunchMode.DYNAMIC) {
       // 何らかの方法で現在の設定値をページに継承しなければならない
@@ -121,9 +113,11 @@ export default class MadoLauncher {
    * そのウィンドウを再度demadoとして扱うようにする
    * @param {chrome.tabs.Tab} tab
    */
-  async reactivate(tab: chrome.tabs.Tab): Promise<void> {
+  async reactivate(tab: chrome.tabs.Tab, mado: Mado): Promise<void> {
     // ここでは既存のウィンドウを再利用するので、Bazelを考慮したresizeがいらない
     await this.scripting.js(tab.id!, "content-script.js");
+    await sleep(this.sleepMsForLaunch);
+    chrome.tabs.sendMessage(tab.id!, { _act_: "/injected:__init__", id: mado._id, mado: mado.export() });
   }
 
   /**
@@ -156,7 +150,10 @@ export default class MadoLauncher {
   async retrieve(mado: Mado): Promise<{ win: chrome.windows.Window, tab: chrome.tabs.Tab, mado: Mado } | null> {
     // {{{ chrome API で ドメインのみのURLではエラーが出るため、URLの最後にスラッシュを追加する
     const u = new URL(mado.url);
-    const url = (u.pathname == "/" && !mado.url.endsWith("/")) ? mado.url + "/" : mado.url;
+    const url = [(u.pathname == "/" && !mado.url.endsWith("/")) ? mado.url + "/" : mado.url];
+    // }}}
+    // {{{ おせっかいながら、httpで設定されててhttpsにリダイレクトされているケースを考慮
+    if (u.protocol == "http:") url.push(url[0].replace("http:", "https:"));
     // }}}
     const tabs = await this.tabs.query({ url })
     if (!tabs || tabs.length === 0) return null;
