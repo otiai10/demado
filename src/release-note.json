@@ -4,6 +4,73 @@
   },
   "releases": [
     {
+      "date": "2024-08-31",
+      "version": "v2.0.52",
+      "message": "「うまく起動しない」という問題、開発者の環境で発生していないので、問題の実情もデバッグもできない状況です。どなたか、問題の詳しい状況やエラーログ（出てたら）など教えていただけると幸いです.くわしくはここでやってます https://github.com/otiai10/demado/issues/124 ",
+      "commits": [
+        {
+          "title": "テストこけてたので修正",
+          "hash": "9944450e455e37c228c095c00e1c914402197252"
+        },
+        {
+          "title": "v2.0.51",
+          "hash": "1d4ce12bf3c11746124c050ea5f70715829449c2"
+        },
+        {
+          "title": "花騎士など、httpで登録してhttpsに勝手にリダイレクトするタイプのゲームで、httpで登録してしまった場合でも、ある程度安定してdemado作成できるように修正",
+          "hash": "504a9a55d9da597b45f3ccb7fca3ef4229c1ac77"
+        },
+        {
+          "title": "テストの配置を修正",
+          "hash": "f7ea892b6c195b7e127943153c2caa6ae906d5ff"
+        },
+        {
+          "title": "v2.0.50",
+          "hash": "e0dab92af3fac2d4cd3f5a1cb7aeaf234cc4a8d7"
+        },
+        {
+          "title": "自動リリース用のスクリプトで参照するCLIENT_IDなどはいったん.envに残しておく",
+          "hash": "7b217b3cd8331375a84812005f2bb73e1fd55a41"
+        },
+        {
+          "title": "花騎士で窓が修飾されない原因を調査",
+          "hash": "a2bcd51dec4ae495918259b7cbad8df2e1e3885d"
+        },
+        {
+          "title": "v2.0.42",
+          "hash": "bad596d8e880c71184f34d1f552336dfe6f4506b"
+        },
+        {
+          "title": "リリーススクリプトちょっとだけ修正",
+          "hash": "32b7297d7afecfd72f5898dd1d73041a7712c8bc"
+        },
+        {
+          "title": "エラー時に詳細を出力する",
+          "hash": "2c8d208bdde9a4bc84a9dc67b9eb7b5cac027c57"
+        },
+        {
+          "title": "v2.0.41",
+          "hash": "8e27db3591a205ce6dcff17e26835cacf73eb453"
+        },
+        {
+          "title": "ウィンドウ内部の修飾がかからない問題、わからんけど意図的遅延を短くしてみる",
+          "hash": "a59fdafafbfe98bdae7b22bad68e9ec9e82bc9cb"
+        },
+        {
+          "title": "-32000問題がまだ発生しているようなので、ハードコードで対応",
+          "hash": "aee9c086e35889a827fa90c59c8e8bf68cdb14d3"
+        },
+        {
+          "title": "Update README",
+          "hash": "0305114b22c42893024e556b456f4327f0b52143"
+        },
+        {
+          "title": "自動リリースのtagメッセージが壊れてたので修正",
+          "hash": "38d5169a8e7ec7d70430f736611ae80bb3988a9e"
+        }
+      ]
+    },
+    {
       "date": "2024-08-23",
       "version": "v2.0.40",
       "message": "",

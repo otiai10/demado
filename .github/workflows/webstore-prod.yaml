@@ -65,13 +65,13 @@ jobs:
         echo "[INFO]" "VERSION:" ${VERSION}
         git config --global user.name "${GIT_CI_USER_NAME}"
         git config --global user.email ${GIT_CI_USER_EMAIL}
-        COMMITS=`jq --raw-output '.releases[0].commits | map("- " + .hash + " " + .title) | .[]' src/release-note.json`
-        echo "[INFO]" "COMMITS:\n" ${COMMITS}
+        # COMMITS=`jq --raw-output '.releases[0].commits | map("- " + .hash + " " + .title) | .[]' src/release-note.json`
+        # echo "[INFO]" "COMMITS:\n" ${COMMITS}
         if [ -n "${DRY_RUN}" ]; then
           echo "[DEBUG]" "DRY_RUN=${DRY_RUN} が指定されているため、タグのpushをスキップします"
           exit 0
         fi
-        git tag -a v${VERSION} -m "Release v${VERSION}\n\n${COMMITS}" 
+        git tag ${VERSION}
         git push origin v${VERSION}
     - name: リリースビルド
       run: make release

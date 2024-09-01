@@ -9,7 +9,8 @@ export default class WindowService {
     // -32000問題の対策
     // https://qiita.com/7of9/items/390ff8c1914e5ff6c68c
     // https://stackoverflow.com/questions/1478765/location-coordinates-on-computer-showing-x-32000-y-32000
-    // 正常系でマイナスのこともあるようなので、いったんtryして、失敗したらゼロにfallbackする
+    // もうめんどくさいので、-32000という値を直狙いでfallbackします
+    if (options.left === -32000 || options.top === -32000) options.left = options.top = 0;
     try {
       return this.mod.create({ url, ...options });
     } catch (e) {

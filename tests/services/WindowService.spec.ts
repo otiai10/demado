@@ -1,5 +1,5 @@
 import { expect, test } from "vitest";
-import WindowService from "../../services/WindowService";
+import WindowService from "../../src/services/WindowService";
 
 test("WindowService", () => {
   expect(WindowService).toBeDefined();
