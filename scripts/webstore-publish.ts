@@ -60,8 +60,8 @@ const __webstore_publish__ = async (
   const publishbody = await publishResponse.json();
   console.log("[INFO]", "PUBLISH NEW PACKGE:", publishResponse.ok, publishResponse.status);
   if (!publishResponse.ok) throw new Error(`http response of PUBLISH is NOT OK: ${publishResponse.statusText}\n${JSON.stringify(publishbody)}`);
-
-  console.log("[INFO]", "PUBLISH SUCCESSFULLY DONE!");
+  console.log("[INFO]", "\x33[42mPUBLISH RESPONSE:\x33[0m", publishbody);
+  console.log("[INFO]", "\x33[42mPUBLISH SUCCESSFULLY DONE!\x33[0m");
 };
 
 /**
