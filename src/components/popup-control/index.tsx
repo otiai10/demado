@@ -15,7 +15,7 @@ export function MuteButton({ mado, launcher, refresh }: { mado: Mado, launcher: 
   ><i className={muted ? "fa fa-volume-off" : "fa fa-volume-up"} /></div>;
 }
 
-export function CameraButton({ mado, inpopup }: { mado: Mado, inpopup: boolean }) {
+export function CameraButton({ mado, /* inpopup */ }: { mado: Mado, inpopup: boolean }) {
   const [granted, setGranted] = useState(false);
   const perm = useMemo(() => new PermissionService(), []);
   useEffect(() => { perm.capture.granted().then(setGranted) }, [perm, setGranted]);
@@ -23,9 +23,10 @@ export function CameraButton({ mado, inpopup }: { mado: Mado, inpopup: boolean }
   const capture = new CaptureService();
   return <div className="icon"
     title={granted ? "スクリーンショットを撮る" : "スクショには許可が必要です"}
-    onClick={(ev) => {
+    onClick={async (ev) => {
       ev.stopPropagation();
-      (granted ? Promise.resolve() : perm.capture.grant()).then(() => capture.capture(mado)).then(() => { if (inpopup) window.close() });
+      await granted ? Promise.resolve() : perm.capture.grant();
+      await capture.capture(mado);
     }}
   ><i className={granted ? "fa fa-camera" : "fa fa-exclamation-circle"} /></div>
 }
