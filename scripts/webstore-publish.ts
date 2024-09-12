@@ -95,6 +95,7 @@ async function refreshAccessToken(
   client_secret: string,
   refresh_token: string
 ): Promise<Response> {
+  // FIXME: https://oauth2.googleapis.com/token に変更されるかもしれない
   return fetch("https://www.googleapis.com/oauth2/v4/token", {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
