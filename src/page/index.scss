@@ -240,3 +240,10 @@ body,
     text-decoration: none;
   }
 }
+
+// FIXME:
+// 本当はdashboardのときだけscrollbarを消したいんだけど、
+// めんどくさいので、設定やpopupのときも消します
+::-webkit-scrollbar {
+  display: none;
+}
