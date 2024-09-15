@@ -47,7 +47,7 @@ export function ShortMadoCard({
       onClick={async () => {
         const yes = await perm.ensure(mado.url, fallback);
         if (!yes) return;
-        await launcher.launch(mado); setTimeout(refresh, 2400);
+        await chrome.runtime.sendMessage({ __action__: "/mado/launch", id: mado._id });
       }}
     >
       <div className="columns is-mobile">
