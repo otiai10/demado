@@ -4,6 +4,41 @@
   },
   "releases": [
     {
+      "date": "2024-09-15",
+      "version": "v2.0.57",
+      "message": "",
+      "commits": [
+        {
+          "title": "ダッシュボードでのスクロールバーが邪魔なので非表示にした",
+          "hash": "12aee612fe777551c068c1b5791cad212790f859"
+        },
+        {
+          "title": "ブラウザポップアップから窓を生成したときに別の窓にフォーカスすると装飾が効かない問題を修正",
+          "hash": "47b0c303c7da8523089e8b8bd2cecae6b7c7a04b"
+        },
+        {
+          "title": "Bump react and @types/react",
+          "hash": "1d293430c65f322162b7b01dca59613e58717f49"
+        },
+        {
+          "title": "Bump eslint from 8.52.0 to 8.57.0",
+          "hash": "1095bad60035e90714fa34bb5f67fedb8ac013b2"
+        },
+        {
+          "title": "Bump react-router-dom from 6.17.0 to 6.26.1",
+          "hash": "bc3b83dc5ed01a4e6e447133aba2b7bcaf737d9c"
+        },
+        {
+          "title": "Bump @vitejs/plugin-react-swc from 3.4.0 to 3.7.0",
+          "hash": "4b1ba05f80aed26da861358c7db021b82da63f48"
+        },
+        {
+          "title": "Bump eslint-plugin-react-hooks from 4.6.0 to 4.6.2",
+          "hash": "75f5d29da4a676f3fef4965eaa3404839e6a889c"
+        }
+      ]
+    },
+    {
       "date": "2024-09-12",
       "version": "v2.0.56",
       "message": "",
