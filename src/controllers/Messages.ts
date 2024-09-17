@@ -3,8 +3,21 @@ import Mado, { MadoLikeParams } from "../models/Mado";
 import TabService from "../services/TabService";
 import GlobalConfig from "../models/GlobalConfig";
 import WindowService from "../services/WindowService";
+import MadoLauncher, { LaunchMode } from "../services/MadoLauncher";
 
 const r = new Router<chrome.runtime.ExtensionMessageEvent>();
+
+// 現状では、Windowが閉じてしまうようなcontext (e.g. popup) から
+// launchしたいときのみ利用するendpoint
+r.on("/mado/launch", async ({ id, mode }: {
+  id: string,
+  mode: LaunchMode,
+}) => {
+  const mado = await Mado.find(id);
+  if (!mado) return; // TODO: エラーハンドリング
+  const launcher = new MadoLauncher();
+  await launcher.launch(mado, mode);
+})
 
 r.on("/mado/position:track", async (m) => {
   const mado = await Mado.find(m.id);
