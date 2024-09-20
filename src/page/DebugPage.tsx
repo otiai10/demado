@@ -1,14 +1,8 @@
 import { useLoaderData } from "react-router-dom";
 import { IssueReport } from "../components/info/IssueReport";
-import Mado, { MadoPortableObject } from "../models/Mado";
+import Mado, { PortableJSONObject } from "../models/Mado";
 import { useState } from "react";
 import TabService from "../services/TabService";
-
-interface PortableJSONObject {
-  version: string;
-  timestamp: number;
-  mados: MadoPortableObject[];
-}
 
 function TemporarilyShowLocalStorage() {
   const old = {

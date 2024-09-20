@@ -1,6 +1,6 @@
 import React from "react";
 import { useLoaderData, useNavigate } from "react-router-dom";
-import Mado from "../models/Mado";
+import Mado, { PortableJSONObject } from "../models/Mado";
 import GlobalConfig from "../models/GlobalConfig";
 import MadoLauncher from "../services/MadoLauncher";
 import WindowService from "../services/WindowService";
@@ -22,6 +22,49 @@ function isBefore(a: HTMLElement, b: HTMLElement): boolean {
     if (cur === b) return true;
   }
   return false;
+}
+
+function ImportFileView({
+  setModal, refresh,
+}: {
+  setModal: (modal: { target?: Mado | null, active: boolean }) => void;
+  refresh: () => void;
+}) {
+  return (
+    <div className="file">
+      <label className="file-label">
+        <input className="file-input" type="file" name="resume" onChange={ev => {
+          const files = ev.target.files;
+          if (!files || !files.length) return;
+          try {
+            const r = new FileReader();
+            r.onload = async (ev) => {
+              const port = JSON.parse(ev.target?.result as string) as PortableJSONObject;
+              if (port.mados.length > 1) {
+                if (window.confirm(`${port.mados.length}件の設定を一括インポートしますか？\n\n${port.mados.map(m => m.name || m.url).join("\n")}`)) {
+                  const mados = port.mados.map(madolike => Mado.new(madolike));
+                  for (let i = 0; i < mados.length; i++) {
+                    await mados[i].save();
+                  }
+                  setTimeout(() => refresh(), 200);
+                }
+              } else if (port.mados.length === 1) {
+                const madolike = port.mados[0];
+                setModal({ active: true, target: Mado.new(madolike) });
+              }
+            };
+            r.readAsText(files[0]);
+          } catch (e) { console.error(e); }
+        }} />
+        <span className="file-cta">
+          <span className="file-icon">
+            <i className="fa fa-arrow-circle-up"></i>
+          </span>
+          <span className="file-label"> インポート</span>
+        </span>
+      </label>
+    </div>
+  )
 }
 
 export function OptionsPage() {
@@ -73,6 +116,9 @@ export function OptionsPage() {
               <button className="button is-primary" onClick={() => setModal({ active: true, target: Mado.new() })}>
                 <i className="mr-2 fa fa-plus" /> 新規追加
               </button>
+            </div>
+            <div className="level-item">
+              <ImportFileView setModal={setModal} refresh={refresh} />
             </div>
           </div>
           <div className="level-right">
