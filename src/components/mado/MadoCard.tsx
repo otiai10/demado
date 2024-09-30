@@ -80,7 +80,14 @@ export function MadoCard({
               { name: "アドレスバー", value: mado.addressbar ? "表示" : "非表示" },
             ].map(({ name, value }) => <BasicInformationTag key={name} name={name} value={value} />)}
           </div>
-          <div className="is-small">窓位置 x:{mado.position.x} y:{mado.position.y}</div>
+          <div className="control">
+            <div className="tags has-addons">
+              <span className="tag">窓位置 x{mado.position.x} y:{mado.position.y}</span>
+              <a className="tag is-delete pointer" title="(0,0)にリセットする"
+                onClick={async () => { await mado.update({ position: { x: 0, y: 0 } }); refresh(); }}
+              />
+            </div>
+          </div>
         </div>
         <div className="columns is-mobile">
           <div className="column is-narrow demado-interactive-icon">
