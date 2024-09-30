@@ -82,16 +82,16 @@ export function OptionsPage() {
     refresh();
   }
   return [
-    <section className="section">
+    <section key="head" className="section">
       <div className="container is-max-desktop">
         <p className="title">demadoの設定</p>
         <p className="subtitle is-size-6">任意のウェブページを小窓化できます. 詳しくは<a className="link" href="https://github.com/otiai10/demado/wiki" target="_blank">ここ</a></p>
       </div>
     </section>,
-    <section className="section demado-mado-card-section">
+    <section key="mados" className="section demado-mado-card-section">
       <div className="container is-max-desktop">
         <div className="grid is-col-min-12">
-          {mados.length === 0 ? <EmptyMadoEntryView/> : mados.map((mado, i) => <MadoCard
+          {mados.length === 0 ? <EmptyMadoEntryView key={'empty'} /> : mados.map((mado, i) => <MadoCard
             mado={mado} index={i} launcher={launcher}
             edit={() => setModal({ active: true, target: mado })}
             refresh={refresh}
@@ -104,11 +104,12 @@ export function OptionsPage() {
                 ev.currentTarget.parentNode?.insertBefore(dragged!, ev.currentTarget.nextSibling);
               }
             }}
+            key={mado._id}
           />)}
         </div>
       </div>
     </section>,
-    <section className="section demado-global-action-buttons">
+    <section key="global-actions" className="section demado-global-action-buttons">
       <div className="container is-max-desktop">
         <div className="level">
           <div className="level-left">
@@ -139,7 +140,7 @@ export function OptionsPage() {
         </div>
       </div>
     </section>,
-    <section className="section demado-global-config">
+    <section key="global-config" className="section demado-global-config">
       <div className="container is-max-desktop">
         <hr />
         <p className="title is-4 mb-4">共通の設定</p>
@@ -153,7 +154,7 @@ export function OptionsPage() {
         </div>
       </div>
     </section>,
-    <section className="section demado-foot">
+    <section key="foot" className="section demado-foot">
       <div className="container is-max-desktop">
         <hr />
 
@@ -183,6 +184,7 @@ export function OptionsPage() {
       </div>
     </section>,
     <MadoConfigModal
+      key="modal"
       launcher={launcher}
       active={modal.active}
       close={() => { setModal({ active: false, target: null }); }}
