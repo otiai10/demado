@@ -1,8 +1,10 @@
 #!/bin/bash
 
-source ../.env
+source .env
 
-open "https://accounts.google.com/o/oauth2/auth?response_type=code&scope=https://www.googleapis.com/auth/chromewebstore&client_id=${CLIENT_ID}&redirect_uri=urn:ietf:wg:oauth:2.0:oob"
+url="https://accounts.google.com/o/oauth2/auth?response_type=code&scope=https://www.googleapis.com/auth/chromewebstore&client_id=${CLIENT_ID}&redirect_uri=urn:ietf:wg:oauth:2.0:oob"
+echo "Open the following URL in your browser:" ${url}
+open ${url}
 
 read -p "Enter the code: " CODE
 

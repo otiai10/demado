@@ -66,4 +66,4 @@ draft:
 	@echo "\033[0;36m[PLEASE EDIT]\033[0m "`pwd`/src/release-note.json
 
 token:
-	bash ./scripts/retrive-token.sh
+	bash ./scripts/retrieve-token.sh
