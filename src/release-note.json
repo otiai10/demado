@@ -4,6 +4,25 @@
   },
   "releases": [
     {
+      "date": "2024-09-30",
+      "version": "v2.0.58",
+      "message": "",
+      "commits": [
+        {
+          "title": "窓位置を(0,0)にリセットする機能を追加",
+          "hash": "36eddb863e557f19ec4db89623b3ce9b005dde1f"
+        },
+        {
+          "title": "設定画面にインポートの導線を設置",
+          "hash": "22af9baec7fcab4eedce46cbedbaf618e4174320"
+        },
+        {
+          "title": "自動リリーススクリプトのtokenが定期的にexpireするので、tokenの生成スクリプトをつくった",
+          "hash": "2c3caf1c41532e269b09ddb482d329fe79f23725"
+        }
+      ]
+    },
+    {
       "date": "2024-09-15",
       "version": "v2.0.57",
       "message": "",

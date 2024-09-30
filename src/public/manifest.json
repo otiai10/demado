@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "demado",
   "description": "ブラゲーのランチャー",
-  "version": "2.0.57",
+  "version": "2.0.58",
   "permissions": [
     "activeTab",
     "downloads",
