@@ -54,6 +54,7 @@ const __webstore_publish__ = async (
   const uploadbody = await uploadResponse.json();
   console.log("[INFO]", "UPLOAD PACKAGE FILE:", uploadResponse.ok, uploadResponse.status);
   if (!uploadResponse.ok) throw new Error(`http response of UPLOAD is NOT OK: ${uploadResponse.statusText}\n${JSON.stringify(uploadbody)}`);
+  if (uploadbody.uploadState !== "SUCCESS") throw new Error(`uploadState is NOT SUCCESS: ${uploadbody.uploadState}\n${JSON.stringify(uploadbody)}`);
   console.log("[INFO]", "UPLOAD SUCCESSFULLY DONE:", uploadbody);
 
   // (3) アップロードしたzipファイルを公開申請
