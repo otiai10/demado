@@ -15,3 +15,17 @@ globalThis.chrome = {
     zoom: {},
   },
 } as unknown as typeof chrome;
+
+vi.mock('react-router-dom', async () => {
+  const mod = await vi.importActual('react-router-dom');
+  return {
+    ...mod,
+    useLoaderData: vi.fn(() => ({
+      mados: [], config: {
+        isAnnounceEffective: () => false,
+      },
+      exports: [],
+    })),
+    useNavigate: vi.fn(),
+  }
+});

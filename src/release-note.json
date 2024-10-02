@@ -4,6 +4,37 @@
   },
   "releases": [
     {
+      "date": "2024-09-30",
+      "version": "v2.0.59",
+      "message": "",
+      "commits": [
+        {
+          "title": "テストの追加",
+          "hash": "6f3ac23090d23958bfe413f99095d00760dc165c"
+        },
+        {
+          "title": "リリーストークン生成Makefileを修正",
+          "hash": "8d2987a8adcd4e76581561007928e98fd2dcf8a0"
+        },
+        {
+          "title": "v2.0.58",
+          "hash": "b7f3ce707ba4a009879a444d242fa163d449a018"
+        },
+        {
+          "title": "窓位置を(0,0)にリセットする機能を追加",
+          "hash": "36eddb863e557f19ec4db89623b3ce9b005dde1f"
+        },
+        {
+          "title": "設定画面にインポートの導線を設置",
+          "hash": "22af9baec7fcab4eedce46cbedbaf618e4174320"
+        },
+        {
+          "title": "自動リリーススクリプトのtokenが定期的にexpireするので、tokenの生成スクリプトをつくった",
+          "hash": "2c3caf1c41532e269b09ddb482d329fe79f23725"
+        }
+      ]
+    },
+    {
       "date": "2024-09-15",
       "version": "v2.0.57",
       "message": "",

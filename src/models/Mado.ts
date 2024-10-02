@@ -19,6 +19,12 @@ interface MadoZoom {
   zoom: number;
 }
 
+export interface PortableJSONObject {
+  version: string;
+  timestamp: number;
+  mados: MadoPortableObject[];
+}
+
 export interface MadoPortableObject extends MadoBasicInfo, MadoAdvancedInfo, MadoColorable, MadoZoom {
   size: MadoSize;
   offset: MadoOffset;

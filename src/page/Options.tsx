@@ -1,6 +1,6 @@
 import React from "react";
 import { useLoaderData, useNavigate } from "react-router-dom";
-import Mado from "../models/Mado";
+import Mado, { PortableJSONObject } from "../models/Mado";
 import GlobalConfig from "../models/GlobalConfig";
 import MadoLauncher from "../services/MadoLauncher";
 import WindowService from "../services/WindowService";
@@ -24,6 +24,49 @@ function isBefore(a: HTMLElement, b: HTMLElement): boolean {
   return false;
 }
 
+function ImportFileView({
+  setModal, refresh,
+}: {
+  setModal: (modal: { target?: Mado | null, active: boolean }) => void;
+  refresh: () => void;
+}) {
+  return (
+    <div className="file">
+      <label className="file-label">
+        <input className="file-input" type="file" name="resume" onChange={ev => {
+          const files = ev.target.files;
+          if (!files || !files.length) return;
+          try {
+            const r = new FileReader();
+            r.onload = async (ev) => {
+              const port = JSON.parse(ev.target?.result as string) as PortableJSONObject;
+              if (port.mados.length > 1) {
+                if (window.confirm(`${port.mados.length}件の設定を一括インポートしますか？\n\n${port.mados.map(m => m.name || m.url).join("\n")}`)) {
+                  const mados = port.mados.map(madolike => Mado.new(madolike));
+                  for (let i = 0; i < mados.length; i++) {
+                    await mados[i].save();
+                  }
+                  setTimeout(() => refresh(), 200);
+                }
+              } else if (port.mados.length === 1) {
+                const madolike = port.mados[0];
+                setModal({ active: true, target: Mado.new(madolike) });
+              }
+            };
+            r.readAsText(files[0]);
+          } catch (e) { console.error(e); }
+        }} />
+        <span className="file-cta">
+          <span className="file-icon">
+            <i className="fa fa-arrow-circle-up"></i>
+          </span>
+          <span className="file-label"> インポート</span>
+        </span>
+      </label>
+    </div>
+  )
+}
+
 export function OptionsPage() {
   const releasenote = note as unknown as ReleaseNoteObject;
   const { mados, spotlight, config } = useLoaderData() as { mados: Mado[], spotlight: Mado | null, config: GlobalConfig };
@@ -39,16 +82,16 @@ export function OptionsPage() {
     refresh();
   }
   return [
-    <section className="section">
+    <section key="head" className="section">
       <div className="container is-max-desktop">
         <p className="title">demadoの設定</p>
         <p className="subtitle is-size-6">任意のウェブページを小窓化できます. 詳しくは<a className="link" href="https://github.com/otiai10/demado/wiki" target="_blank">ここ</a></p>
       </div>
     </section>,
-    <section className="section demado-mado-card-section">
+    <section key="mados" className="section demado-mado-card-section">
       <div className="container is-max-desktop">
         <div className="grid is-col-min-12">
-          {mados.length === 0 ? <EmptyMadoEntryView/> : mados.map((mado, i) => <MadoCard
+          {mados.length === 0 ? <EmptyMadoEntryView key={'empty'} /> : mados.map((mado, i) => <MadoCard
             mado={mado} index={i} launcher={launcher}
             edit={() => setModal({ active: true, target: mado })}
             refresh={refresh}
@@ -61,11 +104,12 @@ export function OptionsPage() {
                 ev.currentTarget.parentNode?.insertBefore(dragged!, ev.currentTarget.nextSibling);
               }
             }}
+            key={mado._id}
           />)}
         </div>
       </div>
     </section>,
-    <section className="section demado-global-action-buttons">
+    <section key="global-actions" className="section demado-global-action-buttons">
       <div className="container is-max-desktop">
         <div className="level">
           <div className="level-left">
@@ -73,6 +117,9 @@ export function OptionsPage() {
               <button className="button is-primary" onClick={() => setModal({ active: true, target: Mado.new() })}>
                 <i className="mr-2 fa fa-plus" /> 新規追加
               </button>
+            </div>
+            <div className="level-item">
+              <ImportFileView setModal={setModal} refresh={refresh} />
             </div>
           </div>
           <div className="level-right">
@@ -93,7 +140,7 @@ export function OptionsPage() {
         </div>
       </div>
     </section>,
-    <section className="section demado-global-config">
+    <section key="global-config" className="section demado-global-config">
       <div className="container is-max-desktop">
         <hr />
         <p className="title is-4 mb-4">共通の設定</p>
@@ -107,7 +154,7 @@ export function OptionsPage() {
         </div>
       </div>
     </section>,
-    <section className="section demado-foot">
+    <section key="foot" className="section demado-foot">
       <div className="container is-max-desktop">
         <hr />
 
@@ -137,6 +184,7 @@ export function OptionsPage() {
       </div>
     </section>,
     <MadoConfigModal
+      key="modal"
       launcher={launcher}
       active={modal.active}
       close={() => { setModal({ active: false, target: null }); }}
