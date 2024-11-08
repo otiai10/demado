@@ -4,6 +4,7 @@ import MadoLauncher from "../services/MadoLauncher";
 import ScriptService from "../services/ScriptService";
 import TabService from "../services/TabService";
 import WindowService from "../services/WindowService";
+import Dashboard from "../models/Dashboard";
 
 export async function mados() {
   const id = location.search.match(/mado=([^&]+)/)?.[1];
@@ -17,6 +18,15 @@ export async function mados() {
     mados: mados.sort((p, n) => p.index < n.index ? -1 : 1),
     config: await GlobalConfig.user(),
     spotlight,
+  };
+}
+
+export async function madosForOptions() {
+  const data = await mados();
+  const dashboard = await Dashboard.user();
+  return {
+    ...data,
+    dashboard,
   };
 }
 

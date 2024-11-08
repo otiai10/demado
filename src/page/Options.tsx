@@ -14,6 +14,7 @@ import { ReleaseNote, ReleaseNoteObject } from "../components/info/ReleaseNote";
 import { IssueReport } from "../components/info/IssueReport";
 import { DevInfoAnchor } from "../components/info/DevInfoAnchor";
 import note from "../release-note.json";
+import Dashboard from "../models/Dashboard";
 
 // @see https://stackoverflow.com/a/28962290
 function isBefore(a: HTMLElement, b: HTMLElement): boolean {
@@ -69,7 +70,7 @@ function ImportFileView({
 
 export function OptionsPage() {
   const releasenote = note as unknown as ReleaseNoteObject;
-  const { mados, spotlight, config } = useLoaderData() as { mados: Mado[], spotlight: Mado | null, config: GlobalConfig };
+  const { mados, spotlight, config, dashboard } = useLoaderData() as { mados: Mado[], spotlight: Mado | null, config: GlobalConfig, dashboard: Dashboard };
   const [modal, setModal] = React.useState<{ target?: Mado | null, active: boolean }>({ target: spotlight, active: !!spotlight });
   const navigate = useNavigate();
   const refresh = () => navigate("/options");
@@ -144,7 +145,8 @@ export function OptionsPage() {
       <div className="container is-max-desktop">
         <hr />
         <p className="title is-4 mb-4">共通の設定</p>
-        <div>
+
+        <div className="mb-2">
           <label className="checkbox">
             <input className="mr-2" type="checkbox" checked={config.alertOnClose} onChange={async (ev) => {
               await config.update({ alertOnClose: ev.target.checked }); refresh();
@@ -152,6 +154,16 @@ export function OptionsPage() {
             <span>ブラウザを閉じ際に確認のアラートを表示する</span>
           </label>
         </div>
+
+        <div className="mb-2">
+          <span className="mr-1">ダッシュボードの座標</span>
+          <span className="mr-1">{JSON.stringify(dashboard?.position)}</span>
+          <button className="button is-small" onClick={async () => {
+            await (await Dashboard.user()).update({ position: { x: 0, y: 0 } });
+            refresh();
+          }}>初期化</button>
+        </div>
+
       </div>
     </section>,
     <section key="foot" className="section demado-foot">
