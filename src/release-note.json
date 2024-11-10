@@ -4,6 +4,17 @@
   },
   "releases": [
     {
+      "date": "2024-11-10",
+      "version": "v2.0.60",
+      "message": "",
+      "commits": [
+        {
+          "title": "ダッシュボードの座標も初期化できるようにした",
+          "hash": "fc841dc89466f3e508b7a58d7b52305f00defc20"
+        }
+      ]
+    },
+    {
       "date": "2024-09-30",
       "version": "v2.0.59",
       "message": "",
