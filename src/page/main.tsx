@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { RouterProvider, createHashRouter } from "react-router-dom";
 
 // Loaders
-import { debugs, mados } from '../loaders';
+import { debugs, mados, madosForOptions } from '../loaders';
 
 // View
 import './index.scss'
@@ -21,7 +21,7 @@ const router = createHashRouter([
   {
     path: "/options",
     element: <OptionsPage />,
-    loader: mados,
+    loader: madosForOptions,
   },
   {
     path: "/dashboard",
