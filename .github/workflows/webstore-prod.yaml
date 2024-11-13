@@ -57,6 +57,7 @@ jobs:
         fi
         echo "[INFO]" "リリース適正を判断しました. このバージョンのソースコードでプロダクションリリースすべきです."
     - name: developに対してリリースバージョンのタグづけ
+      id: tagging
       env:
         GIT_CI_USER_NAME: Ayanel CI
         GIT_CI_USER_EMAIL: otiai10+ayanel-ci@gmail.com
@@ -65,14 +66,13 @@ jobs:
         echo "[INFO]" "VERSION:" ${VERSION}
         git config --global user.name "${GIT_CI_USER_NAME}"
         git config --global user.email ${GIT_CI_USER_EMAIL}
-        # COMMITS=`jq --raw-output '.releases[0].commits | map("- " + .hash + " " + .title) | .[]' src/release-note.json`
-        # echo "[INFO]" "COMMITS:\n" ${COMMITS}
         if [ -n "${DRY_RUN}" ]; then
           echo "[DEBUG]" "DRY_RUN=${DRY_RUN} が指定されているため、タグのpushをスキップします"
           exit 0
         fi
         git tag ${VERSION}
         git push origin ${VERSION}
+        echo "::set-output name=VERSION::${VERSION}"
     - name: リリースビルド
       run: make release
       env:
@@ -89,3 +89,10 @@ jobs:
           exit 0
         fi
         npx -y tsx scripts/webstore-publish.ts ./release/demado.zip
+    - name: GitHub.com にリリースを作成
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        VERSION: ${{ steps.tagging.outputs.VERSION }}
+      run: |
+        NOTES=`jq -r '.releases[0].commits[] | "\(.hash) \(.title)"' src/release-note.json`
+        gh release create ${VERSION} ./release/demado.zip --title "${VERSION}" --notes "${NOTES}"
