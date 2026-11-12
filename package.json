@@ -4,7 +4,7 @@
   "version": "2.0.60",
   "type": "module",
   "engines": {
-    "node": "^20.15.0",
+    "node": "^26.13.1",
     "pnpm": ">=9.4.0"
   },
   "scripts": {
