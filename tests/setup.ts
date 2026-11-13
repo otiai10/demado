@@ -1,4 +1,8 @@
+/// <reference types="vitest/jsdom" />
 import { vi } from "vitest";
+
+// Node.js 26 の組み込みストレージではなく、ブラウザー環境のストレージを使う。
+vi.stubGlobal("localStorage", jsdom.window.localStorage);
 
 globalThis.chrome = {
   storage: {
